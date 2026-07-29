@@ -1,0 +1,22 @@
+---
+import Base from "../../layouts/Base.astro";
+import CurriculumOverview from "../../components/CurriculumOverview.astro";
+import { LANGS, ui } from "../../lib/content.js";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: "en" | "fr" };
+const T = ui(lang);
+---
+
+<Base
+  lang={lang}
+  path=""
+  title={T.title}
+  description={T.lede}
+  activeTab="browse"
+>
+  <CurriculumOverview lang={lang} view="theme" />
+</Base>

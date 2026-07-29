@@ -1,0 +1,77 @@
+---
+import Base from "../../layouts/Base.astro";
+import { LANGS, ui } from "../../lib/content.js";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: "en" | "fr" };
+const T = ui(lang);
+---
+
+<Base
+  lang={lang}
+  path="profile"
+  title={`${T.profileTitle} — ${T.title}`}
+  description={T.profileTitle}
+>
+  <div class="wrap" id="profileRoot" data-lang={lang}>
+    <h1>{T.profileTitle}</h1>
+
+    <div data-profile-guest>
+      <p class="empty">{T.authSignIn}</p>
+    </div>
+
+    <div data-profile-signed-in hidden>
+      <label for="profile-name">{T.profileDisplayName}</label>
+      <input
+        id="profile-name"
+        type="text"
+        data-profile-name
+        minlength="2"
+        maxlength="32"
+      />
+
+      <label for="profile-locale">{T.profileLocale}</label>
+      <select id="profile-locale" data-profile-locale>
+        <option value="en">EN</option>
+        <option value="fr">FR</option>
+      </select>
+
+      <label>
+        <input type="checkbox" data-profile-optin />
+        {T.profileLeaderboardOptIn}
+      </label>
+
+      <div class="acts">
+        <button type="button" class="btn pri" data-profile-save
+          >{T.profileSave}</button
+        >
+      </div>
+      <p class="auth-status" data-profile-status hidden></p>
+
+      <div class="acts">
+        <button type="button" class="btn" data-profile-export
+          >{T.profileExport}</button
+        >
+        <button type="button" class="btn" data-profile-import hidden
+          >{T.profileImport}</button
+        >
+      </div>
+
+      <div class="pace">
+        <h2>{T.profileDeleteTitle}</h2>
+        <p>{T.profileDeleteWarn}</p>
+        <button type="button" class="btn" data-profile-delete
+          >{T.profileDeleteConfirm}</button
+        >
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import { initProfile } from "../../scripts/profile-app.js";
+  initProfile();
+</script>

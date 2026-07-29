@@ -1,0 +1,41 @@
+---
+import Base from "../../../layouts/Base.astro";
+import GroupDetail from "../../../components/GroupDetail.astro";
+import { LANGS, SECTIONS, groups, ui } from "../../../lib/content.js";
+
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) =>
+    SECTIONS.map((s) => ({ params: { lang, section: s.id } })),
+  );
+}
+
+const { lang, section } = Astro.params as {
+  lang: "en" | "fr";
+  section: string;
+};
+const T = ui(lang);
+const G = groups("theme", lang);
+const i = G.findIndex((g) => g.key === section);
+const g = G[i];
+const prev = G[i - 1] ?? null;
+const next = G[i + 1] ?? null;
+---
+
+<Base
+  lang={lang}
+  path={`theme/${section}`}
+  title={`${g.title} — ${T.title}`}
+  description={g.teaser}
+  activeTab="browse"
+>
+  <div class="wrap">
+    <GroupDetail
+      lang={lang}
+      view="theme"
+      group={g}
+      prev={prev}
+      next={next}
+      hrefBase={`/${lang}/theme/`}
+    />
+  </div>
+</Base>

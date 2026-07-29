@@ -1,0 +1,133 @@
+---
+import "@fontsource/fraunces/400.css";
+import "@fontsource/fraunces/600.css";
+import "@fontsource/fraunces/700.css";
+import "@fontsource/archivo/400.css";
+import "@fontsource/archivo/500.css";
+import "@fontsource/archivo/600.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "../styles/global.css";
+import { ui, LANGS } from "../lib/content.js";
+import AuthWidget from "../components/AuthWidget.astro";
+
+interface Props {
+  lang: "en" | "fr";
+  /** URL path *after* the /{lang} segment, no leading or trailing slash. "" for the home page. */
+  path: string;
+  title: string;
+  description: string;
+  activeTab?: "browse" | "calendar";
+}
+
+const { lang, path, title, description, activeTab = "browse" } = Astro.props;
+const T = ui(lang);
+const otherLang = lang === "en" ? "fr" : "en";
+/** trailingSlash is "never" (astro.config.mjs) — every internal link must join without one. */
+const localePath = (l: string) => `/${l}${path ? `/${path}` : ""}`;
+const canonicalURL = new URL(localePath(lang), Astro.site).toString();
+const ogImage = new URL(
+  `/og/${lang}/${path || "home"}.png`,
+  Astro.site,
+).toString();
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {
+      LANGS.map((l) => (
+        <link
+          rel="alternate"
+          hreflang={l}
+          href={new URL(localePath(l), Astro.site).toString()}
+        />
+      ))
+    }
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(localePath("en"), Astro.site).toString()}
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#12171C" />
+  </head>
+  <body>
+    <header class="hdr">
+      <div class="hdr-in">
+        <a class="mark" href={`/${lang}`}><b></b><span>Curriculum</span></a>
+        <div class="hdr-sp"></div>
+        <div class="ctrl">
+          <a href={localePath(otherLang)} aria-current="false">{T.lang}</a>
+        </div>
+        <AuthWidget lang={lang} />
+      </div>
+      <nav class="tabbar">
+        <div class="tabbar-in">
+          <a
+            href={`/${lang}`}
+            aria-current={activeTab === "browse" ? "true" : "false"}
+            >{T.tabBrowse}</a
+          >
+          <a
+            href={`/${lang}/calendar`}
+            aria-current={activeTab === "calendar" ? "true" : "false"}
+            >{T.tabCalendar}</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="ftr">
+      <div class="wrap">
+        <p>{T.sourceNote}</p>
+        <p>
+          <a
+            href="https://x.com/saylor/status/2081015697157529817"
+            target="_blank"
+            rel="noopener">{T.sourceLink}</a
+          >
+        </p>
+        <p>
+          {
+            lang === "fr"
+              ? "Compagnon de lecture indépendant au curriculum de Michael Saylor. Non affilié et non approuvé par l'auteur."
+              : "An independent reading companion to Michael Saylor's curriculum. Not affiliated with or endorsed by the author."
+          }
+        </p>
+        <p>
+          <a href={`/${lang}/privacy`}>{T.footerPrivacy}</a>
+          {" · "}
+          <a href={`/${lang}/terms`}>{T.footerTerms}</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

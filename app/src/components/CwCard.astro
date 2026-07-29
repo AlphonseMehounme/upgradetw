@@ -1,0 +1,22 @@
+---
+import { accentVar, localizedTitle, slugOfCw, ui } from "../lib/content.js";
+
+interface Props {
+  cw: any;
+  lang: "en" | "fr";
+}
+const { cw: c, lang } = Astro.props;
+const T = ui(lang);
+---
+
+<a
+  class="cw"
+  href={`/${lang}/work/${slugOfCw(c.id)}`}
+  style={`--c:${accentVar(c.s)}`}
+>
+  <span class="eyebrow" style={`color:${accentVar(c.s)}`}
+    >{T.counterweight}</span
+  >
+  <h4>{localizedTitle(c, lang)}</h4>
+  <span class="au">{c.author}</span>
+</a>

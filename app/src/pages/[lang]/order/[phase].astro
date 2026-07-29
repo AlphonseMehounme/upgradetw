@@ -1,0 +1,38 @@
+---
+import Base from "../../../layouts/Base.astro";
+import GroupDetail from "../../../components/GroupDetail.astro";
+import { LANGS, PHASES, groups, ui } from "../../../lib/content.js";
+
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) =>
+    PHASES.map((p) => ({ params: { lang, phase: p.id } })),
+  );
+}
+
+const { lang, phase } = Astro.params as { lang: "en" | "fr"; phase: string };
+const T = ui(lang);
+const G = groups("phase", lang);
+const i = G.findIndex((g) => g.key === phase);
+const g = G[i];
+const prev = G[i - 1] ?? null;
+const next = G[i + 1] ?? null;
+---
+
+<Base
+  lang={lang}
+  path={`order/${phase}`}
+  title={`${T.phaseLabel} ${g.label} · ${g.title} — ${T.title}`}
+  description={g.teaser}
+  activeTab="browse"
+>
+  <div class="wrap">
+    <GroupDetail
+      lang={lang}
+      view="phase"
+      group={g}
+      prev={prev}
+      next={next}
+      hrefBase={`/${lang}/order/`}
+    />
+  </div>
+</Base>

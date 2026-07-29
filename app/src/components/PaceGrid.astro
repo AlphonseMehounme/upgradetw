@@ -1,0 +1,26 @@
+---
+import { ui } from "../lib/content.js";
+
+interface Props {
+  lang: "en" | "fr";
+}
+const { lang } = Astro.props;
+const T = ui(lang);
+---
+
+<section class="pace">
+  <span class="eyebrow">{T.pace}</span>
+  <div class="pace-grid">
+    {
+      T.paceRows.map(([k, v]: [string, string]) => (
+        <div class="pace-cell">
+          <>
+            <div class="k">{k}</div>
+            <div class="v">{v}</div>
+          </>
+        </div>
+      ))
+    }
+  </div>
+  <p class="note">{T.paceNote}</p>
+</section>

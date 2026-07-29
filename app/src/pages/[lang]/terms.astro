@@ -1,0 +1,36 @@
+---
+import Base from "../../layouts/Base.astro";
+import { LANGS, ui } from "../../lib/content.js";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: "en" | "fr" };
+const T = ui(lang);
+---
+
+<Base
+  lang={lang}
+  path="terms"
+  title={`${T.termsTitle} — ${T.title}`}
+  description={T.termsIntro}
+>
+  <div class="wrap">
+    <h1>{T.termsTitle}</h1>
+    <p class="note">{T.legalDraftNote}</p>
+    <p>{T.termsIntro}</p>
+
+    <h2>{T.termsUnofficialTitle}</h2>
+    <p>{T.termsUnofficialBody}</p>
+
+    <h2>{T.termsUseTitle}</h2>
+    <p>{T.termsUseBody}</p>
+
+    <h2>{T.termsLiabilityTitle}</h2>
+    <p>{T.termsLiabilityBody}</p>
+
+    <h2>{T.termsChangesTitle}</h2>
+    <p>{T.termsChangesBody}</p>
+  </div>
+</Base>

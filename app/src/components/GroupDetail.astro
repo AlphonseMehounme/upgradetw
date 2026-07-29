@@ -1,0 +1,118 @@
+---
+import { ui } from "../lib/content.js";
+import BookTile from "./BookTile.astro";
+import SeqRow from "./SeqRow.astro";
+import CwCard from "./CwCard.astro";
+
+interface Props {
+  lang: "en" | "fr";
+  view: "theme" | "phase";
+  group: any;
+  prev: any | null;
+  next: any | null;
+  hrefBase: string;
+}
+const { lang, view, group: g, prev, next, hrefBase } = Astro.props;
+const T = ui(lang);
+const mx = g.books.reduce((a: number, b: any) => a + b.h[1], 0);
+---
+
+<div class="view">
+  <a class="back" href={view === "theme" ? `/${lang}` : `/${lang}/order`}
+    >← {view === "theme" ? T.back : T.backPhase}</a
+  >
+  <div class="shd" style={`--c:${g.accent}`} data-max-hours={mx}>
+    <div class="num">
+      {view === "theme" ? T.sectionLabel : T.phaseLabel}
+      {g.label}
+    </div>
+    <h1>{g.title}</h1>
+    {g.anchor && <div class="anchor">{g.anchor}</div>}
+    <div class="meter">
+      <span class="lbl">{g.books.length} {T.works}</span>
+      <span class="tick"><i style="--w:0%"></i></span>
+      <span class="lbl">{mx} {T.hours}</span>
+    </div>
+  </div>
+  <p class="prose">{g.intro}</p>
+
+  {
+    g.seq ? (
+      <>
+        <div class="seqhd">
+          <span class="eyebrow" style={`color:${g.accent}`}>
+            {T.readingOrder}
+          </span>
+        </div>
+        <div class="seq">
+          {g.seq.map((entry: any) => (
+            <SeqRow entry={entry} lang={lang} />
+          ))}
+        </div>
+      </>
+    ) : (
+      <div class="books">
+        {g.books.map((b: any) => (
+          <BookTile book={b} lang={lang} />
+        ))}
+      </div>
+    )
+  }
+
+  {
+    g.cws.length > 0 && (
+      <>
+        <div class="cw-hd">
+          <span class="eyebrow">{T.counterweights}</span>
+          <p>{T.counterweightNote}</p>
+        </div>
+        <div class="cws">
+          {g.cws.map((c: any) => (
+            <CwCard cw={c} lang={lang} />
+          ))}
+        </div>
+      </>
+    )
+  }
+
+  {
+    g.against && (
+      <div class="against" style={`--c:${g.accent}`}>
+        <span class="eyebrow">{T.readAgainst}</span>
+        <p>{g.against}</p>
+      </div>
+    )
+  }
+
+  <div class="pager">
+    {
+      prev ? (
+        <a href={`${hrefBase}${prev.key}`}>
+          <>
+            <span class="eyebrow">←</span>
+            <span class="t">{prev.title}</span>
+          </>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      next ? (
+        <a href={`${hrefBase}${next.key}`}>
+          <>
+            <span class="eyebrow">→</span>
+            <span class="t">{next.title}</span>
+          </>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+  </div>
+</div>
+
+<script>
+  import { initDetailProgress } from "../scripts/progress-ui.js";
+  initDetailProgress();
+</script>

@@ -1,0 +1,41 @@
+---
+import {
+  accentVar,
+  frTag,
+  localizedTitle,
+  slugOfBook,
+  ui,
+} from "../lib/content.js";
+
+interface Props {
+  book: any;
+  lang: "en" | "fr";
+}
+const { book: b, lang } = Astro.props;
+const T = ui(lang);
+const tag = frTag(b);
+---
+
+<a
+  class="bk"
+  data-book-n={b.n}
+  data-read="false"
+  href={`/${lang}/work/${slugOfBook(b.n)}`}
+  style={`--c:${accentVar(b.s)}`}
+>
+  <span class="done"
+    ><svg viewBox="0 0 12 12"><path d="M2 6.3 4.7 9 10 3.4"></path></svg></span
+  >
+  <span class="top"
+    ><span class="idx">{String(b.n).padStart(2, "0")}</span><span class="hrs"
+      >{b.h[1]}h</span
+    ></span
+  >
+  <h3>{localizedTitle(b, lang)}</h3>
+  {b.sub && <span class="sb">{b.sub}</span>}
+  <span class="au">{b.author}</span>
+  <span class="foot">
+    <span class={`tag ${tag.cls}`}>{tag.label}</span>
+    <span class="tag ph">{T.phaseLabel} {b.ph}</span>
+  </span>
+</a>

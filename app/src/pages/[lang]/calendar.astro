@@ -1,0 +1,40 @@
+---
+import Base from "../../layouts/Base.astro";
+import { LANGS, ui } from "../../lib/content.js";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: "en" | "fr" };
+const T = ui(lang);
+---
+
+<Base
+  lang={lang}
+  path="calendar"
+  title={`${T.tabCalendar} — ${T.title}`}
+  description={T.calLede}
+  activeTab="calendar"
+>
+  <div class="wrap" id="calRoot" data-lang={lang}>
+    <noscript
+      ><p class="empty">
+        {
+          lang === "fr"
+            ? "Le calendrier de lecture nécessite JavaScript."
+            : "The reading calendar requires JavaScript."
+        }
+      </p></noscript
+    >
+  </div>
+</Base>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true">
+  <div class="daysheet" id="daysheet"></div>
+</div>
+
+<script>
+  import { initCalendar } from "../../scripts/calendar-app.js";
+  initCalendar();
+</script>

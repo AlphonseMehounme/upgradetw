@@ -1,0 +1,68 @@
+---
+import { groups, ui } from "../lib/content.js";
+import StatsRow from "./StatsRow.astro";
+import OverallProgress from "./OverallProgress.astro";
+import GroupCard from "./GroupCard.astro";
+import PaceGrid from "./PaceGrid.astro";
+
+interface Props {
+  lang: "en" | "fr";
+  view: "theme" | "phase";
+}
+const { lang, view } = Astro.props;
+const T = ui(lang);
+const G = groups(view, lang);
+const maxH = Math.max(
+  ...G.map((g: any) => g.books.reduce((a: number, b: any) => a + b.h[1], 0)),
+);
+const hrefBase = view === "theme" ? `/${lang}/theme/` : `/${lang}/order/`;
+---
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">{T.kicker}</div>
+    <h1>{T.title}</h1>
+    <p class="sub">{T.subtitle}</p>
+    <p class="lede">{T.lede}</p>
+    <StatsRow lang={lang} view={view} />
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="switch">
+    <div class="seg" role="group">
+      <a href={`/${lang}`} aria-current={view === "theme" ? "true" : "false"}
+        >{T.byTheme}</a
+      >
+      <a
+        href={`/${lang}/order`}
+        aria-current={view === "phase" ? "true" : "false"}>{T.inOrder}</a
+      >
+    </div>
+    <span class="hint">{T.scaleHint}</span>
+  </div>
+
+  <OverallProgress lang={lang} groups={G} />
+
+  <div class="grid">
+    <div class="cards" data-view={view} data-lang={lang}>
+      {
+        G.map((g: any) => (
+          <GroupCard
+            group={g}
+            lang={lang}
+            href={`${hrefBase}${g.key}`}
+            maxH={maxH}
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <PaceGrid lang={lang} />
+</div>
+
+<script>
+  import { initOverviewProgress } from "../scripts/progress-ui.js";
+  initOverviewProgress();
+</script>

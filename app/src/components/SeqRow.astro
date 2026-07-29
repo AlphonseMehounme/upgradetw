@@ -1,0 +1,64 @@
+---
+import {
+  accentVar,
+  frTag,
+  localizedTitle,
+  slugOfBook,
+  slugOfCw,
+  ui,
+} from "../lib/content.js";
+
+interface Props {
+  entry: { item: any; ord: number; isCw: boolean; isReread: boolean };
+  lang: "en" | "fr";
+}
+const { entry, lang } = Astro.props;
+const { item: it, ord, isCw, isReread } = entry;
+const T = ui(lang);
+const title = localizedTitle(it, lang);
+const href = `/${lang}/work/${isCw ? slugOfCw(it.id) : slugOfBook(it.n)}`;
+const tag = frTag(it);
+---
+
+<a
+  class={`srow${isCw ? " iscw" : ""}`}
+  data-book-n={!isCw && !isReread ? it.n : undefined}
+  data-read="false"
+  href={href}
+  style={`--c:${accentVar(it.s)}`}
+>
+  <span class="sn">{String(ord).padStart(2, "0")}</span>
+  <span>
+    <span class="st">{title}</span>
+    {it.sub && <div class="ssub">{it.sub}</div>}
+    <div class="sa">{it.author}</div>
+  </span>
+  <span class="sm">{isCw ? "—" : `${it.h[1]}h`}</span>
+  <span class="stags">
+    {
+      isReread && (
+        <span
+          class="tag"
+          style={`color:${accentVar(it.s)};border-color:${accentVar(it.s)}`}
+        >
+          {T.reread}
+        </span>
+      )
+    }
+    {
+      isCw ? (
+        <span
+          class="tag"
+          style={`color:${accentVar(it.s)};border-color:${accentVar(it.s)}`}
+        >
+          {T.counterweight}
+        </span>
+      ) : (
+        <span class="tag">
+          {T.work} {it.n}
+        </span>
+      )
+    }
+    <span class={`tag ${tag.cls}`}>{tag.label}</span>
+  </span>
+</a>

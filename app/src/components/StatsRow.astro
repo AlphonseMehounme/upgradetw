@@ -1,0 +1,31 @@
+---
+import { BOOKS, SECTIONS, PHASES, TOTAL_MAX, ui } from "../lib/content.js";
+
+interface Props {
+  lang: "en" | "fr";
+  view: "theme" | "phase";
+}
+const { lang, view } = Astro.props;
+const T = ui(lang);
+const stats: [number, string][] = [
+  [BOOKS.length, T.works],
+  [TOTAL_MAX, T.hours],
+  [
+    view === "theme" ? SECTIONS.length : PHASES.length,
+    view === "theme" ? T.themes : T.phases,
+  ],
+];
+---
+
+<div class="stats">
+  {
+    stats.map(([n, l]) => (
+      <div class="stat">
+        <>
+          <div class="n">{n}</div>
+          <div class="l eyebrow">{l}</div>
+        </>
+      </div>
+    ))
+  }
+</div>

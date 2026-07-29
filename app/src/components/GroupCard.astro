@@ -1,0 +1,42 @@
+---
+import { ui } from "../lib/content.js";
+
+interface Props {
+  group: any;
+  lang: "en" | "fr";
+  href: string;
+  maxH: number;
+}
+const { group: g, lang, href, maxH } = Astro.props;
+const T = ui(lang);
+const mx = g.books.reduce((a: number, b: any) => a + b.h[1], 0);
+const width = Math.max((mx / maxH) * 100, 2.4);
+---
+
+<a
+  class="card"
+  data-group-key={g.key}
+  data-max-hours={mx}
+  href={href}
+  style={`--c:${g.accent}`}
+>
+  <span class="cn">{g.label}</span>
+  <span
+    ><span class="ct">{g.title}</span>{
+      g.anchor && <div class="ca">{g.anchor}</div>
+    }</span
+  >
+  <span class="cm"
+    ><b>{mx}h</b><br />{g.books.length}
+    {T.works}{g.cws.length ? ` + ${g.cws.length}` : ""}</span
+  >
+  <span class="cd">{g.teaser}</span>
+  <span class="cbar">
+    <span class="crail"
+      ><span class="ctrack" data-fill-track style={`--w:${width}%`}
+        ><i data-fill-bar style="--f:0%"></i></span
+      ></span
+    >
+    <span class="cpct" data-fill-count>0/{g.books.length}</span>
+  </span>
+</a>

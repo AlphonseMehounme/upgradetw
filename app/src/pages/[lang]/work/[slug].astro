@@ -1,0 +1,150 @@
+---
+import Base from "../../../layouts/Base.astro";
+import {
+  LANGS,
+  SLUG_TO_WORK,
+  accentVar,
+  frTag,
+  frLine,
+  localizedTitle,
+  bookQuery,
+  L,
+  ui,
+} from "../../../lib/content.js";
+
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) =>
+    [...SLUG_TO_WORK.entries()].map(([slug]) => ({ params: { lang, slug } })),
+  );
+}
+
+const { lang, slug } = Astro.params as { lang: "en" | "fr"; slug: string };
+const T = ui(lang);
+const entry = SLUG_TO_WORK.get(slug);
+const { kind, item } = entry as { kind: "book" | "cw"; item: any };
+const isCw = kind === "cw";
+const acc = accentVar(item.s);
+const n = isCw ? "†" : String(item.n).padStart(2, "0");
+const title = localizedTitle(item, lang);
+const tag = frTag(item);
+const note = L(item.note, lang);
+const against = item.against ? L(item.against, lang) : null;
+const backHref = `/${lang}/theme/${item.s}`;
+const q = bookQuery(item);
+---
+
+<Base
+  lang={lang}
+  path={`work/${slug}`}
+  title={`${title} — ${item.author} — ${T.title}`}
+  description={note.slice(0, 155)}
+  activeTab="browse"
+>
+  <div class="wrap">
+    <div class="view">
+      <a class="back" href={backHref}>← {T.back}</a>
+      <div class="sheet">
+        <div class="sheet-in">
+          <div class="tile" style={`--c:${acc}`}>
+            <span class="ghost">{n}</span>
+            <span class="rule"></span>
+            <span class="tt">{item.title}</span>
+            <span class="ta">{item.author}</span>
+            <span class="ty"
+              >{item.year < 0 ? `${Math.abs(item.year)} BCE` : item.year}</span
+            >
+          </div>
+          <div class="body">
+            <div class="crumb">
+              {
+                isCw ? (
+                  <span class="tag" style={`color:${acc};border-color:${acc}`}>
+                    {T.counterweight}
+                  </span>
+                ) : (
+                  <span class="tag ph">
+                    {T.phaseLabel} {item.ph}
+                  </span>
+                )
+              }
+              {
+                !isCw && (
+                  <span class="tag">
+                    {item.h[1]} {T.hours}
+                  </span>
+                )
+              }
+              <span class={`tag ${tag.cls}`}>{tag.label}</span>
+            </div>
+            <h1>{title}</h1>
+            <div class="meta">
+              {item.author}{
+                item.sub && (
+                  <>
+                    {" "}
+                    · <i>{item.sub}</i>
+                  </>
+                )
+              }
+            </div>
+            <div class="frline">{frLine(item, lang)}</div>
+            <div class="blk">
+              <span class="eyebrow">{T.quickNote}</span><p>{note}</p>
+            </div>
+            {
+              against && (
+                <div class="blk ag" style={`--c:${acc}`}>
+                  <>
+                    <span class="eyebrow">{T.readAgainst}</span>
+                    <p>{against}</p>
+                  </>
+                </div>
+              )
+            }
+            <div class="acts">
+              {
+                !isCw && (
+                  <button
+                    class="btn pri"
+                    data-mark-read={item.n}
+                    data-on="false"
+                    data-label-mark={T.markRead}
+                    data-label-done={T.markedRead}
+                    style={`--c:${acc}`}
+                  >
+                    {T.markRead}
+                  </button>
+                )
+              }
+              <a
+                class="btn"
+                target="_blank"
+                rel="noopener"
+                href={`https://openlibrary.org/search?q=${q}`}
+                >{T.openLibrary}</a
+              >
+              <a
+                class="btn"
+                target="_blank"
+                rel="noopener"
+                href={`https://www.google.com/search?tbm=bks&q=${q}`}
+                >{T.googleBooks}</a
+              >
+              <a
+                class="btn"
+                target="_blank"
+                rel="noopener"
+                href={`https://www.amazon.com/s?k=${q}`}>{T.amazon}</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import { initWorkProgress } from "../../../scripts/progress-ui.js";
+  initWorkProgress();
+</script>

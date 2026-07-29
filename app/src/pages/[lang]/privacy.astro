@@ -1,0 +1,42 @@
+---
+import Base from "../../layouts/Base.astro";
+import { LANGS, ui } from "../../lib/content.js";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: "en" | "fr" };
+const T = ui(lang);
+---
+
+<Base
+  lang={lang}
+  path="privacy"
+  title={`${T.privacyTitle} — ${T.title}`}
+  description={T.privacyIntro}
+>
+  <div class="wrap">
+    <h1>{T.privacyTitle}</h1>
+    <p class="note">{T.legalDraftNote}</p>
+    <p>{T.privacyIntro}</p>
+
+    <h2>{T.privacyCollectTitle}</h2>
+    <p>{T.privacyCollectBody}</p>
+
+    <h2>{T.privacyWhyTitle}</h2>
+    <p>{T.privacyWhyBody}</p>
+
+    <h2>{T.privacyRetentionTitle}</h2>
+    <p>{T.privacyRetentionBody}</p>
+
+    <h2>{T.privacyProcessorsTitle}</h2>
+    <p>{T.privacyProcessorsBody}</p>
+
+    <h2>{T.privacyRightsTitle}</h2>
+    <p>{T.privacyRightsBody}</p>
+
+    <h2>{T.privacyContactTitle}</h2>
+    <p>{T.privacyContactBody}</p>
+  </div>
+</Base>

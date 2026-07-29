@@ -1,0 +1,5 @@
+# TODO: this domain is a placeholder (see astro.config.mjs SITE and §10.2 of LAUNCH-BRIEF.md)
+User-agent: *
+Allow: /
+
+Sitemap: https://curriculum.example.com/sitemap-index.xml

@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="codex" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Civilizational Curriculum for Leaders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ========== TOKENS ========== */
+:root{
+  --f-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --f-body:"Archivo",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sp:clamp(1rem,3.5vw,2rem);
+  --maxw:1180px;
+  --r:3px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+html[data-theme="codex"]{
+  --ground:#12171C; --surface:#1A2027; --surface2:#232B33;
+  --ink:#EDE8DD; --dim:#98A0A8; --faint:#5D666E; --rule:#2B343D;
+  --brass:#C9A227; --glow:rgba(201,162,39,.14);
+  --a1:#8B6F47;--a2:#6B8E5A;--a3:#A33B32;--a4:#5B7C99;--a5:#B8863B;--a6:#7A6B9A;--a7:#C4703A;--a8:#D4A017;
+}
+html[data-theme="flash"]{
+  --ground:#060A1C; --surface:#0D142F; --surface2:#161F45;
+  --ink:#ECEFFC; --dim:#98A2CC; --faint:#5A648F; --rule:#1F2856;
+  --brass:#7873F5; --glow:rgba(120,115,245,.18);
+  --a1:#FF6EC4;--a2:#D96BDA;--a3:#B26CEB;--a4:#9070F3;--a5:#6E72EE;--a6:#4E63DE;--a7:#2F4BD0;--a8:#0924BF;
+}
+html[data-theme="ledger"]{
+  --ground:#090909; --surface:#131313; --surface2:#1D1D1D;
+  --ink:#F4F1EB; --dim:#8E8A83; --faint:#57544F; --rule:#272727;
+  --brass:#F7931A; --glow:rgba(247,147,26,.15);
+  --a1:#6B4423;--a2:#8A5A2B;--a3:#A66F32;--a4:#C2853A;--a5:#D69A2E;--a6:#E8A317;--a7:#F7931A;--a8:#FFC021;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--f-body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  transition:background .5s var(--ease),color .5s var(--ease);
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--sp)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+
+/* ========== HEADER ========== */
+.hdr{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--rule);
+}
+.hdr-in{display:flex;align-items:center;gap:1rem;height:56px;max-width:var(--maxw);margin:0 auto;padding:0 var(--sp)}
+.mark{display:flex;align-items:baseline;gap:.5rem;font-family:var(--f-display);font-weight:600;font-size:.95rem;letter-spacing:-.01em}
+.mark b{display:inline-block;width:9px;height:9px;background:var(--brass);border-radius:1px;transform:translateY(-1px)}
+.hdr-sp{flex:1}
+.ctrl{display:flex;gap:2px;border:1px solid var(--rule);border-radius:var(--r);padding:2px;background:var(--surface)}
+.ctrl button{
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.34rem .5rem;border-radius:2px;color:var(--dim);white-space:nowrap;
+  transition:background .2s,color .2s;
+}
+.ctrl button[aria-pressed="true"]{background:var(--surface2);color:var(--ink)}
+.ctrl button:hover{color:var(--ink)}
+.swatch{width:11px;height:11px;border-radius:50%;display:inline-block;vertical-align:-1px;margin-right:.32rem;border:1px solid rgba(255,255,255,.2)}
+@media(max-width:620px){
+  .hdr-in{gap:.55rem}
+  .mark span{display:none}
+  #themes button{padding:.34rem .42rem}
+  #themes .tname{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .swatch{margin-right:0;width:13px;height:13px}
+}
+
+/* ========== TAB BAR ========== */
+.tabbar{border-top:1px solid var(--rule)}
+.tabbar-in{display:flex;gap:0;max-width:var(--maxw);margin:0 auto;padding:0 var(--sp)}
+.tabbar button{
+  padding:.75rem 0;margin-right:1.7rem;font-size:.88rem;font-weight:500;color:var(--dim);
+  border-bottom:2px solid transparent;transition:color .2s,border-color .2s;
+}
+.tabbar button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--brass)}
+.tabbar button:hover{color:var(--ink)}
+
+/* ========== CALENDAR: SETUP ========== */
+.calhead{padding:clamp(2.2rem,6vw,3.6rem) 0 1.6rem}
+.calhead h1{font-family:var(--f-display);font-weight:600;font-size:clamp(1.8rem,4.8vw,2.9rem);line-height:1.06;letter-spacing:-.025em;margin:.55rem 0 0;max-width:18ch}
+.calhead p{color:var(--dim);font-size:.95rem;line-height:1.65;max-width:56ch;margin:1rem 0 0}
+.setup{display:flex;flex-direction:column;gap:1.7rem;padding:1.6rem 0 2.4rem;max-width:640px}
+.fld .eyebrow{display:block;margin-bottom:.6rem}
+.opts{display:flex;flex-wrap:wrap;gap:.5rem}
+.opt{
+  padding:.6rem 1rem;border:1px solid var(--rule);border-radius:var(--r);
+  font-size:.85rem;font-weight:500;color:var(--dim);transition:all .2s;
+}
+.opt:hover{border-color:var(--dim);color:var(--ink)}
+.opt[aria-pressed="true"]{background:var(--brass);border-color:var(--brass);color:var(--ground);font-weight:600}
+input[type="date"]{
+  font-family:var(--f-mono);font-size:.85rem;padding:.6rem .8rem;color:var(--ink);
+  background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);color-scheme:dark;
+}
+.cta{
+  align-self:flex-start;padding:.75rem 1.5rem;border-radius:var(--r);
+  background:var(--brass);color:var(--ground);font-weight:600;font-size:.9rem;
+}
+.cta:hover{filter:brightness(1.1)}
+.warn{font-size:.82rem;color:var(--a3);line-height:1.5;max-width:52ch}
+
+/* ========== CALENDAR: SUMMARY ========== */
+.calsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;margin:1.5rem 0}
+.calsum > div{background:var(--ground);padding:.95rem 1rem}
+.calsum .k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.calsum .v{font-family:var(--f-display);font-weight:600;font-size:1.2rem;margin-top:.32rem;letter-spacing:-.015em}
+.calsum .v small{font-size:.62em;color:var(--dim);font-weight:400}
+.pill{display:inline-block;padding:.14rem .45rem;border-radius:99px;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.05em}
+.pill.ok{background:color-mix(in srgb,var(--a2) 25%,transparent);color:var(--a2)}
+.pill.bad{background:color-mix(in srgb,var(--a3) 25%,transparent);color:var(--a3)}
+
+/* ========== CALENDAR: GRID ========== */
+.calnav{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:2rem 0 .9rem}
+.calnav .mo{font-family:var(--f-display);font-weight:600;font-size:1.28rem;letter-spacing:-.015em;min-width:9ch}
+.nav-b{width:32px;height:32px;border:1px solid var(--rule);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--dim)}
+.nav-b:hover{border-color:var(--brass);color:var(--ink)}
+.calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+.dow{background:var(--surface);padding:.45rem .3rem;text-align:center;font-family:var(--f-mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.day{background:var(--ground);min-height:86px;padding:.4rem .45rem;text-align:left;display:flex;flex-direction:column;gap:.22rem;position:relative;transition:background .18s}
+.day.out{opacity:.25}
+.day.has:hover{background:var(--surface)}
+.day .dn{font-family:var(--f-mono);font-size:.62rem;color:var(--faint)}
+.day.today .dn{color:var(--brass);font-weight:600}
+.day.today{box-shadow:inset 0 0 0 1px var(--brass)}
+.day .chip{font-size:.6rem;line-height:1.22;color:var(--ink);border-left:2px solid var(--c);padding-left:.3rem;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.day .dh{margin-top:auto;font-family:var(--f-mono);font-size:.56rem;color:var(--faint)}
+.day[data-done="true"]{background:color-mix(in srgb,var(--a2) 11%,var(--ground))}
+.day[data-done="true"]::after{content:"✓";position:absolute;top:.3rem;right:.42rem;font-size:.62rem;color:var(--a2)}
+.day .dot{display:none;width:7px;height:7px;border-radius:50%;background:var(--c)}
+@media(max-width:640px){
+  .day{min-height:52px;align-items:flex-start}
+  .day .chip{display:none}
+  .day .dot{display:block}
+  .day .dh{font-size:.52rem}
+}
+
+/* ========== CALENDAR: AGENDA ========== */
+.agenda{margin-top:2.2rem}
+.agenda h3{font-family:var(--f-display);font-weight:600;font-size:1.05rem;margin:0 0 .8rem;letter-spacing:-.015em}
+.arow{display:grid;grid-template-columns:5.4rem 1fr auto;gap:.4rem 1rem;align-items:center;width:100%;text-align:left;
+  padding:.75rem .2rem;border-bottom:1px solid var(--rule);transition:background .18s,padding-left .18s}
+.arow:hover{background:var(--surface);padding-left:.6rem}
+.arow .ad{font-family:var(--f-mono);font-size:.68rem;color:var(--dim)}
+.arow .at{font-size:.88rem;line-height:1.35;border-left:2px solid var(--c);padding-left:.55rem}
+.arow .ah{font-family:var(--f-mono);font-size:.64rem;color:var(--faint);white-space:nowrap}
+.arow[data-done="true"] .at{opacity:.45}
+.arow[data-done="true"] .ad::after{content:" ✓";color:var(--a2)}
+@media(max-width:560px){.arow{grid-template-columns:4.6rem 1fr}.arow .ah{grid-column:2;padding-left:.55rem}}
+
+/* ========== DAY SHEET ========== */
+.dpart{padding:.9rem 0;border-bottom:1px solid var(--rule)}
+.dpart:last-of-type{border-bottom:none}
+.dpart .dt{font-family:var(--f-display);font-weight:600;font-size:1rem;line-height:1.2;letter-spacing:-.012em}
+.dpart .da{font-size:.76rem;color:var(--dim);margin-top:.15rem}
+.dpart .dr{font-family:var(--f-mono);font-size:.64rem;color:var(--c);margin-top:.4rem}
+.dpart .prg{height:4px;border-radius:99px;background:var(--surface2);margin-top:.45rem;overflow:hidden;max-width:220px}
+.dpart .prg i{display:block;height:100%;background:var(--c);margin-left:var(--o,0%);width:var(--w,0%)}
+
+/* ========== HERO ========== */
+.hero{padding:clamp(2.6rem,8vw,5.2rem) 0 clamp(1.6rem,4vw,2.6rem);border-bottom:1px solid var(--rule)}
+.hero h1{
+  font-family:var(--f-display);font-weight:600;
+  font-size:clamp(2.1rem,6.4vw,4.15rem);line-height:1.02;letter-spacing:-.028em;
+  margin:.7rem 0 0;max-width:16ch;
+  font-variation-settings:"opsz" 144;
+}
+.hero .sub{
+  font-family:var(--f-display);font-weight:400;font-style:italic;
+  font-size:clamp(1rem,2.2vw,1.32rem);color:var(--dim);
+  margin:.9rem 0 0;max-width:44ch;line-height:1.34;
+}
+.hero .lede{margin:1.7rem 0 0;max-width:60ch;color:var(--dim);font-size:.97rem;line-height:1.68}
+.hero .lede em{color:var(--ink);font-style:normal}
+
+.stats{display:flex;flex-wrap:wrap;gap:0;margin:2.4rem 0 0;border-top:1px solid var(--rule)}
+.stat{flex:1 1 120px;padding:1rem 1.2rem 1rem 0;border-right:1px solid var(--rule)}
+.stat:last-child{border-right:none}
+.stat .n{font-family:var(--f-display);font-weight:600;font-size:clamp(1.5rem,3.6vw,2.1rem);line-height:1;letter-spacing:-.02em}
+.stat .n small{font-size:.5em;font-weight:400;color:var(--dim);margin-left:.15em}
+.stat .l{margin-top:.42rem}
+
+/* ========== VIEW SWITCH ========== */
+.switch{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.5rem 0 .3rem}
+.seg{display:flex;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+.seg button{
+  padding:.55rem 1rem;font-size:.8rem;font-weight:500;color:var(--dim);
+  transition:background .25s,color .25s;position:relative;
+}
+.seg button[aria-pressed="true"]{background:var(--brass);color:var(--ground);font-weight:600}
+.seg button:not([aria-pressed="true"]):hover{background:var(--surface)}
+.hint{font-size:.78rem;color:var(--faint);max-width:38ch;line-height:1.45}
+
+/* ========== OVERALL PROGRESS ========== */
+.overall{padding:.4rem 0 1.7rem}
+.overall-hd{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:.6rem;flex-wrap:wrap}
+.overall-hd .big{font-family:var(--f-display);font-weight:600;font-size:clamp(1.05rem,2.4vw,1.32rem);letter-spacing:-.015em}
+.overall-hd .big b{color:var(--brass);font-weight:600}
+.overall-hd .big span{color:var(--dim);font-weight:400}
+.obar{display:flex;height:12px;border-radius:99px;overflow:hidden;background:var(--surface);border:1px solid var(--rule)}
+.oseg{position:relative;height:100%;min-width:2px;background:color-mix(in srgb,var(--c) 20%,transparent);
+  border-right:1px solid var(--ground);transition:flex-basis .7s var(--ease)}
+.oseg:last-child{border-right:none}
+.oseg i{position:absolute;left:0;top:0;bottom:0;width:var(--f,0%);background:var(--c);transition:width .55s var(--ease)}
+.olegend{display:flex;justify-content:space-between;margin-top:.5rem;gap:1rem}
+.olegend .linkbtn{margin-left:auto}
+.linkbtn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--rule);padding-bottom:1px}
+.linkbtn:hover{color:var(--ink);border-color:var(--brass)}
+
+/* ========== MAIN COLUMN ========== */
+.grid{padding:0 0 4rem}
+
+/* ========== SECTION CARDS ========== */
+.cards{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule)}
+.card{
+  display:grid;grid-template-columns:2.6rem 1fr auto;gap:.5rem 1rem;align-items:baseline;
+  padding:1.15rem .2rem;text-align:left;width:100%;
+  border-bottom:1px solid var(--rule);
+  transition:background .22s,padding-left .22s;
+}
+.card:hover,.card:focus-visible{background:var(--surface);padding-left:.7rem}
+.card .cn{font-family:var(--f-mono);font-size:.72rem;color:var(--c);letter-spacing:.05em}
+.card .ct{font-family:var(--f-display);font-weight:600;font-size:clamp(1.02rem,2.1vw,1.3rem);line-height:1.2;letter-spacing:-.015em}
+.card .ca{font-size:.76rem;color:var(--dim);margin-top:.26rem}
+.card .cd{grid-column:2;font-size:.87rem;color:var(--dim);line-height:1.5;margin-top:.5rem;max-width:56ch}
+.card .cbar{grid-column:2;display:flex;align-items:center;gap:.75rem;margin-top:.85rem;max-width:640px}
+.card .crail{display:block;flex:1 1 auto;min-width:0}
+.card .ctrack{
+  display:block;height:6px;border-radius:99px;overflow:hidden;
+  width:var(--w,100%);min-width:14px;
+  background:color-mix(in srgb,var(--c) 17%,transparent);
+}
+.card .ctrack i{display:block;height:100%;width:var(--f,0%);background:var(--c);transition:width .55s var(--ease)}
+.card .cpct{flex:0 0 auto;font-family:var(--f-mono);font-size:.62rem;color:var(--faint);white-space:nowrap}
+.card .cpct b{color:var(--c);font-weight:500}
+.card .cm{text-align:right;font-family:var(--f-mono);font-size:.68rem;color:var(--dim);white-space:nowrap;line-height:1.5}
+.card .cm b{color:var(--ink);font-weight:500}
+@media(max-width:560px){
+  .card{grid-template-columns:2.2rem 1fr}
+  .card .cm{grid-column:2;text-align:left;margin-top:.5rem}
+  .card .cd{margin-top:.4rem}
+  .card .cbar{margin-top:.7rem}
+}
+
+/* ========== SECTION VIEW ========== */
+.view{padding:1.8rem 0 4rem;animation:rise .45s var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.back{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:.4rem 0}
+.back:hover{color:var(--brass)}
+.shd{border-bottom:1px solid var(--rule);padding-bottom:1.6rem;margin-bottom:1.9rem}
+.shd .num{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;color:var(--c)}
+.shd h2{
+  font-family:var(--f-display);font-weight:600;font-size:clamp(1.7rem,4.6vw,3rem);
+  line-height:1.06;letter-spacing:-.025em;margin:.55rem 0 0;max-width:20ch;
+}
+.shd .anchor{font-family:var(--f-display);font-style:italic;font-size:1.02rem;color:var(--dim);margin-top:.6rem}
+.shd .meter{display:flex;align-items:center;gap:.7rem;margin-top:1.1rem;flex-wrap:wrap}
+.shd .meter .tick{height:5px;flex:1;min-width:120px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.shd .meter .tick i{display:block;height:100%;background:var(--c);width:var(--w,0%);transition:width .6s var(--ease)}
+.shd .meter .lbl{font-family:var(--f-mono);font-size:.68rem;color:var(--dim)}
+.prose{max-width:64ch;color:var(--dim);font-size:.97rem;line-height:1.72;margin-bottom:2.2rem}
+
+/* ========== BOOK LIST ========== */
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+.bk{
+  display:flex;flex-direction:column;gap:.5rem;text-align:left;
+  background:var(--ground);padding:1.05rem 1rem 1.1rem;min-height:186px;
+  transition:background .22s;position:relative;
+}
+.bk:hover,.bk:focus-visible{background:var(--surface)}
+.bk .top{display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem}
+.bk .idx{font-family:var(--f-mono);font-size:.66rem;color:var(--c);letter-spacing:.05em}
+.bk .hrs{font-family:var(--f-mono);font-size:.63rem;color:var(--faint);white-space:nowrap}
+.bk h3{font-family:var(--f-display);font-weight:600;font-size:1.03rem;line-height:1.22;margin:0;letter-spacing:-.012em}
+.bk .au{font-size:.78rem;color:var(--dim);margin-top:-.16rem}
+.bk .sb{font-size:.71rem;color:var(--faint);font-style:italic}
+.bk .foot{margin-top:auto;padding-top:.7rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.tag{font-family:var(--f-mono);font-size:.57rem;letter-spacing:.07em;text-transform:uppercase;padding:.16rem .38rem;border-radius:2px;border:1px solid var(--rule);color:var(--faint)}
+.tag.fr-yes{color:var(--c);border-color:color-mix(in srgb,var(--c) 45%,transparent)}
+.tag.fr-maybe{color:var(--dim)}
+.tag.ph{color:var(--dim)}
+.bk .done{position:absolute;top:.85rem;right:.9rem;width:15px;height:15px;border-radius:50%;background:var(--c);display:none;align-items:center;justify-content:center}
+.bk[data-read="true"] .done{display:flex}
+.bk[data-read="true"] h3{opacity:.55}
+.bk[data-read="true"] .au{opacity:.5}
+.bk .done svg{width:9px;height:9px;stroke:var(--ground);stroke-width:2.6;fill:none}
+
+/* ordered reading sequence (phase view) */
+.seqhd{display:flex;align-items:baseline;gap:.7rem;margin:0 0 .7rem}
+.seq{display:flex;flex-direction:column;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+.srow{
+  display:grid;grid-template-columns:2.4rem 1fr auto;gap:.35rem 1rem;align-items:center;
+  padding:.9rem 1.05rem;text-align:left;width:100%;background:var(--ground);
+  border-bottom:1px solid var(--rule);transition:background .2s,padding-left .2s;position:relative;
+}
+.srow:last-child{border-bottom:none}
+.srow:hover,.srow:focus-visible{background:var(--surface);padding-left:1.35rem}
+.srow .sn{font-family:var(--f-mono);font-size:.75rem;color:var(--c);align-self:start;padding-top:.15rem}
+.srow .st{font-family:var(--f-display);font-weight:600;font-size:1.02rem;line-height:1.22;letter-spacing:-.012em}
+.srow .sa{font-size:.76rem;color:var(--dim);margin-top:.12rem}
+.srow .ssub{font-size:.71rem;color:var(--faint);font-style:italic}
+.srow .sm{grid-column:3;text-align:right;font-family:var(--f-mono);font-size:.66rem;color:var(--faint);white-space:nowrap}
+.srow .stags{grid-column:2;display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.5rem}
+.srow[data-read="true"] .st{opacity:.5}
+.srow[data-read="true"] .sa{opacity:.45}
+.srow[data-read="true"] .sn::after{content:" ✓";color:var(--c)}
+/* counterweights inline */
+.srow.iscw{background:color-mix(in srgb,var(--surface) 45%,var(--ground))}
+.srow.iscw .st{font-weight:500;font-size:.97rem}
+@media(max-width:560px){
+  .srow{grid-template-columns:2rem 1fr}
+  .srow .sm{grid-column:2;text-align:left;margin-top:.4rem}
+}
+.cw-hd{margin:2.9rem 0 .2rem}
+.cw-hd h3{font-family:var(--f-display);font-weight:600;font-size:1.16rem;margin:.35rem 0 .4rem;letter-spacing:-.015em}
+.cw-hd p{font-size:.85rem;color:var(--faint);max-width:58ch;margin:0 0 1.1rem;line-height:1.55}
+.cws{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:.7rem}
+.cw{
+  text-align:left;padding:.9rem 1rem;border:1px dashed var(--rule);border-radius:var(--r);
+  background:transparent;transition:border-color .22s,background .22s;
+}
+.cw:hover,.cw:focus-visible{border-color:var(--c);background:var(--surface)}
+.cw h4{font-family:var(--f-display);font-weight:600;font-size:.95rem;margin:.3rem 0 .16rem;line-height:1.24}
+.cw .au{font-size:.75rem;color:var(--dim)}
+
+.against{
+  margin-top:2.8rem;padding:1.3rem 1.4rem;border-left:2px solid var(--c);
+  background:var(--surface);border-radius:0 var(--r) var(--r) 0;
+}
+.against .eyebrow{color:var(--c)}
+.against p{margin:.55rem 0 0;font-size:.92rem;line-height:1.66;color:var(--dim);max-width:62ch}
+
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule)}
+.pager button{text-align:left;max-width:47%}
+.pager button:last-child{text-align:right}
+.pager .eyebrow{display:block;margin-bottom:.3rem}
+.pager .t{font-family:var(--f-display);font-weight:600;font-size:.98rem;line-height:1.22;letter-spacing:-.012em}
+.pager button:hover .t{color:var(--brass)}
+
+/* ========== MODAL ========== */
+.ov{
+  position:fixed;inset:0;z-index:80;display:none;
+  background:color-mix(in srgb,var(--ground) 82%,transparent);
+  backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  padding:var(--sp);overflow-y:auto;
+}
+.ov[data-open="true"]{display:flex;align-items:flex-start;justify-content:center;animation:fade .28s var(--ease)}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheet{
+  background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);
+  max-width:780px;width:100%;margin:auto;overflow:hidden;
+  animation:pop .34s var(--ease);
+}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+.sheet-in{display:grid;grid-template-columns:186px 1fr;gap:0}
+@media(max-width:620px){.sheet-in{grid-template-columns:1fr}}
+/* typographic cover tile */
+.tile{
+  position:relative;padding:1.2rem 1.05rem;min-height:270px;display:flex;flex-direction:column;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 30%,var(--surface2)),var(--surface2));
+  border-right:1px solid var(--rule);overflow:hidden;
+}
+@media(max-width:620px){.tile{min-height:150px;border-right:none;border-bottom:1px solid var(--rule)}}
+.tile .ghost{
+  position:absolute;right:-.16em;bottom:-.3em;font-family:var(--f-display);font-weight:700;
+  font-size:8.6rem;line-height:.8;color:var(--c);opacity:.24;letter-spacing:-.05em;
+}
+.tile .rule{width:26px;height:2px;background:var(--c);margin-bottom:.75rem}
+.tile .tt{font-family:var(--f-display);font-weight:600;font-size:1.02rem;line-height:1.18;letter-spacing:-.015em;position:relative;z-index:1}
+.tile .ta{font-size:.72rem;color:var(--dim);margin-top:.42rem;position:relative;z-index:1}
+.tile .ty{font-family:var(--f-mono);font-size:.6rem;color:var(--faint);margin-top:auto;position:relative;z-index:1}
+.body{padding:1.4rem 1.5rem 1.5rem;min-width:0}
+@media(max-width:620px){.body{padding:1.2rem}}
+.body .crumb{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.85rem}
+.body h2{font-family:var(--f-display);font-weight:600;font-size:clamp(1.24rem,3.2vw,1.62rem);line-height:1.14;margin:0;letter-spacing:-.02em}
+.body .meta{font-size:.83rem;color:var(--dim);margin-top:.42rem}
+.body .frline{font-size:.79rem;color:var(--faint);margin-top:.3rem;font-style:italic}
+.blk{margin-top:1.35rem}
+.blk .eyebrow{display:block;margin-bottom:.42rem}
+.blk p{margin:0;font-size:.91rem;line-height:1.68;color:var(--dim)}
+.blk.ag{padding-left:.85rem;border-left:2px solid var(--c)}
+.blk.ag .eyebrow{color:var(--c)}
+.acts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem;padding-top:1.25rem;border-top:1px solid var(--rule)}
+.btn{
+  display:inline-flex;align-items:center;gap:.4rem;padding:.5rem .8rem;border-radius:var(--r);
+  border:1px solid var(--rule);font-size:.76rem;font-weight:500;color:var(--dim);
+  transition:border-color .2s,color .2s,background .2s;text-decoration:none;
+}
+.btn:hover{border-color:var(--brass);color:var(--ink)}
+.btn.pri{background:var(--c);border-color:var(--c);color:var(--ground);font-weight:600}
+.btn.pri[data-on="true"]{background:transparent;color:var(--c)}
+.x{position:absolute;top:.75rem;right:.85rem;z-index:3;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface2);border:1px solid var(--rule);color:var(--dim);font-size:1rem;line-height:1}
+.x:hover{color:var(--ink);border-color:var(--brass)}
+.sheet{position:relative}
+
+/* ========== PACE + FOOTER ========== */
+.pace{border-top:1px solid var(--rule);padding:2.6rem 0}
+.pace-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;margin-top:1.1rem}
+.pace-cell{background:var(--ground);padding:1.05rem 1.1rem}
+.pace-cell .k{font-family:var(--f-mono);font-size:.7rem;color:var(--dim)}
+.pace-cell .v{font-family:var(--f-display);font-weight:600;font-size:1.32rem;margin-top:.36rem;letter-spacing:-.015em}
+.pace .note{font-size:.8rem;color:var(--faint);margin-top:1rem;max-width:66ch;line-height:1.55}
+.ftr{border-top:1px solid var(--rule);padding:2rem 0 3.2rem;font-size:.8rem;color:var(--faint);line-height:1.6}
+.ftr a{color:var(--dim);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--rule)}
+.ftr a:hover{color:var(--brass)}
+.ftr p{max-width:66ch;margin:0 0 .6rem}
+
+.filtered-out{display:none!important}
+.empty{padding:2rem 0;color:var(--faint);font-size:.9rem}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="mark"><b></b><span id="mk">Curriculum</span></div>
+    <div class="hdr-sp"></div>
+    <div class="ctrl" role="group" id="themes">
+      <button data-t="codex"  aria-pressed="true"  aria-label="Codex"><span class="swatch" style="background:#C9A227"></span><span class="tname">Codex</span></button>
+      <button data-t="flash"  aria-pressed="false" aria-label="Flash"><span class="swatch" style="background:#7873F5"></span><span class="tname">Flash</span></button>
+      <button data-t="ledger" aria-pressed="false" aria-label="Ledger"><span class="swatch" style="background:#F7931A"></span><span class="tname">Ledger</span></button>
+    </div>
+    <div class="ctrl"><button id="lang">FR</button></div>
+  </div>
+  <nav class="tabbar"><div class="tabbar-in" id="tabs">
+    <button data-tab="browse" aria-pressed="true" id="tabBrowse"></button>
+    <button data-tab="calendar" aria-pressed="false" id="tabCal"></button>
+  </div></nav>
+</header>
+
+<main>
+ <div id="tab-browse">
+  <div id="home">
+    <section class="hero"><div class="wrap">
+      <div class="eyebrow" id="kicker"></div>
+      <h1 id="h1"></h1>
+      <p class="sub" id="sub"></p>
+      <p class="lede" id="lede"></p>
+      <div class="stats" id="stats"></div>
+    </div></section>
+
+    <div class="wrap">
+      <div class="switch">
+        <div class="seg" role="group">
+          <button id="vTheme" aria-pressed="true"></button>
+          <button id="vPhase" aria-pressed="false"></button>
+        </div>
+        <span class="hint" id="hint"></span>
+      </div>
+
+      <section class="overall">
+        <div class="overall-hd">
+          <div class="big"><b id="progNum">0</b> <span id="progRest"></span></div>
+          <button class="linkbtn" id="reset"></button>
+        </div>
+        <div class="obar" id="obar"></div>
+      </section>
+
+      <div class="grid">
+        <div class="cards" id="cards"></div>
+      </div>
+
+      <section class="pace">
+        <span class="eyebrow" id="paceLbl"></span>
+        <div class="pace-grid" id="paceGrid"></div>
+        <p class="note" id="paceNote"></p>
+      </section>
+    </div>
+  </div>
+
+  <div id="detail" style="display:none"><div class="wrap"><div class="view" id="detailIn"></div></div></div>
+ </div>
+ <div id="tab-calendar" style="display:none"><div class="wrap" id="calRoot"></div></div>
+</main>
+
+<footer class="ftr"><div class="wrap">
+  <p id="src"></p>
+  <p><a href="https://x.com/saylor/status/2081015697157529817" target="_blank" rel="noopener" id="srcLink"></a></p>
+</div></footer>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+
+<script>
+/* ============================================================
+   A Civilizational Curriculum for Leaders — content layer
+   All display prose is written independently and condensed;
+   it is not reproduced from the source article.
+   Source: Michael Saylor, published on X, 25 July 2026.
+   ============================================================ */
+
+const UI = {
+  en: {
+    kicker: "After Michael Saylor",
+    title: "A Civilizational Curriculum for Leaders",
+    subtitle: "Thirty-eight works for better decisions in business, politics, finance and technology",
+    lede: "Human prosperity is not produced by good intentions alone. It emerges when scientific understanding, engineering, energy, capital, markets, property rights and effective institutions work together. This is a foundation, not a complete canon.",
+    works: "works",
+    hours: "hours",
+    themes: "themes",
+    phases: "phases",
+    byTheme: "By theme",
+    inOrder: "In reading order",
+    pace: "At this pace",
+    paceRows: [
+      ["1 hour a day", "31 months"],
+      ["90 minutes a day", "21 months"],
+      ["2 hours a day", "16 months"]
+    ],
+    paceNote: "Estimates assume attentive reading without extensive annotation. Narrative history moves faster than dense economics. Editions and translations vary.",
+    back: "All sections",
+    backPhase: "All phases",
+    quickNote: "Quick note",
+    readAgainst: "Read against",
+    counterweights: "Counterweights and primary sources",
+    counterweightNote: "Not part of the thirty-eight. These extend the core reading and are woven into the reading sequence.",
+    counterweight: "Counterweight",
+    markRead: "Mark as read",
+    markedRead: "Read",
+    hoursRead: "hours read",
+    frenchFilter: "Available in French",
+    frenchFilterOn: "Showing French editions only",
+    findIt: "Find this book",
+    openLibrary: "Open Library",
+    googleBooks: "Google Books",
+    amazon: "Amazon",
+    frEdition: "French edition",
+    frNone: "No French edition found",
+    frUnverified: "French edition — to verify",
+    frOriginal: "Originally written in French",
+    noFrench: "English only",
+    phaseLabel: "Phase",
+    sectionLabel: "Section",
+    readingTime: "Reading time",
+    booksIn: "works",
+    reread: "Re-read",
+    readingOrder: "Read in this order",
+    work: "Work",
+    close: "Close",
+    theme: "Theme",
+    lang: "FR",
+    sourceNote: "Condensed from Michael Saylor's curriculum, published on X on 25 July 2026. Notes here are written independently; read the original in full.",
+    sourceLink: "Read the original article",
+    resetProgress: "Reset progress",
+    emptyFrench: "No works in this section have a confirmed French edition.",
+    scaleHint: "Bar length shows each part's share of the total reading time.",
+    tabBrowse: "Curriculum",
+    tabCalendar: "My calendar",
+    calTitle: "Build your reading calendar",
+    calLede: "Choose how often you read and for how long. The schedule follows Saylor's reading order exactly, splitting long works across sessions.",
+    startDate: "Start date",
+    cadence: "How often",
+    cadDaily: "Every day",
+    cadWeekdays: "Weekdays",
+    cadWeekly: "Once a week",
+    perSession: "Hours per session",
+    generate: "Generate calendar",
+    regenerate: "Change settings",
+    sessions: "sessions",
+    sessionsDone: "sessions done",
+    finishes: "Finishes",
+    span: "Duration",
+    yearsShort: "y",
+    monthsShort: "mo",
+    today: "Today",
+    markDone: "Mark session complete",
+    markedDone: "Completed",
+    noSession: "No reading scheduled for this day.",
+    alongside: "Alongside this",
+    untimed: "no time estimate",
+    onTrack: "On track",
+    behindBy: "behind",
+    aheadBy: "ahead",
+    ofWork: "of",
+    hoursOf: "Hours",
+    thisMonth: "This month",
+    session: "Session",
+    longWarn: "That is a very long commitment. Try more hours per session, or a more frequent cadence.",
+    regenNote: "Rebuilding the schedule keeps the works you have already finished.",
+    emptyMonth: "No sessions this month.",
+    jumpToday: "Jump to today",
+    calProgress: "Schedule progress",
+  },
+  fr: {
+    kicker: "D'après Michael Saylor",
+    title: "Un curriculum civilisationnel pour dirigeants",
+    subtitle: "Trente-huit ouvrages pour mieux décider en affaires, en politique, en finance et en technologie",
+    lede: "La prospérité humaine ne naît pas des bonnes intentions seules. Elle émerge lorsque la compréhension scientifique, l'ingénierie, l'énergie, le capital, les marchés, les droits de propriété et des institutions efficaces travaillent ensemble. Ceci est une fondation, non un canon complet.",
+    works: "ouvrages",
+    hours: "heures",
+    themes: "thèmes",
+    phases: "phases",
+    byTheme: "Par thème",
+    inOrder: "Ordre de lecture",
+    pace: "À ce rythme",
+    paceRows: [
+      ["1 heure par jour", "31 mois"],
+      ["90 minutes par jour", "21 mois"],
+      ["2 heures par jour", "16 mois"]
+    ],
+    paceNote: "Estimations pour une lecture attentive sans annotation poussée. L'histoire narrative avance plus vite que l'économie dense. Les éditions et traductions varient.",
+    back: "Toutes les parties",
+    backPhase: "Toutes les phases",
+    quickNote: "Note rapide",
+    readAgainst: "À lire contre",
+    counterweights: "Contrepoids et sources primaires",
+    counterweightNote: "Hors des trente-huit. Ces textes prolongent la lecture principale et s'intègrent à l'ordre de lecture.",
+    counterweight: "Contrepoids",
+    markRead: "Marquer comme lu",
+    markedRead: "Lu",
+    hoursRead: "heures lues",
+    frenchFilter: "Disponible en français",
+    frenchFilterOn: "Éditions françaises uniquement",
+    findIt: "Trouver ce livre",
+    openLibrary: "Open Library",
+    googleBooks: "Google Books",
+    amazon: "Amazon",
+    frEdition: "Édition française",
+    frNone: "Aucune édition française repérée",
+    frUnverified: "Édition française — à vérifier",
+    frOriginal: "Écrit originellement en français",
+    noFrench: "Anglais uniquement",
+    phaseLabel: "Phase",
+    sectionLabel: "Partie",
+    readingTime: "Temps de lecture",
+    booksIn: "ouvrages",
+    reread: "Relecture",
+    readingOrder: "À lire dans cet ordre",
+    work: "Ouvrage",
+    close: "Fermer",
+    theme: "Thème",
+    lang: "EN",
+    sourceNote: "Condensé du curriculum de Michael Saylor, publié sur X le 25 juillet 2026. Les notes présentées ici sont rédigées de façon indépendante ; lisez l'original en entier.",
+    sourceLink: "Lire l'article original",
+    resetProgress: "Réinitialiser",
+    emptyFrench: "Aucun ouvrage de cette partie n'a d'édition française confirmée.",
+    scaleHint: "La longueur de la barre indique la part de chaque partie dans le temps total.",
+    tabBrowse: "Curriculum",
+    tabCalendar: "Mon calendrier",
+    calTitle: "Créez votre calendrier de lecture",
+    calLede: "Choisissez la fréquence et la durée de vos séances. Le planning suit exactement l'ordre de lecture de Saylor, en répartissant les ouvrages longs sur plusieurs séances.",
+    startDate: "Date de début",
+    cadence: "Fréquence",
+    cadDaily: "Chaque jour",
+    cadWeekdays: "Jours ouvrés",
+    cadWeekly: "Une fois par semaine",
+    perSession: "Heures par séance",
+    generate: "Générer le calendrier",
+    regenerate: "Modifier les réglages",
+    sessions: "séances",
+    sessionsDone: "séances faites",
+    finishes: "Fin prévue",
+    span: "Durée",
+    yearsShort: "a",
+    monthsShort: "mois",
+    today: "Aujourd'hui",
+    markDone: "Marquer la séance comme faite",
+    markedDone: "Séance faite",
+    noSession: "Aucune lecture prévue ce jour-là.",
+    alongside: "En parallèle",
+    untimed: "sans estimation de durée",
+    onTrack: "Dans les temps",
+    behindBy: "de retard",
+    aheadBy: "d'avance",
+    ofWork: "sur",
+    hoursOf: "Heures",
+    thisMonth: "Ce mois-ci",
+    session: "Séance",
+    longWarn: "L'engagement est très long. Essayez plus d'heures par séance, ou une fréquence plus soutenue.",
+    regenNote: "Reconstruire le planning conserve les ouvrages déjà terminés.",
+    emptyMonth: "Aucune séance ce mois-ci.",
+    jumpToday: "Aller à aujourd'hui",
+    calProgress: "Avancement du planning",
+  }
+};
+
+/* fr: 'published' | 'unverified' | 'none' | 'original' */
+
+const SECTIONS = [
+  {
+    id: "memory", numeral: "I", accent: "#8B6F47",
+    title: { en: "Civilizational Memory", fr: "Mémoire civilisationnelle" },
+    anchor: { en: "Will and Ariel Durant", fr: "Will et Ariel Durant" },
+    teaser: {
+      en: "Eleven volumes and a synthesis. Civilization as a system that compounds — and forgets.",
+      fr: "Onze volumes et une synthèse. La civilisation comme un système qui capitalise — et qui oublie."
+    },
+    intro: {
+      en: "The historical backbone of the curriculum: the eleven-volume Story of Civilization together with its short synthesis. The Durants present civilization as a dynamic system in which religion, family, commerce, banking, war, philosophy, technology, law, art, institutions and exceptional individuals interact across centuries. Ideas become institutions. Institutions accumulate power. Prosperity generates complexity. Success creates capability, and also complacency.",
+      fr: "La colonne vertébrale historique du curriculum : les onze volumes de l'Histoire de la civilisation et leur brève synthèse. Les Durant présentent la civilisation comme un système dynamique où religion, famille, commerce, banque, guerre, philosophie, technologie, droit, art, institutions et individus d'exception interagissent au fil des siècles. Les idées deviennent des institutions. Les institutions accumulent du pouvoir. La prospérité engendre la complexité. Le succès crée de la capacité, et aussi de la complaisance."
+    },
+    readAgainst: {
+      en: "Read the Durants as architects of a grand synthesis, not as final authority on any particular detail. Some scholarship and framing have dated. Their enduring value is scale.",
+      fr: "Lisez les Durant comme les architectes d'une grande synthèse, non comme l'autorité finale sur tel ou tel détail. Certaines analyses et certains cadrages ont vieilli. Leur valeur durable, c'est l'échelle."
+    }
+  },
+  {
+    id: "geography", numeral: "II", accent: "#6B8E5A",
+    title: { en: "Geography, Ecology, and Uneven Development", fr: "Géographie, écologie et développement inégal" },
+    anchor: { en: "Jared Diamond", fr: "Jared Diamond" },
+    teaser: {
+      en: "Why capability arrived unevenly — and why leaders overrate intention.",
+      fr: "Pourquoi la capacité est arrivée de façon inégale — et pourquoi les dirigeants surestiment l'intention."
+    },
+    intro: {
+      en: "A single work, and a corrective. Leaders routinely overestimate intention and underestimate inherited conditions. No society chooses its geography, its rivers, its disease environment or its initial inventory of domesticable species — and those conditions shape population, trade, military capacity, institutional development, and the speed at which knowledge can travel.",
+      fr: "Un seul ouvrage, et un correctif. Les dirigeants surestiment couramment l'intention et sous-estiment les conditions héritées. Aucune société ne choisit sa géographie, ses fleuves, son environnement épidémiologique ou son stock initial d'espèces domesticables — et ces conditions façonnent la population, le commerce, la capacité militaire, le développement institutionnel et la vitesse à laquelle le savoir circule."
+    },
+    readAgainst: {
+      en: "Treat it as a model, not a complete causal theory. Geography influences history; it does not write it.",
+      fr: "Traitez-le comme un modèle, non comme une théorie causale complète. La géographie influence l'histoire ; elle ne l'écrit pas."
+    }
+  },
+  {
+    id: "war", numeral: "III", accent: "#A33B32",
+    title: { en: "War, Strategy, and Republican Power", fr: "Guerre, stratégie et pouvoir républicain" },
+    anchor: { en: "John Keegan · Livy", fr: "John Keegan · Tite-Live" },
+    teaser: {
+      en: "The machine that consumes lives, capital, legitimacy and time — and Rome as its laboratory.",
+      fr: "La machine qui consume les vies, le capital, la légitimité et le temps — et Rome comme laboratoire."
+    },
+    intro: {
+      en: "War is one of civilization's oldest and most destructive institutions. It has created states, dissolved empires, accelerated technology, redrawn borders, destroyed capital and moved power between cultures. A leader who does not understand war may start one believing it will be brief, rational and controllable. History says otherwise. The governing rule is simple: do not start a war you cannot win, finance, control, and end on acceptable terms.",
+      fr: "La guerre est l'une des institutions les plus anciennes et les plus destructrices de la civilisation. Elle a créé des États, dissous des empires, accéléré la technologie, redessiné des frontières, détruit du capital et déplacé le pouvoir entre cultures. Un dirigeant qui ne comprend pas la guerre peut en déclencher une en croyant qu'elle sera brève, rationnelle et maîtrisable. L'histoire dit le contraire. La règle est simple : ne déclenchez pas une guerre que vous ne pouvez ni gagner, ni financer, ni contrôler, ni terminer à des conditions acceptables."
+    },
+    readAgainst: {
+      en: "Livy is not a neutral modern historian. He is a literary and moral historian who chose his stories partly for their civic meaning. Read him both to reconstruct Rome's development and to understand how Romans conceived virtue, legitimacy, ambition, corruption and decline.",
+      fr: "Tite-Live n'est pas un historien moderne neutre. C'est un historien littéraire et moral qui a choisi ses récits en partie pour leur portée civique. Lisez-le à la fois pour reconstituer le développement de Rome et pour comprendre comment les Romains concevaient la vertu, la légitimité, l'ambition, la corruption et la décadence."
+    }
+  },
+  {
+    id: "uncertainty", numeral: "IV", accent: "#5B7C99",
+    title: { en: "Uncertainty, Fragility, and Responsibility", fr: "Incertitude, fragilité et responsabilité" },
+    anchor: { en: "Nassim Nicholas Taleb", fr: "Nassim Nicholas Taleb" },
+    teaser: {
+      en: "Exposure matters more than confidence. Design for being wrong.",
+      fr: "L'exposition compte plus que la confiance. Concevez en supposant que vous avez tort."
+    },
+    intro: {
+      en: "The five-volume Incerto investigates luck, uncertainty, probability, human error, risk, and decision-making under incomplete knowledge. The central lesson is not that prediction is difficult. It is that exposure matters more than confidence. When the future is uncertain, the intelligent response is not a more elaborate forecast — it is to limit ruin, preserve optionality, decentralise experimentation, align incentives, and build systems that learn from variation.",
+      fr: "Les cinq volumes de l'Incerto explorent la chance, l'incertitude, la probabilité, l'erreur humaine, le risque et la décision en information incomplète. La leçon centrale n'est pas que prédire est difficile. C'est que l'exposition compte plus que la confiance. Quand l'avenir est incertain, la réponse intelligente n'est pas une prévision plus élaborée — c'est de limiter la ruine, préserver l'optionalité, décentraliser l'expérimentation, aligner les incitations et bâtir des systèmes qui apprennent de la variation."
+    },
+    readAgainst: {
+      en: "Subject Taleb's skepticism to skepticism. The practical doctrine holds: avoid ruin, preserve optionality, permit small failures, distrust unsupported certainty, and require decision-makers to share the consequences.",
+      fr: "Soumettez le scepticisme de Taleb au scepticisme. La doctrine pratique tient : éviter la ruine, préserver l'optionalité, autoriser les petits échecs, se méfier des certitudes non étayées et exiger que les décideurs partagent les conséquences."
+    }
+  },
+  {
+    id: "liberty", numeral: "V", accent: "#B8863B",
+    title: { en: "Human Action, Liberty, and Power", fr: "Action humaine, liberté et pouvoir" },
+    anchor: { en: "Murray Rothbard", fr: "Murray Rothbard" },
+    teaser: {
+      en: "The theoretical spine: how markets coordinate, and how political power expands.",
+      fr: "La colonne théorique : comment les marchés coordonnent, et comment le pouvoir politique s'étend."
+    },
+    intro: {
+      en: "Rothbard supplies the theoretical spine of the curriculum, spanning economic theory, political philosophy, intellectual history, monetary theory and American history. Together these books ask how individuals act, how markets coordinate, how property and prices emerge, how intervention changes incentives, and how political power expands. He compels the reader to distinguish voluntary exchange from coercion, economic coordination from political command, property from privilege, and market discovery from administrative imposition.",
+      fr: "Rothbard fournit la colonne théorique du curriculum : théorie économique, philosophie politique, histoire des idées, théorie monétaire et histoire américaine. Ensemble, ces ouvrages demandent comment les individus agissent, comment les marchés coordonnent, comment la propriété et les prix émergent, comment l'intervention modifie les incitations et comment le pouvoir politique s'étend. Il oblige le lecteur à distinguer l'échange volontaire de la contrainte, la coordination économique du commandement politique, la propriété du privilège, et la découverte par le marché de l'imposition administrative."
+    },
+    readAgainst: {
+      en: "Read Rothbard critically, not devotionally. His consistency is his strength and also where scrutiny is most needed. Separate analysis from rhetoric, test his historical readings against competing accounts, and confront the framework with the strongest arguments for constitutional government and public authority.",
+      fr: "Lisez Rothbard de façon critique, non dévote. Sa cohérence est sa force, et c'est aussi là que l'examen doit être le plus serré. Séparez l'analyse de la rhétorique, confrontez ses lectures historiques à des récits concurrents, et opposez au cadre les meilleurs arguments en faveur du gouvernement constitutionnel et de l'autorité publique."
+    }
+  },
+  {
+    id: "capital", numeral: "VI", accent: "#7A6B9A",
+    title: { en: "Capital, Enterprise, and Institutional Power", fr: "Capital, entreprise et pouvoir institutionnel" },
+    anchor: { en: "Ron Chernow", fr: "Ron Chernow" },
+    teaser: {
+      en: "Industrial capital and financial capital, with the people and moral ambiguity restored.",
+      fr: "Capital industriel et capital financier, avec les hommes et l'ambiguïté morale rendus visibles."
+    },
+    intro: {
+      en: "Economic theory can make capital look abstract. Chernow restores the people, institutions, conflicts and moral ambiguity behind it. These two biographies examine complementary forms of capitalism — industrial and financial. Capital is not merely money. It is accumulated trust, knowledge, competence, organisation, relationships, reputation, information and productive capacity.",
+      fr: "La théorie économique peut faire paraître le capital abstrait. Chernow y réintroduit les personnes, les institutions, les conflits et l'ambiguïté morale. Ces deux biographies examinent deux formes complémentaires du capitalisme — industrielle et financière. Le capital n'est pas seulement de l'argent. C'est de la confiance accumulée, du savoir, de la compétence, de l'organisation, des relations, de la réputation, de l'information et de la capacité productive."
+    },
+    readAgainst: {
+      en: "Study Chernow's protagonists rather than admiring them. Read as case studies in how enterprises scale and how private capability meets public authority — neither hagiography nor indictment.",
+      fr: "Étudiez les protagonistes de Chernow plutôt que de les admirer. À lire comme des études de cas sur la montée en échelle des entreprises et la rencontre entre capacité privée et autorité publique — ni hagiographie ni réquisitoire."
+    }
+  },
+  {
+    id: "energy", numeral: "VII", accent: "#C4703A",
+    title: { en: "Energy, Knowledge, and Technological Transformation", fr: "Énergie, connaissance et transformation technologique" },
+    anchor: { en: "Daniel Yergin · David Deutsch · Michael Saylor", fr: "Daniel Yergin · David Deutsch · Michael Saylor" },
+    teaser: {
+      en: "Energy sets what can be done. Knowledge sets what can be imagined.",
+      fr: "L'énergie fixe ce qui peut être fait. La connaissance fixe ce qui peut être imaginé."
+    },
+    intro: {
+      en: "Any account of civilization that omits energy, knowledge or technology is incomplete. Energy sets the physical limit on what can be done. Knowledge sets the limit on what can be conceived. Technology turns knowledge into capability that scales — and markets and institutions decide whether that capability gets deployed productively, suppressed, monopolised, or turned into a weapon.",
+      fr: "Toute théorie de la civilisation qui ignore l'énergie, la connaissance ou la technologie reste incomplète. L'énergie fixe la limite physique de ce qui peut être fait. La connaissance fixe la limite de ce qui peut être imaginé. La technologie transforme la connaissance en capacité déployable à grande échelle — et ce sont les marchés et les institutions qui décident si cette capacité sera exploitée, étouffée, monopolisée ou transformée en arme."
+    },
+    readAgainst: {
+      en: "Yergin accounts for the capacity to act; Deutsch for the capacity to discover. Energy without knowledge is only brute force. Knowledge without energy stays potential.",
+      fr: "Yergin rend compte de la capacité d'agir ; Deutsch, de la capacité de découvrir. L'énergie sans la connaissance n'est que force brute. La connaissance sans l'énergie reste un potentiel inexploité."
+    }
+  },
+  {
+    id: "money", numeral: "VIII", accent: "#D4A017",
+    title: { en: "Sound Money and Bitcoin", fr: "Monnaie saine et Bitcoin" },
+    anchor: { en: "Saifedean Ammous", fr: "Saifedean Ammous" },
+    teaser: {
+      en: "Corrupt the money and every price, contract and long-term calculation is affected.",
+      fr: "Corrompez la monnaie et chaque prix, chaque contrat, chaque calcul de long terme s'en trouve affecté."
+    },
+    intro: {
+      en: "Air, water, food and energy sustain biological life. Money coordinates economic life. A civilization needs clean money — a monetary system able to carry the economic energy generated by labour, ingenuity and capital across time and space. Corrupt the monetary system and every price, contract, investment and long-term calculation is affected.",
+      fr: "L'air, l'eau, la nourriture et l'énergie soutiennent la vie biologique. La monnaie coordonne la vie économique. Une civilisation a besoin d'une monnaie propre — un système monétaire capable de transporter dans le temps et l'espace l'énergie économique produite par le travail, l'ingéniosité et le capital. Corrompez le système monétaire et chaque prix, chaque contrat, chaque investissement, chaque calcul de long terme s'en trouve affecté."
+    },
+    readAgainst: {
+      en: "Read it last, after Rothbard on money and power, Yergin on energy, Deutsch on knowledge and The Mobile Wave on digital transformation. Then go to the white paper: commentary supplies context, but the engineer returns to the specification and the machine.",
+      fr: "À lire en dernier, après Rothbard sur la monnaie et le pouvoir, Yergin sur l'énergie, Deutsch sur la connaissance et The Mobile Wave sur la transformation numérique. Puis allez au livre blanc : le commentaire fournit le contexte, mais l'ingénieur revient à la spécification et à la machine."
+    }
+  }
+];
+
+const PHASES = [
+  { id: "p1", n: 1, title: { en: "Orientation", fr: "Orientation" },
+    note: { en: "These works establish the central questions. What patterns recur across history? How often do we confuse luck with skill? Why do extreme events dominate outcomes? How do geography and inherited conditions shape possibility? Under what conditions can knowledge continue?",
+            fr: "Ces ouvrages posent les questions centrales. Quels schémas se répètent à travers l'histoire ? Combien de fois confondons-nous chance et compétence ? Pourquoi les événements extrêmes dominent-ils les résultats ? Comment la géographie et les conditions héritées façonnent-elles le possible ? À quelles conditions la connaissance peut-elle continuer ?" } },
+  { id: "p2", n: 2, title: { en: "Foundations", fr: "Fondations" },
+    note: { en: "A theory of human action, a moral framework for liberty, an operational approach to uncertainty, and a doctrine of aligned incentives.",
+            fr: "Une théorie de l'action humaine, un cadre moral pour la liberté, une approche opérationnelle de l'incertitude et une doctrine des incitations alignées." } },
+  { id: "p3", n: 3, title: { en: "The Ancient World and War", fr: "Le monde antique et la guerre" },
+    note: { en: "The Durants provide scope. Livy provides institutional depth and the Roman moral imagination. Keegan supplies the anthropology and technology of warfare. Clausewitz forces you to connect violence to political purpose.",
+            fr: "Les Durant donnent l'ampleur. Tite-Live donne la profondeur institutionnelle et l'imaginaire moral romain. Keegan apporte l'anthropologie et la technologie de la guerre. Clausewitz oblige à relier la violence à une finalité politique." } },
+  { id: "p4", n: 4, title: { en: "Ideas and Liberty", fr: "Idées et liberté" },
+    note: { en: "This phase connects economic ideas to political institutions and examines the continuing tension among liberty, order, federalism, democracy, local autonomy and centralised power.",
+            fr: "Cette phase relie les idées économiques aux institutions politiques et examine la tension persistante entre liberté, ordre, fédéralisme, démocratie, autonomie locale et pouvoir centralisé." } },
+  { id: "p5", n: 5, title: { en: "Capital, Energy, and Modernity", fr: "Capital, énergie et modernité" },
+    note: { en: "How commerce, banking, state finance, energy, information, industrial organisation and political power combined to create the modern world.",
+            fr: "Comment le commerce, la banque, les finances publiques, l'énergie, l'information, l'organisation industrielle et le pouvoir politique se sont combinés pour créer le monde moderne." } },
+  { id: "p6", n: 6, title: { en: "Digital Transformation and Sound Money", fr: "Transformation numérique et monnaie saine" },
+    note: { en: "From the digitisation of information, products, services and institutions to the digitisation of property and money.",
+            fr: "De la numérisation de l'information, des produits, des services et des institutions à la numérisation de la propriété et de la monnaie." } },
+  { id: "p7", n: 7, reread: [{ n: 1, ord: 2 }], title: { en: "Coda", fr: "Coda" },
+    note: { en: "Taleb's aphorisms carry more meaning after centuries of institutional error, overconfidence, fragility and unintended consequence. The Durants' synthesis reads differently too — what first looked like general observation has become a compressed index of recurring patterns.",
+            fr: "Les aphorismes de Taleb portent davantage après des siècles d'erreur institutionnelle, d'excès de confiance, de fragilité et de conséquences non voulues. La synthèse des Durant se lit elle aussi autrement — ce qui semblait d'abord une observation générale est devenu un index condensé de schémas récurrents." } }
+];
+
+const BOOKS = [
+  /* ---------- I. Civilizational Memory ---------- */
+  { n: 1, s: "memory", ph: 1, ord: 1, coda: true, h: [3, 5],
+    title: "The Lessons of History", author: "Will & Ariel Durant", year: 1968,
+    titleFr: "Les leçons de l'histoire", fr: "unverified",
+    note: {
+      en: "The overture and the coda. A lifetime of historical study compressed into a short examination of geography, biology, morality, religion, economics, government, war and social change. Read it before the series as a map of the territory, and again at the end, when every observation carries the weight of examples.",
+      fr: "L'ouverture et la coda. Toute une vie d'étude historique condensée en un bref examen de la géographie, de la biologie, de la morale, de la religion, de l'économie, du gouvernement, de la guerre et du changement social. À lire avant la série comme une carte du territoire, puis de nouveau à la fin, quand chaque observation portera le poids des exemples."
+    } },
+  { n: 2, s: "memory", ph: 3, ord: 1, h: [31, 38],
+    title: "Our Oriental Heritage", author: "Will Durant", year: 1935,
+    titleFr: "Notre héritage oriental", fr: "unverified",
+    note: {
+      en: "The Eastern and Near Eastern foundations of civilization — Egypt, Mesopotamia, Persia, India, China, Japan. It corrects an excessively Western conception of history: writing, law, mathematics, bureaucracy, religion, commerce, philosophy and imperial administration developed across many civilizations over thousands of years. The first lesson of civilizational history is humility. No culture invented civilization by itself.",
+      fr: "Les fondations orientales et proche-orientales de la civilisation — Égypte, Mésopotamie, Perse, Inde, Chine, Japon. Ce volume corrige une conception excessivement occidentale de l'histoire : l'écriture, le droit, les mathématiques, la bureaucratie, la religion, le commerce, la philosophie et l'administration impériale se sont développés dans de nombreuses civilisations sur des millénaires. La première leçon de l'histoire civilisationnelle est l'humilité. Aucune culture n'a inventé la civilisation à elle seule."
+    } },
+  { n: 3, s: "memory", ph: 3, ord: 2, h: [22, 27],
+    title: "The Life of Greece", author: "Will Durant", year: 1939,
+    titleFr: "La vie de la Grèce", fr: "unverified",
+    note: {
+      en: "The Greek polis, philosophy, science, democracy, tragedy, sculpture, architecture, political rivalry and war. The Greek achievement was not a collection of great ideas but the creation of environments where explanation, argument, criticism and civic participation could flourish. It also shows how faction, rhetoric, envy and strategic overreach can destroy a society rich in intelligence and culture.",
+      fr: "La cité grecque, la philosophie, la science, la démocratie, la tragédie, la sculpture, l'architecture, la rivalité politique et la guerre. La réussite grecque ne fut pas une collection de grandes idées mais la création d'environnements où l'explication, l'argumentation, la critique et la participation civique pouvaient s'épanouir. Elle montre aussi comment la faction, la rhétorique, l'envie et la démesure stratégique peuvent détruire une société riche en intelligence et en culture."
+    } },
+  { n: 4, s: "memory", ph: 3, ord: 3, h: [22, 27],
+    title: "Caesar and Christ", author: "Will Durant", year: 1944,
+    titleFr: "César et le Christ", fr: "unverified",
+    note: {
+      en: "The Roman Republic, Roman law, imperial administration, social order, military power, and the rise of Christianity inside the empire. Rome shows that durable civilization needs more than conquest: it needs logistics, infrastructure, law, administration, legitimacy and a shared conception of order. Christianity's emergence also shows how a marginal idea can eventually reorganise an empire's moral structure.",
+      fr: "La République romaine, le droit romain, l'administration impériale, l'ordre social, la puissance militaire et la montée du christianisme au sein de l'empire. Rome montre qu'une civilisation durable exige plus que la conquête : il lui faut de la logistique, des infrastructures, du droit, de l'administration, de la légitimité et une conception partagée de l'ordre. L'émergence du christianisme montre aussi comment une idée marginale peut finir par réorganiser la structure morale d'un empire."
+    } },
+  { n: 5, s: "memory", ph: 3, ord: 4, h: [35, 43],
+    title: "The Age of Faith", author: "Will Durant", year: 1950,
+    titleFr: "L'âge de la foi", fr: "unverified",
+    note: {
+      en: "Christianity, Islam, Byzantium, feudalism, monasticism, universities, scholastic philosophy — the institutions that held order together through political fragmentation. What is often called the Dark Ages was also an age of institutional reconstruction: religious orders preserved knowledge, commercial networks reemerged, universities formed, law evolved, competing authorities constrained one another. Read it to understand how civilization survives when centralised political order collapses.",
+      fr: "Christianisme, islam, Byzance, féodalité, monachisme, universités, philosophie scolastique — les institutions qui ont maintenu l'ordre à travers la fragmentation politique. Ce qu'on appelle souvent l'âge sombre fut aussi un âge de reconstruction institutionnelle : les ordres religieux ont préservé le savoir, les réseaux commerciaux ont réapparu, les universités se sont formées, le droit a évolué, des autorités concurrentes se sont mutuellement contenues. À lire pour comprendre comment une civilisation survit quand l'ordre politique centralisé s'effondre."
+    } },
+  { n: 6, s: "memory", ph: 5, ord: 4, h: [23, 28],
+    title: "The Renaissance", author: "Will Durant", year: 1953,
+    titleFr: "La Renaissance", fr: "unverified",
+    note: {
+      en: "How cities, commerce, banking, patronage, humanism and recovered antiquity released extraordinary creative energy. The Renaissance was an economic and institutional phenomenon as much as an artistic one. Capital, urban autonomy, competition and patronage created environments in which talent could compound.",
+      fr: "Comment les villes, le commerce, la banque, le mécénat, l'humanisme et l'antiquité retrouvée ont libéré une énergie créatrice extraordinaire. La Renaissance fut un phénomène économique et institutionnel autant qu'artistique. Le capital, l'autonomie urbaine, la concurrence et le mécénat ont créé des milieux où le talent pouvait se cumuler."
+    } },
+  { n: 7, s: "memory", ph: 5, ord: 5, h: [30, 37],
+    title: "The Reformation", author: "Will Durant", year: 1957,
+    titleFr: "La Réforme", fr: "unverified",
+    note: {
+      en: "Conscience, printing, religious authority, political centralisation, and the breaking of a unified Western Christendom. The printing press collapsed the cost of distributing ideas. Dissent became scalable and competing interpretations of truth escaped centralised control. A study in both the liberating and the destabilising effects of information technology.",
+      fr: "Conscience, imprimerie, autorité religieuse, centralisation politique et rupture de la chrétienté occidentale unifiée. L'imprimerie a effondré le coût de diffusion des idées. La dissidence est devenue scalable et les interprétations concurrentes de la vérité ont échappé au contrôle centralisé. Une étude des effets à la fois libérateurs et déstabilisants des technologies de l'information."
+    } },
+  { n: 8, s: "memory", ph: 5, ord: 6, h: [22, 26],
+    title: "The Age of Reason Begins", author: "Will & Ariel Durant", year: 1961,
+    titleFr: "Le début de l'âge de la raison", fr: "unverified",
+    note: {
+      en: "The transition from confessional conflict toward scientific inquiry, political realism and the centralised state. Civilization began separating questions settled by authority from questions requiring observation, experiment and reason. At the same time the state acquired far greater capacity to tax, administer, regulate, mobilise and wage war.",
+      fr: "Le passage du conflit confessionnel à l'enquête scientifique, au réalisme politique et à l'État centralisé. La civilisation a commencé à séparer les questions tranchées par l'autorité de celles qui exigent observation, expérimentation et raison. Dans le même temps, l'État a acquis une capacité bien plus grande de taxer, administrer, réglementer, mobiliser et faire la guerre."
+    } },
+  { n: 9, s: "memory", ph: 5, ord: 7, h: [24, 29],
+    title: "The Age of Louis XIV", author: "Will & Ariel Durant", year: 1963,
+    titleFr: "L'âge de Louis XIV", fr: "unverified",
+    note: {
+      en: "Absolutism, court culture, public finance, administration, warfare and the European balance of power. Louis XIV's France demonstrates both the power and the danger of centralisation: the state became culturally and militarily formidable, but grandeur brought fiscal exhaustion and institutional brittleness.",
+      fr: "Absolutisme, culture de cour, finances publiques, administration, guerre et équilibre européen des puissances. La France de Louis XIV démontre à la fois la puissance et le danger de la centralisation : l'État est devenu culturellement et militairement redoutable, mais la grandeur a apporté l'épuisement budgétaire et la fragilité institutionnelle."
+    } },
+  { n: 10, s: "memory", ph: 5, ord: 8, h: [24, 29],
+    title: "The Age of Voltaire", author: "Will & Ariel Durant", year: 1965,
+    titleFr: "L'âge de Voltaire", fr: "unverified",
+    note: {
+      en: "The Enlightenment critique of inherited authority, superstition, intolerance and institutional privilege. Authority increasingly had to justify itself by reason rather than tradition alone. Read it for the intellectual foundations of liberalism, religious tolerance, scientific confidence and the modern challenge to arbitrary power.",
+      fr: "La critique des Lumières contre l'autorité héritée, la superstition, l'intolérance et le privilège institutionnel. L'autorité a dû de plus en plus se justifier par la raison plutôt que par la seule tradition. À lire pour les fondements intellectuels du libéralisme, de la tolérance religieuse, de la confiance scientifique et de la contestation moderne du pouvoir arbitraire."
+    } },
+  { n: 11, s: "memory", ph: 5, ord: 9, h: [32, 39],
+    title: "Rousseau and Revolution", author: "Will & Ariel Durant", year: 1967,
+    titleFr: "Rousseau et la Révolution", fr: "unverified",
+    note: {
+      en: "The collision of reason, sentiment, equality, legitimacy and revolutionary pressure. Rousseau redirected political thought toward authenticity, popular sovereignty, equality and collective will — ideas that inspired liberation but also supplied new justifications for coercion in the name of the people.",
+      fr: "La collision de la raison, du sentiment, de l'égalité, de la légitimité et de la pression révolutionnaire. Rousseau a réorienté la pensée politique vers l'authenticité, la souveraineté populaire, l'égalité et la volonté collective — des idées qui ont inspiré la libération mais ont aussi fourni de nouvelles justifications à la contrainte au nom du peuple."
+    } },
+  { n: 12, s: "memory", ph: 5, ord: 10, h: [26, 31],
+    title: "The Age of Napoleon", author: "Will & Ariel Durant", year: 1975,
+    titleFr: "L'âge de Napoléon", fr: "unverified",
+    note: {
+      en: "How revolutionary energy became empire, codified law, administrative modernisation, nationalism and continental war. Napoleon institutionalised much of the Revolution while subordinating it to military ambition and personal power. A study in leadership, state capacity, meritocracy, propaganda, strategic genius, and the tendency of concentrated power to outrun its own limits.",
+      fr: "Comment l'énergie révolutionnaire est devenue empire, droit codifié, modernisation administrative, nationalisme et guerre continentale. Napoléon a institutionnalisé une grande part de la Révolution tout en la subordonnant à l'ambition militaire et au pouvoir personnel. Une étude du leadership, de la capacité étatique, de la méritocratie, de la propagande, du génie stratégique et de la tendance du pouvoir concentré à dépasser ses propres limites."
+    } },
+
+  /* ---------- II. Geography ---------- */
+  { n: 13, s: "geography", ph: 1, ord: 5, h: [18, 24],
+    title: "Guns, Germs, and Steel", author: "Jared Diamond", year: 1997,
+    titleFr: "De l'inégalité parmi les sociétés", fr: "published",
+    note: {
+      en: "Why did wealth, military power, technology and political organisation develop so unevenly across human societies? Diamond's model emphasises geography, climate, food production, domesticable plants and animals, disease exposure, population density, continental orientation and the diffusion of technology. It also supplies a corrective to racial explanations of conquest: differences in civilizational outcome do not require differences in human intelligence or worth.",
+      fr: "Pourquoi la richesse, la puissance militaire, la technologie et l'organisation politique se sont-elles développées de façon si inégale entre les sociétés humaines ? Le modèle de Diamond met en avant la géographie, le climat, la production alimentaire, les plantes et animaux domesticables, l'exposition aux maladies, la densité de population, l'orientation des continents et la diffusion des techniques. Il fournit aussi un correctif aux explications raciales de la conquête : des résultats civilisationnels différents n'exigent pas des différences d'intelligence ou de valeur humaine."
+    },
+    against: {
+      en: "Critics charge environmental determinism and the erasure of human agency and Indigenous decision-making. Read that criticism alongside the book, not after it. A persuasive grand theory teaches most when you also learn where it overreaches.",
+      fr: "Des critiques lui reprochent un déterminisme environnemental et l'effacement de l'action humaine et des décisions autochtones. Lisez cette critique en même temps que le livre, pas après. Une grande théorie persuasive instruit le plus quand on apprend aussi où elle va trop loin."
+    } },
+
+  /* ---------- III. War ---------- */
+  { n: 14, s: "war", ph: 3, ord: 9, h: [17, 21],
+    title: "A History of Warfare", author: "John Keegan", year: 1993,
+    titleFr: "Histoire de la guerre", fr: "unverified",
+    note: {
+      en: "Warfare from the Bronze Age to the nuclear era — not only battles and generals but culture, psychology, metallurgy, fortification, horses, weaponry, logistics, military organisation, ritual and the warrior ethos. Keegan's provocative claim is that war cannot always be understood as a rational continuation of policy: it predates the modern state and often expresses culture, identity, ritual, honour, religion and institutional momentum.",
+      fr: "La guerre de l'âge du bronze à l'ère nucléaire — non seulement les batailles et les généraux, mais la culture, la psychologie, la métallurgie, la fortification, les chevaux, l'armement, la logistique, l'organisation militaire, le rituel et l'éthique guerrière. La thèse provocatrice de Keegan est que la guerre ne peut pas toujours se comprendre comme la continuation rationnelle de la politique : elle précède l'État moderne et exprime souvent la culture, l'identité, le rituel, l'honneur, la religion et l'inertie institutionnelle."
+    },
+    against: {
+      en: "Read alongside Clausewitz. Keegan is deliberately attacking him, and Keegan's reading of Clausewitz has itself been contested. The value is in the confrontation: Clausewitz ties military action to political objectives; Keegan shows violence escaping rational control.",
+      fr: "À lire avec Clausewitz. Keegan l'attaque délibérément, et la lecture que Keegan fait de Clausewitz a elle-même été contestée. La valeur est dans la confrontation : Clausewitz relie l'action militaire aux objectifs politiques ; Keegan montre la violence échappant au contrôle rationnel."
+    } },
+  { n: 15, s: "war", ph: 3, ord: 5, h: [16, 21],
+    title: "The Early History of Rome", author: "Livy", year: -27, sub: "Books 1–5",
+    titleFr: "Histoire romaine, livres I–V", fr: "published",
+    note: {
+      en: "Founding myths, monarchy, the establishment of the Republic, class conflict, civic religion and early military struggle. The line between myth and documented history is often uncertain — and that uncertainty is itself useful. Founding stories reveal what a civilization believes about itself: the virtues it rewards, the crimes it fears, and the legitimacy it claims for its institutions.",
+      fr: "Mythes fondateurs, monarchie, établissement de la République, conflits de classes, religion civique et premières luttes militaires. La frontière entre mythe et histoire documentée est souvent incertaine — et cette incertitude est elle-même utile. Les récits de fondation révèlent ce qu'une civilisation croit d'elle-même : les vertus qu'elle récompense, les crimes qu'elle redoute et la légitimité qu'elle revendique pour ses institutions."
+    } },
+  { n: 16, s: "war", ph: 3, ord: 6, h: [12, 16],
+    title: "Rome and Italy", author: "Livy", year: -27, sub: "Books 6–10",
+    titleFr: "Histoire romaine, livres VI–X", fr: "published",
+    note: {
+      en: "Institutional endurance, internal conflict, military adaptation and the consolidation of Italy. Rome's strength did not come from uninterrupted victory. It came from defeat, adaptation, alliance-building, discipline, and the ability to absorb other communities into differentiated systems of citizenship and obligation. Institutions can grow stronger through adversity — provided failure produces adaptation rather than denial.",
+      fr: "Endurance institutionnelle, conflit interne, adaptation militaire et consolidation de l'Italie. La force de Rome n'est pas venue d'une victoire ininterrompue. Elle est venue de la défaite, de l'adaptation, de la construction d'alliances, de la discipline et de la capacité à absorber d'autres communautés dans des systèmes différenciés de citoyenneté et d'obligation. Les institutions peuvent se renforcer par l'adversité — à condition que l'échec produise de l'adaptation plutôt que du déni."
+    } },
+  { n: 17, s: "war", ph: 3, ord: 7, h: [23, 30],
+    title: "The War with Hannibal", author: "Livy", year: -27, sub: "Books 21–30",
+    titleFr: "Histoire romaine, livres XXI–XXX", fr: "published",
+    note: {
+      en: "One of history's great studies of strategy, leadership, logistics, resilience and survival after repeated catastrophe. Hannibal beat Roman armies again and again and threatened the Republic's existence. Rome survived because its political system, manpower, alliance structure, strategic depth and willingness to absorb losses exceeded what tactical brilliance alone could overcome. Required reading for anyone running an institution that must survive extreme stress.",
+      fr: "L'une des grandes études de l'histoire sur la stratégie, le commandement, la logistique, la résilience et la survie après des catastrophes répétées. Hannibal a battu les armées romaines encore et encore et menacé l'existence même de la République. Rome a survécu parce que son système politique, ses effectifs, sa structure d'alliances, sa profondeur stratégique et sa capacité à absorber les pertes dépassaient ce que le seul génie tactique pouvait emporter. Lecture obligatoire pour qui dirige une institution devant survivre à un stress extrême."
+    } },
+  { n: 18, s: "war", ph: 3, ord: 8, h: [22, 29],
+    title: "Rome and the Mediterranean", author: "Livy", year: -27, sub: "Books 31–45",
+    titleFr: "Histoire romaine, livres XXXI–XLV", fr: "published",
+    note: {
+      en: "Diplomacy, territorial expansion, great-power rivalry and Rome's growing domination of the Mediterranean. Victory creates its own dangers. Foreign wealth, provincial administration, military prestige and political ambition alter the incentives of republican institutions. A political system can be transformed by success long before its constitution formally changes.",
+      fr: "Diplomatie, expansion territoriale, rivalité entre grandes puissances et domination croissante de Rome sur la Méditerranée. La victoire crée ses propres dangers. La richesse étrangère, l'administration provinciale, le prestige militaire et l'ambition politique modifient les incitations des institutions républicaines. Un système politique peut être transformé par le succès bien avant que sa constitution ne change formellement."
+    } },
+
+  /* ---------- IV. Uncertainty ---------- */
+  { n: 19, s: "uncertainty", ph: 1, ord: 2, h: [10, 13],
+    title: "Fooled by Randomness", author: "Nassim Nicholas Taleb", year: 2001,
+    titleFr: "Le hasard sauvage", fr: "published",
+    note: {
+      en: "How to tell skill from luck. Success produces stories: survivors explain why they prevailed while failures vanish from the sample, and the resulting narratives systematically overstate foresight, talent and control. Read it to recognise survivorship bias, selection effects, the narrative fallacy, and the human urge to extract certainty from noise.",
+      fr: "Comment distinguer la compétence de la chance. Le succès produit des récits : les survivants expliquent pourquoi ils l'ont emporté tandis que les échecs disparaissent de l'échantillon, et les récits qui en résultent surestiment systématiquement la clairvoyance, le talent et le contrôle. À lire pour repérer le biais du survivant, les effets de sélection, le sophisme narratif et la pulsion humaine à extraire de la certitude du bruit."
+    } },
+  { n: 20, s: "uncertainty", ph: 1, ord: 3, h: [14, 17],
+    title: "The Black Swan", author: "Nassim Nicholas Taleb", year: 2007,
+    titleFr: "Le cygne noir", fr: "published",
+    note: {
+      en: "Why rare, consequential events dominate history even though conventional models ignore them. After an extreme event, institutions construct explanations that make it look predictable; before it, the same institutions assign it negligible probability. The absence of prior evidence is not evidence of impossibility. Design around the consequences of being wrong, not merely the probability that you are right.",
+      fr: "Pourquoi des événements rares et lourds de conséquences dominent l'histoire alors même que les modèles conventionnels les ignorent. Après un événement extrême, les institutions construisent des explications qui le font paraître prévisible ; avant, ces mêmes institutions lui assignaient une probabilité négligeable. L'absence de preuve antérieure n'est pas une preuve d'impossibilité. Concevez en fonction des conséquences d'avoir tort, et non seulement de la probabilité d'avoir raison."
+    } },
+  { n: 21, s: "uncertainty", ph: 7, ord: 1, h: [5, 8],
+    title: "The Bed of Procrustes", author: "Nassim Nicholas Taleb", year: 2010,
+    titleFr: "Le lit de Procuste", fr: "published",
+    note: {
+      en: "The title refers to the figure who forced travellers to fit his bed by stretching or amputating them. Taleb uses it for institutions that mutilate reality until it fits a theory, metric, model, mandate or ideology. Best read slowly; the aphorisms become more useful as you accumulate real-world experience.",
+      fr: "Le titre renvoie au personnage qui forçait les voyageurs à s'ajuster à son lit en les étirant ou en les amputant. Taleb l'applique aux institutions qui mutilent le réel jusqu'à ce qu'il entre dans une théorie, un indicateur, un modèle, un mandat ou une idéologie. À lire lentement ; les aphorismes gagnent en utilité à mesure que l'expérience du terrain s'accumule."
+    } },
+  { n: 22, s: "uncertainty", ph: 2, ord: 3, h: [16, 20],
+    title: "Antifragile", author: "Nassim Nicholas Taleb", year: 2012,
+    titleFr: "Antifragile", fr: "published",
+    note: {
+      en: "Resilience means surviving disorder. Antifragility means improving because of it. This is where Taleb moves from prediction to design — systems that benefit from variation, redundancy, decentralisation, stress, experimentation and small failures. Highly optimised systems look efficient until a shock reveals that all their slack has been removed. Efficiency without survivability is hidden fragility.",
+      fr: "La résilience, c'est survivre au désordre. L'antifragilité, c'est s'améliorer grâce à lui. C'est ici que Taleb passe de la prédiction à la conception — des systèmes qui tirent parti de la variation, de la redondance, de la décentralisation, du stress, de l'expérimentation et des petits échecs. Les systèmes très optimisés paraissent efficaces jusqu'à ce qu'un choc révèle qu'on leur a retiré toute marge. L'efficacité sans capacité de survie est une fragilité cachée."
+    } },
+  { n: 23, s: "uncertainty", ph: 2, ord: 4, h: [9, 11],
+    title: "Skin in the Game", author: "Nassim Nicholas Taleb", year: 2018,
+    titleFr: "Jouer sa peau", fr: "published",
+    note: {
+      en: "Anyone who exercises authority, gives advice, designs policy or imposes risk should share exposure to the consequences. This is not only an ethical preference but an information mechanism: people decide differently when failure has personal cost. Systems become dangerous when decision-makers capture the upside and transfer the downside to others.",
+      fr: "Quiconque exerce une autorité, donne un conseil, conçoit une politique ou impose un risque devrait partager l'exposition aux conséquences. Ce n'est pas seulement une préférence éthique, c'est un mécanisme d'information : on décide autrement quand l'échec a un coût personnel. Les systèmes deviennent dangereux quand les décideurs captent le gain et transfèrent la perte aux autres."
+    } },
+
+  /* ---------- V. Liberty ---------- */
+  { n: 24, s: "liberty", ph: 2, ord: 1, h: [65, 80],
+    title: "Man, Economy, and State, with Power and Market", author: "Murray Rothbard", year: 1962,
+    titleFr: "L'homme, l'économie et l'État", fr: "unverified",
+    note: {
+      en: "The theoretical foundation. Rothbard starts from purposeful human action and builds a systematic account of value, exchange, prices, production, capital, interest, money, banking, monopoly, business cycles and government intervention. Power and Market extends it to taxation, regulation, price controls, monopoly grants and subsidies. The central lesson: a rule does not abolish the incentives or the scarcity it ignores — it redirects behaviour into evasion, substitution, black markets, corruption or failure.",
+      fr: "La fondation théorique. Rothbard part de l'action humaine intentionnelle et construit un exposé systématique de la valeur, de l'échange, des prix, de la production, du capital, de l'intérêt, de la monnaie, de la banque, du monopole, des cycles économiques et de l'intervention publique. Power and Market étend l'analyse à la fiscalité, à la réglementation, au contrôle des prix, aux concessions de monopole et aux subventions. La leçon centrale : une règle n'abolit pas les incitations ni la rareté qu'elle ignore — elle redirige les comportements vers le contournement, la substitution, le marché noir, la corruption ou l'échec."
+    } },
+  { n: 25, s: "liberty", ph: 2, ord: 2, h: [16, 20],
+    title: "The Ethics of Liberty", author: "Murray Rothbard", year: 1982,
+    titleFr: "L'éthique de la liberté", fr: "published",
+    note: {
+      en: "A normative framework built on self-ownership, property, consent, natural law, coercion, punishment and political authority. Economic efficiency alone cannot settle whether an action is just. The book forces you to identify the moral assumptions hidden inside political and economic arguments.",
+      fr: "Un cadre normatif fondé sur la propriété de soi, la propriété, le consentement, le droit naturel, la contrainte, la punition et l'autorité politique. L'efficacité économique seule ne peut trancher la justice d'une action. Le livre oblige à identifier les présupposés moraux dissimulés dans les arguments politiques et économiques."
+    } },
+  { n: 26, s: "liberty", ph: 4, ord: 1, h: [21, 27],
+    title: "Economic Thought Before Adam Smith", author: "Murray Rothbard", year: 1995, sub: "An Austrian Perspective, Vol. I",
+    titleFr: null, fr: "none",
+    note: {
+      en: "Ancient thought, medieval scholasticism, natural law, the Spanish scholastics, French economics, and the development of ideas about value, exchange, property, money and interest. It challenges the conventional story that economics began in recognisable form with Adam Smith and British classical economics. Read it as intellectual history and as revisionism at the same time.",
+      fr: "Pensée antique, scolastique médiévale, droit naturel, scolastiques espagnols, économie française, et développement des idées sur la valeur, l'échange, la propriété, la monnaie et l'intérêt. L'ouvrage conteste le récit conventionnel selon lequel l'économie serait née sous une forme reconnaissable avec Adam Smith et l'école classique britannique. À lire comme histoire des idées et comme révisionnisme à la fois."
+    } },
+  { n: 27, s: "liberty", ph: 4, ord: 2, h: [20, 26],
+    title: "Classical Economics", author: "Murray Rothbard", year: 1995, sub: "An Austrian Perspective, Vol. II",
+    titleFr: null, fr: "none",
+    note: {
+      en: "British classical economics, French liberalism, Marxism, utilitarianism, monetary debates and nineteenth-century political economy. Rothbard is sharpest against theoretical systems that replace subjective value and individual action with aggregates and mechanistic models. For anyone interested in Bitcoin, the two volumes supply the context for recurring arguments about sound money, monetary sovereignty, banking privilege, inflation and state power.",
+      fr: "Économie classique britannique, libéralisme français, marxisme, utilitarisme, débats monétaires et économie politique du XIXᵉ siècle. Rothbard est le plus incisif contre les systèmes théoriques qui remplacent la valeur subjective et l'action individuelle par des agrégats et des modèles mécanistes. Pour qui s'intéresse au Bitcoin, ces deux volumes fournissent le contexte des débats récurrents sur la monnaie saine, la souveraineté monétaire, le privilège bancaire, l'inflation et le pouvoir de l'État."
+    } },
+  { n: 28, s: "liberty", ph: 4, ord: 3, h: [18, 22],
+    title: "Conceived in Liberty, Vol. I", author: "Murray Rothbard", year: 1975,
+    titleFr: null, fr: "none",
+    note: {
+      en: "Colonial origins and the competing systems of settlement, religion, property, political control and local autonomy. The colonies did not emerge from one coherent project but from conflicting commercial, religious, imperial and local arrangements. Initial rules governing property and authority can shape political culture for centuries.",
+      fr: "Les origines coloniales et les systèmes concurrents de peuplement, de religion, de propriété, de contrôle politique et d'autonomie locale. Les colonies ne sont pas nées d'un projet cohérent unique mais d'arrangements commerciaux, religieux, impériaux et locaux contradictoires. Les règles initiales qui régissent la propriété et l'autorité peuvent façonner une culture politique pendant des siècles."
+    } },
+  { n: 29, s: "liberty", ph: 4, ord: 4, h: [10, 13],
+    title: "Conceived in Liberty, Vol. II", author: "Murray Rothbard", year: 1975,
+    titleFr: null, fr: "none",
+    note: {
+      en: "Colonial society during a period of relative imperial neglect. Local institutions, commerce and traditions of self-government developed partly because distant authority lacked the ability or the incentive to exercise constant control. Liberty often emerges not from centralised design but from spaces where centralised power is absent, divided, constrained or inattentive.",
+      fr: "La société coloniale pendant une période de relative négligence impériale. Les institutions locales, le commerce et les traditions d'autogouvernement se sont développés en partie parce que l'autorité lointaine n'avait ni les moyens ni l'intérêt d'exercer un contrôle constant. La liberté émerge souvent non d'une conception centralisée mais d'espaces où le pouvoir centralisé est absent, divisé, contraint ou inattentif."
+    } },
+  { n: 30, s: "liberty", ph: 4, ord: 5, h: [12, 16],
+    title: "Conceived in Liberty, Vol. III", author: "Murray Rothbard", year: 1976,
+    titleFr: null, fr: "none",
+    note: {
+      en: "The imperial crisis and the road to the American Revolution. Taxes, trade restrictions, military occupation, constitutional argument and competing theories of sovereignty turned administrative disputes into a struggle over first principles. A conflict over policy becomes revolutionary when institutions lose the ability to settle disagreement without escalating coercion.",
+      fr: "La crise impériale et le chemin vers la Révolution américaine. Impôts, restrictions commerciales, occupation militaire, argumentation constitutionnelle et théories concurrentes de la souveraineté ont transformé des différends administratifs en lutte sur les premiers principes. Un conflit de politique devient révolutionnaire quand les institutions perdent la capacité de trancher un désaccord sans escalade de la contrainte."
+    } },
+  { n: 31, s: "liberty", ph: 4, ord: 6, h: [16, 21],
+    title: "Conceived in Liberty, Vol. IV", author: "Murray Rothbard", year: 1979,
+    titleFr: null, fr: "none",
+    note: {
+      en: "Revolution, war, independence, and the problem of preserving liberty during a national emergency. Wars for freedom often centralise the very powers they were fought against: governments demand revenue, conscription, regulation, secrecy and executive authority in the name of survival. The tension between liberty and mobilisation is permanent.",
+      fr: "Révolution, guerre, indépendance et problème de la préservation de la liberté en situation d'urgence nationale. Les guerres pour la liberté centralisent souvent les pouvoirs mêmes qu'elles combattaient : les gouvernements exigent des recettes, la conscription, la réglementation, le secret et l'autorité exécutive au nom de la survie. La tension entre liberté et mobilisation est permanente."
+    } },
+  { n: 32, s: "liberty", ph: 4, ord: 7, h: [11, 14],
+    title: "Conceived in Liberty, Vol. V", author: "Murray Rothbard", year: 2019, sub: "The New Republic, 1784–1791",
+    titleFr: null, fr: "none",
+    note: {
+      en: "The postwar republic, the Constitution, centralisation and the Washington administration. It raises the foundational political question: how much centralised capacity is necessary to preserve order, and how much eventually threatens the liberty it was created to protect?",
+      fr: "La république d'après-guerre, la Constitution, la centralisation et l'administration Washington. Le volume pose la question politique fondamentale : quelle capacité centralisée est nécessaire pour préserver l'ordre, et à partir de quel point menace-t-elle la liberté qu'elle devait protéger ?"
+    } },
+
+  /* ---------- VI. Capital ---------- */
+  { n: 33, s: "capital", ph: 5, ord: 1, h: [24, 31],
+    title: "Titan", author: "Ron Chernow", year: 1998, sub: "The Life of John D. Rockefeller, Sr.",
+    titleFr: null, fr: "none",
+    note: {
+      en: "Rockefeller and the building of Standard Oil — industrial scale, vertical integration, operational discipline, logistics, accounting, pricing, competition, monopoly, reputation, philanthropy and public legitimacy. Rockefeller did not merely accumulate assets; he built an integrated system that cut costs, imposed standards, coordinated infrastructure and outlasted competitors. The same discipline that produced extraordinary efficiency produced extraordinary concentration of power.",
+      fr: "Rockefeller et la construction de la Standard Oil — échelle industrielle, intégration verticale, discipline opérationnelle, logistique, comptabilité, tarification, concurrence, monopole, réputation, philanthropie et légitimité publique. Rockefeller n'a pas seulement accumulé des actifs ; il a bâti un système intégré qui réduisait les coûts, imposait des standards, coordonnait les infrastructures et survivait à ses concurrents. La discipline même qui a produit une efficacité extraordinaire a produit une concentration de pouvoir extraordinaire."
+    } },
+  { n: 34, s: "capital", ph: 5, ord: 2, h: [24, 31],
+    title: "The House of Morgan", author: "Ron Chernow", year: 1990,
+    titleFr: null, fr: "none",
+    note: {
+      en: "The Morgan banking dynasty and the making of modern finance — the relationships between banks, corporations, governments, markets, central banks, wars, regulation and financial crises. The House of Morgan operated on the boundary between private institution and public utility, and its influence rested not only on capital but on trust, networks, information, discretion and reputation built across generations. The lives are interesting; the institutions matter more.",
+      fr: "La dynastie bancaire Morgan et la fabrique de la finance moderne — les relations entre banques, entreprises, gouvernements, marchés, banques centrales, guerres, réglementation et crises financières. La maison Morgan opérait à la frontière entre institution privée et service public, et son influence reposait non seulement sur le capital mais sur la confiance, les réseaux, l'information, la discrétion et une réputation bâtie sur plusieurs générations. Les vies sont intéressantes ; les institutions comptent davantage."
+    } },
+
+  /* ---------- VII. Energy ---------- */
+  { n: 35, s: "energy", ph: 5, ord: 3, h: [27, 36],
+    title: "The Prize", author: "Daniel Yergin", year: 1991, sub: "The Epic Quest for Oil, Money and Power",
+    titleFr: "Les hommes du pétrole", fr: "unverified",
+    note: {
+      en: "The history of oil and its entanglement with industrialisation, transport, warfare, national power and the world economy. Underneath the narrative sits a harder claim: modern civilization runs on energy abundance. Oil rewrote geography and geopolitics, creating corporations, reshaping military strategy, elevating some states and hollowing out others. Every financial and digital system remains grounded in the physical world — money coordinates claims on resources, and energy is what makes resources useful.",
+      fr: "L'histoire du pétrole et son enchevêtrement avec l'industrialisation, les transports, la guerre, la puissance des États et l'économie mondiale. Sous le récit se cache une thèse plus dure : la civilisation moderne repose sur l'abondance énergétique. Le pétrole a réécrit la géographie et la géopolitique, créant des entreprises, redessinant la stratégie militaire, élevant certains États et en vidant d'autres de leur substance. Tout système financier ou numérique reste ancré dans le monde physique — la monnaie coordonne des droits sur des ressources, et c'est l'énergie qui rend ces ressources utiles."
+    },
+    against: {
+      en: "Yergin writes history, not prophecy. Don't mistake the last century of energy for a template for the next.",
+      fr: "Yergin écrit de l'histoire, non de la prophétie. Ne confondez pas le siècle énergétique écoulé avec un modèle pour celui qui vient."
+    } },
+  { n: 36, s: "energy", ph: 1, ord: 4, h: [16, 22],
+    title: "The Beginning of Infinity", author: "David Deutsch", year: 2011,
+    titleFr: null, fr: "none",
+    note: {
+      en: "Explanation, criticism, fallibility, knowledge creation, and the conditions under which progress can continue. Problems are inevitable; solutions are not guaranteed — but they keep emerging wherever institutions permit conjecture, experiment, criticism and error correction. Progress is neither automatic nor bounded. It depends on a culture where bad explanations can be challenged and better ones can displace them.",
+      fr: "L'explication, la critique, la faillibilité, la création de connaissance et les conditions dans lesquelles le progrès peut se poursuivre. Les problèmes sont inévitables ; les solutions ne sont pas garanties — mais elles continuent d'émerger partout où les institutions autorisent la conjecture, l'expérimentation, la critique et la correction des erreurs. Le progrès n'est ni automatique ni borné. Il dépend d'une culture où les mauvaises explications peuvent être contestées et remplacées par de meilleures."
+    },
+    against: {
+      en: "His optimism is conditional, not assured. It holds only where institutions permit criticism and correction.",
+      fr: "Son optimisme est conditionnel, non acquis. Il ne tient que là où les institutions permettent la critique et la correction."
+    } },
+  { n: 37, s: "energy", ph: 6, ord: 1, h: [9, 12],
+    title: "The Mobile Wave", author: "Michael Saylor", year: 2012,
+    titleFr: null, fr: "none",
+    note: {
+      en: "Saylor includes his own book with stated hesitation, for one reason: it is an applied exercise in reasoning from first principles. Written in 2012, it asked what would follow when computing went mobile, software dematerialised products and services, and billions of people gained continuous access to networked intelligence. The wider lesson: digital transformation rarely leaves an institution intact and merely faster. It usually dematerialises the institution, redistributes power, changes the economics, and produces something structurally different.",
+      fr: "Saylor inclut son propre livre en s'en excusant, pour une raison précise : c'est un exercice appliqué de raisonnement à partir des premiers principes. Écrit en 2012, il posait la question de ce qui suivrait lorsque l'informatique deviendrait mobile, que le logiciel dématérialiserait produits et services, et que des milliards de personnes accéderaient en continu à une intelligence en réseau. La leçon plus large : une transformation numérique laisse rarement une institution intacte et simplement plus rapide. Le plus souvent, elle la dématérialise, redistribue le pouvoir, en change l'économie et produit autre chose."
+    },
+    against: {
+      en: "Read it as an auditable forecast, not an authority. Ask which predictions held, which were incomplete, which second-order effects were missed, and which analytical methods proved useful. Judge it against the world that actually followed.",
+      fr: "Lisez-le comme une prévision auditable, non comme une autorité. Demandez quelles prédictions ont tenu, lesquelles étaient incomplètes, quels effets de second ordre ont été manqués et quelles méthodes d'analyse se sont révélées utiles. Jugez-le à l'aune du monde qui a effectivement suivi."
+    } },
+
+  /* ---------- VIII. Money ---------- */
+  { n: 38, s: "money", ph: 6, ord: 2, h: [10, 13],
+    title: "The Bitcoin Standard", author: "Saifedean Ammous", year: 2018,
+    titleFr: "L'étalon Bitcoin", fr: "published",
+    note: {
+      en: "Bitcoin placed inside the history of monetary technologies — why societies adopted shells, stones, metals, coins, gold, paper claims, government currency and eventually digital money; what properties let a good carry value across time and space; and what happens when a monetary system can be expanded or manipulated by privileged institutions. It then presents Bitcoin as digital hard money: scarce, global, decentralised, and governed by protocol rather than political discretion.",
+      fr: "Le Bitcoin replacé dans l'histoire des technologies monétaires — pourquoi les sociétés ont adopté coquillages, pierres, métaux, pièces, or, créances papier, monnaie d'État puis monnaie numérique ; quelles propriétés permettent à un bien de transporter de la valeur dans le temps et l'espace ; et ce qui se produit lorsqu'un système monétaire peut être étendu ou manipulé par des institutions privilégiées. Il présente ensuite le Bitcoin comme une monnaie forte numérique : rare, mondiale, décentralisée, gouvernée par un protocole plutôt que par la discrétion politique."
+    },
+    against: {
+      en: "Its greatest contribution is the monetary framework. Treat its broader cultural conclusions as arguments rather than universal laws, and test the whole against the white paper, the code, the network, monetary history and competing theories of money.",
+      fr: "Sa plus grande contribution est le cadre monétaire. Traitez ses conclusions culturelles plus larges comme des arguments et non des lois universelles, et confrontez l'ensemble au livre blanc, au code, au réseau, à l'histoire monétaire et aux théories concurrentes de la monnaie."
+    } }
+];
+
+const COUNTERWEIGHTS = [
+  { id: "cw1", s: "war", ph: 3, ord: 10,
+    title: "On War", author: "Carl von Clausewitz", year: 1832,
+    titleFr: "De la guerre", fr: "published",
+    note: {
+      en: "Read at least the major sections on the nature of war, political purpose, friction, uncertainty, and the relationship between defence and offence. Clausewitz is the necessary counterweight to Keegan: a leader must understand both war's rational strategic purpose and its tendency to escape rational control.",
+      fr: "Lisez au moins les grandes sections sur la nature de la guerre, la finalité politique, la friction, l'incertitude et le rapport entre défense et offensive. Clausewitz est le contrepoids nécessaire à Keegan : un dirigeant doit comprendre à la fois la finalité stratégique rationnelle de la guerre et sa tendance à échapper au contrôle rationnel."
+    } },
+  { id: "cw2", s: "liberty", ph: 4, ord: 8,
+    title: "The Federalist Papers", author: "Hamilton, Madison & Jay", year: 1788,
+    titleFr: "Le Fédéraliste", fr: "published",
+    note: {
+      en: "The strongest original arguments for the Constitution, federal power, institutional checks, representative government and the management of faction. The natural counterweight to Rothbard's account of the Constitution and the early federal government.",
+      fr: "Les arguments originaux les plus forts en faveur de la Constitution, du pouvoir fédéral, des contre-pouvoirs institutionnels, du gouvernement représentatif et de la gestion des factions. Le contrepoids naturel au récit que fait Rothbard de la Constitution et des débuts du gouvernement fédéral."
+    } },
+  { id: "cw3", s: "liberty", ph: 4, ord: 9,
+    title: "Democracy in America", author: "Alexis de Tocqueville", year: 1835,
+    titleFr: "De la démocratie en Amérique", fr: "original",
+    note: {
+      en: "Democratic equality, civil society, religion, local government, individualism, majority power, associations and administrative centralisation. Tocqueville explains both the productive strength of democratic society and the subtle pressures toward conformity and dependency.",
+      fr: "L'égalité démocratique, la société civile, la religion, le gouvernement local, l'individualisme, le pouvoir de la majorité, les associations et la centralisation administrative. Tocqueville explique à la fois la force productive de la société démocratique et les pressions subtiles vers le conformisme et la dépendance."
+    } },
+  { id: "cw4", s: "money", ph: 6,
+    title: "What Has Government Done to Our Money?", author: "Murray Rothbard", year: 1963,
+    titleFr: "L'État, qu'a-t-il fait de notre monnaie ?", fr: "unverified",
+    note: {
+      en: "The most accessible entry into Rothbard's monetary thought. It introduces the development of money, inflation, banking, monetary competition and government control over currency.",
+      fr: "La porte d'entrée la plus accessible à la pensée monétaire de Rothbard. Il y introduit le développement de la monnaie, l'inflation, la banque, la concurrence monétaire et le contrôle de la monnaie par l'État."
+    } },
+  { id: "cw5", s: "money", ph: 6,
+    title: "The Mystery of Banking", author: "Murray Rothbard", year: 1983,
+    titleFr: null, fr: "none",
+    note: {
+      en: "A more detailed account of commercial banking, central banking, reserves, credit expansion and monetary intervention.",
+      fr: "Un exposé plus détaillé de la banque commerciale, de la banque centrale, des réserves, de l'expansion du crédit et de l'intervention monétaire."
+    } },
+  { id: "cw6", s: "money", ph: 6, ord: 3, primary: true,
+    title: "Bitcoin: A Peer-to-Peer Electronic Cash System", author: "Satoshi Nakamoto", year: 2008,
+    titleFr: "Bitcoin : un système de monnaie électronique pair-à-pair", fr: "published",
+    note: {
+      en: "The white paper is not a substitute for understanding the functioning network, but it is the primary conceptual specification. A technological system should ultimately be studied through its original design, implementation, operation and incentives — not merely through commentary about it.",
+      fr: "Le livre blanc ne remplace pas la compréhension du réseau en fonctionnement, mais il est la spécification conceptuelle primaire. Un système technologique doit en dernier ressort être étudié à travers sa conception d'origine, son implémentation, son fonctionnement et ses incitations — et non seulement à travers les commentaires qu'on en fait."
+    } }
+];
+
+
+/* ================= STATE ================= */
+const S = {
+  tab:"browse", lang:"en", view:"theme", theme:"codex",
+  read:new Set(), open:null, sel:null,
+  cfg:null, sched:null, byDate:null, done:new Set(), calY:null, calM:null,
+  draft:{ start:null, cadence:"daily", hours:2 }
+};
+const ACC = ["--a1","--a2","--a3","--a4","--a5","--a6","--a7","--a8"];
+const t = () => UI[S.lang];
+const L = o => (o && typeof o === "object") ? (o[S.lang] ?? o.en) : o;
+const el = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const TOTAL_MIN = BOOKS.reduce((a,b)=>a+b.h[0],0);
+const TOTAL_MAX = BOOKS.reduce((a,b)=>a+b.h[1],0);
+const secIndex = id => SECTIONS.findIndex(s=>s.id===id);
+const accentOf = sid => `var(${ACC[secIndex(sid)] || "--a1"})`;
+
+/* groups = the current axis (8 themes or 7 phases) */
+function groups(){
+  if (S.view === "theme") {
+    return SECTIONS.map((s,i)=>({
+      key:s.id, kind:"section", label:s.numeral, accent:`var(${ACC[i]})`,
+      title:L(s.title), anchor:L(s.anchor), teaser:L(s.teaser), intro:L(s.intro), against:L(s.readAgainst),
+      books:BOOKS.filter(b=>b.s===s.id),
+      cws:COUNTERWEIGHTS.filter(c=>c.s===s.id), seq:null
+    }));
+  }
+  return PHASES.map(p=>{
+    const bks = BOOKS.filter(b=>b.ph===p.n);
+    const allCw = COUNTERWEIGHTS.filter(c=>c.ph===p.n);
+    const acc = bks.length ? accentOf(bks[0].s) : "var(--a1)";
+    const seq = [
+      ...bks.map(b=>({item:b, ord:b.ord, isCw:false, isReread:false})),
+      ...allCw.filter(c=>c.ord).map(c=>({item:c, ord:c.ord, isCw:true, isReread:false})),
+      ...(p.reread||[]).map(r=>({item:BOOKS.find(b=>b.n===r.n), ord:r.ord, isCw:false, isReread:true}))
+    ].sort((a,b)=>a.ord-b.ord);
+    return {
+      key:p.id, kind:"phase", label:String(p.n), accent:acc,
+      title:L(p.title), anchor:"", teaser:L(p.note).split(/(?<=\.)\s/)[0], intro:L(p.note), against:"",
+      books:bks, cws:allCw.filter(c=>!c.ord), seq
+    };
+  });
+}
+const H = bks => bks.reduce((a,b)=>a+b.h[1],0);
+
+/* ===================================================================
+   MODULE: PERSIST
+   Uses the artifact key-value store when available, memory otherwise.
+   TO DEPLOY AS A NORMAL WEBSITE: replace the two bodies below with
+     localStorage.getItem(k) / localStorage.setItem(k, JSON.stringify(v))
+   =================================================================== */
+const MEM = {};
+const Persist = {
+  async get(k){
+    try{ if(window.storage){ const r = await window.storage.get(k); return r ? JSON.parse(r.value) : null; } }catch(e){}
+    return MEM[k] ?? null;
+  },
+  async set(k,v){
+    try{ if(window.storage){ await window.storage.set(k, JSON.stringify(v)); return; } }catch(e){}
+    MEM[k]=v;
+  }
+};
+const KEY="curriculum:v1";
+function saveState(){
+  Persist.set(KEY,{cfg:S.cfg,done:[...S.done],read:[...S.read],lang:S.lang,theme:S.theme,view:S.view});
+}
+async function loadState(){
+  const d = await Persist.get(KEY); if(!d) return;
+  if(d.lang) S.lang=d.lang;
+  if(d.view) S.view=d.view;
+  if(d.theme){ S.theme=d.theme; document.documentElement.dataset.theme=d.theme;
+    [...el("themes").children].forEach(b=>b.setAttribute("aria-pressed", b.dataset.t===d.theme)); }
+  if(Array.isArray(d.read)) S.read=new Set(d.read);
+  if(Array.isArray(d.done)) S.done=new Set(d.done);
+  if(d.cfg){ S.cfg=d.cfg; S.draft={...d.cfg}; applySchedule(buildSchedule(d.cfg)); }
+}
+
+/* ===================================================================
+   MODULE: SCHEDULE  — pure functions, no DOM
+   =================================================================== */
+const iso     = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const fromIso = v => { const [y,m,d]=v.split("-").map(Number); return new Date(y,m-1,d); };
+const addDays = (d,n) => { const x=new Date(d); x.setDate(x.getDate()+n); return x; };
+const todayIso= () => iso(new Date());
+
+/* the full curriculum flattened into Saylor's reading order */
+function readingLine(){
+  const out=[];
+  PHASES.forEach(p=>{
+    [
+      ...BOOKS.filter(b=>b.ph===p.n).map(b=>({kind:"book",   ord:b.ord, n:b.n, hours:b.h[1], s:b.s})),
+      ...COUNTERWEIGHTS.filter(c=>c.ph===p.n&&c.ord).map(c=>({kind:"cw", ord:c.ord, id:c.id, hours:0, s:c.s})),
+      ...(p.reread||[]).map(r=>{ const b=BOOKS.find(x=>x.n===r.n);
+          return {kind:"reread", ord:r.ord, n:b.n, hours:b.h[1], s:b.s}; })
+    ].sort((a,b)=>a.ord-b.ord).forEach(it=>out.push({...it, phase:p.n}));
+  });
+  return out;
+}
+
+/* split the reading line into fixed-length sessions, then date them */
+function buildSchedule(cfg){
+  const per=cfg.hours, sessions=[];
+  let cur={parts:[],hours:0};
+  const flush=()=>{ if(cur.parts.length){ sessions.push(cur); cur={parts:[],hours:0}; } };
+
+  readingLine().forEach(it=>{
+    if(it.hours===0){                                  /* untimed companion text */
+      const tgt = cur.parts.length ? cur : (sessions[sessions.length-1] || cur);
+      tgt.parts.push({...it, marker:true});
+      if(tgt===cur && !sessions.length && !cur.hours) {}
+      return;
+    }
+    let placed=0;
+    while(placed<it.hours){
+      const take=Math.min(per-cur.hours, it.hours-placed);
+      cur.parts.push({...it, from:placed, to:placed+take, take});
+      cur.hours+=take; placed+=take;
+      if(cur.hours>=per) flush();
+    }
+  });
+  flush();
+
+  let d=fromIso(cfg.start);
+  const skipWeekend = () => { while(d.getDay()===0||d.getDay()===6) d=addDays(d,1); };
+  if(cfg.cadence==="weekdays") skipWeekend();
+  sessions.forEach((ss,i)=>{
+    ss.i=i; ss.date=iso(d);
+    if(cfg.cadence==="weekly") d=addDays(d,7);
+    else { d=addDays(d,1); if(cfg.cadence==="weekdays") skipWeekend(); }
+  });
+  return sessions;
+}
+
+function applySchedule(sched){
+  S.sched=sched;
+  S.byDate=new Map(sched.map(x=>[x.date,x]));
+}
+function spanLabel(a,b){
+  const T=t(), A=fromIso(a), B=fromIso(b);
+  let m=(B.getFullYear()-A.getFullYear())*12+(B.getMonth()-A.getMonth());
+  if(B.getDate()<A.getDate()) m--;
+  m=Math.max(m,0);
+  const y=Math.floor(m/12), mm=m%12;
+  return (y?`${y}${T.yearsShort} `:"")+`${mm} ${T.monthsShort}`;
+}
+function schedStats(sched){
+  const total=sched.length;
+  const doneN=sched.filter(x=>S.done.has(x.date)).length;
+  const hours=sched.reduce((a,x)=>a+x.hours,0);
+  const doneH=sched.filter(x=>S.done.has(x.date)).reduce((a,x)=>a+x.hours,0);
+  const tI=todayIso();
+  const due=sched.filter(x=>x.date<=tI).length;
+  return {total,doneN,hours,doneH,due,delta:doneN-due,start:sched[0].date,end:sched[total-1].date};
+}
+
+/* ===== progress sync between sessions and books ===== */
+function syncBooks(){
+  if(!S.sched) return;
+  const map=new Map();
+  S.sched.forEach(x=>x.parts.forEach(pt=>{
+    if(pt.kind!=="book") return;
+    if(!map.has(pt.n)) map.set(pt.n,[]);
+    map.get(pt.n).push(x.date);
+  }));
+  map.forEach((dates,n)=>{ dates.every(d=>S.done.has(d)) ? S.read.add(n) : S.read.delete(n); });
+}
+function setSessionDone(date,on){
+  on ? S.done.add(date) : S.done.delete(date);
+  syncBooks(); saveState();
+}
+function setBookRead(n,on){
+  on ? S.read.add(n) : S.read.delete(n);
+  if(S.sched) S.sched.forEach(x=>{
+    if(!x.parts.some(pt=>pt.kind==="book"&&pt.n===n)) return;
+    if(on){ if(x.parts.filter(pt=>pt.kind==="book").every(pt=>S.read.has(pt.n))) S.done.add(x.date); }
+    else S.done.delete(x.date);
+  });
+  saveState();
+}
+const titleOf = it => {
+  const src = it.kind==="cw" ? COUNTERWEIGHTS.find(c=>c.id===it.id) : BOOKS.find(b=>b.n===it.n);
+  return S.lang==="fr" && src.titleFr && src.fr!=="none" ? src.titleFr : src.title;
+};
+const srcOf = it => it.kind==="cw" ? COUNTERWEIGHTS.find(c=>c.id===it.id) : BOOKS.find(b=>b.n===it.n);
+const fmtDate = (v,opt) => fromIso(v).toLocaleDateString(S.lang==="fr"?"fr-FR":"en-GB",
+  opt||{day:"numeric",month:"short",year:"numeric"});
+const readHrs = bks => bks.filter(b=>S.read.has(b.n)).reduce((a,b)=>a+b.h[1],0);
+
+/* ================= RENDER: HOME ================= */
+function renderStatic(){
+  const T=t();
+  document.documentElement.lang = S.lang;
+  el("mk").textContent = S.lang==="en" ? "Curriculum" : "Curriculum";
+  el("lang").textContent = T.lang;
+  el("kicker").textContent = T.kicker;
+  el("h1").textContent = T.title;
+  el("sub").textContent = T.subtitle;
+  el("lede").textContent = T.lede;
+  el("tabBrowse").textContent = T.tabBrowse;
+  el("tabCal").textContent = T.tabCalendar;
+  el("vTheme").textContent = T.byTheme;
+  el("vPhase").textContent = T.inOrder;
+  el("hint").textContent = T.scaleHint;
+  el("reset").textContent = T.resetProgress;
+  el("paceLbl").textContent = T.pace;
+  el("paceNote").textContent = T.paceNote;
+  el("src").textContent = T.sourceNote;
+  el("srcLink").textContent = T.sourceLink;
+  document.title = T.title;
+
+  el("stats").innerHTML = [
+    [BOOKS.length, T.works],
+    [TOTAL_MAX, T.hours],
+    [S.view==="theme"?SECTIONS.length:PHASES.length, S.view==="theme"?T.themes:T.phases]
+  ].map(([n,l])=>`<div class="stat"><div class="n">${n}</div><div class="l eyebrow">${esc(l)}</div></div>`).join("");
+
+  el("paceGrid").innerHTML = T.paceRows
+    .map(([k,v])=>`<div class="pace-cell"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join("");
+}
+
+function renderHome(){
+  const T=t(), G=groups();
+  el("vTheme").setAttribute("aria-pressed", S.view==="theme");
+  el("vPhase").setAttribute("aria-pressed", S.view==="phase");
+
+  const doneH = BOOKS.filter(b=>S.read.has(b.n)).reduce((a,b)=>a+b.h[1],0);
+  const doneN = BOOKS.filter(b=>S.read.has(b.n)).length;
+  el("progNum").textContent = doneH;
+  el("progRest").innerHTML = `/ ${TOTAL_MAX} ${esc(T.hoursRead)} · ${doneN}/${BOOKS.length} ${esc(T.works)}`;
+
+  /* overall bar: one segment per part, width true to its share of total hours */
+  el("obar").innerHTML = G.map(g=>{
+    const mx=H(g.books);
+    const fill = mx ? (readHrs(g.books)/mx)*100 : 0;
+    return `<span class="oseg" style="--c:${g.accent};flex:0 0 ${(mx/TOTAL_MAX)*100}%"
+      title="${esc(g.title)} — ${mx} ${esc(T.hours)}"><i style="--f:${fill}%"></i></span>`;
+  }).join("");
+
+  /* cards: bar length proportional to the largest part */
+  const maxH = Math.max(...G.map(g=>H(g.books)));
+  el("cards").innerHTML = G.map(g=>{
+    const mx=H(g.books);
+    const readN = g.books.filter(b=>S.read.has(b.n)).length;
+    const fill = mx ? (readHrs(g.books)/mx)*100 : 0;
+    const width = Math.max((mx/maxH)*100, 2.4);
+    return `<button class="card" data-k="${g.key}" style="--c:${g.accent}">
+      <span class="cn">${esc(g.label)}</span>
+      <span><span class="ct">${esc(g.title)}</span>${g.anchor?`<div class="ca">${esc(g.anchor)}</div>`:""}</span>
+      <span class="cm"><b>${mx}h</b><br>${g.books.length} ${esc(T.works)}${g.cws.length?` + ${g.cws.length}`:""}</span>
+      <span class="cd">${esc(g.teaser)}</span>
+      <span class="cbar">
+        <span class="crail"><span class="ctrack" style="--w:${width}%"><i style="--f:${fill}%"></i></span></span>
+        <span class="cpct">${readN?`<b>${readN}/${g.books.length}</b>`:`0/${g.books.length}`}</span>
+      </span>
+    </button>`;
+  }).join("");
+}
+
+/* ================= RENDER: DETAIL ================= */
+function frTag(b){
+  const T=t();
+  if(b.fr==="published") return `<span class="tag fr-yes">FR</span>`;
+  if(b.fr==="original")  return `<span class="tag fr-yes">FR</span>`;
+  if(b.fr==="unverified")return `<span class="tag fr-maybe">FR ?</span>`;
+  return `<span class="tag">EN</span>`;
+}
+function frLine(b){
+  const T=t();
+  if(b.fr==="original")   return `${T.frOriginal} · ${b.titleFr}`;
+  if(b.fr==="published")  return `${T.frEdition} : ${b.titleFr}`;
+  if(b.fr==="unverified") return `${T.frUnverified}${b.titleFr?` : ${b.titleFr}`:""}`;
+  return T.frNone;
+}
+
+function renderDetail(key){
+  const T=t(), G=groups(), i=G.findIndex(g=>g.key===key), g=G[i];
+  if(!g) return home();
+  const mx=H(g.books);
+  const pct = mx ? (readHrs(g.books)/mx)*100 : 0;
+
+  const bookCard = b => `<button class="bk" data-b="${b.n}" data-read="${S.read.has(b.n)}" style="--c:${accentOf(b.s)}">
+      <span class="done"><svg viewBox="0 0 12 12"><path d="M2 6.3 4.7 9 10 3.4"/></svg></span>
+      <span class="top"><span class="idx">${String(b.n).padStart(2,"0")}</span><span class="hrs">${b.h[1]}h</span></span>
+      <h3>${esc(S.lang==="fr" && b.titleFr && b.fr!=="none" ? b.titleFr : b.title)}</h3>
+      ${b.sub?`<span class="sb">${esc(b.sub)}</span>`:""}
+      <span class="au">${esc(b.author)}</span>
+      <span class="foot">${frTag(b)}<span class="tag ph">${esc(T.phaseLabel)} ${b.ph}</span></span>
+    </button>`;
+
+  const cwCard = c => `<button class="cw" data-c="${c.id}" style="--c:${accentOf(c.s)}">
+      <span class="eyebrow" style="color:var(--c)">${esc(T.counterweight)}</span>
+      <h4>${esc(S.lang==="fr" && c.titleFr ? c.titleFr : c.title)}</h4>
+      <span class="au">${esc(c.author)}</span>
+    </button>`;
+
+  const seqRow = e => {
+    const it=e.item, cw=e.isCw;
+    const title = S.lang==="fr" && it.titleFr && it.fr!=="none" ? it.titleFr : it.title;
+    return `<button class="srow${cw?" iscw":""}" data-${cw?"c":"b"}="${cw?it.id:it.n}"
+        data-read="${!cw && !e.isReread && S.read.has(it.n)}" style="--c:${accentOf(it.s)}">
+      <span class="sn">${String(e.ord).padStart(2,"0")}</span>
+      <span><span class="st">${esc(title)}</span>${it.sub?`<div class="ssub">${esc(it.sub)}</div>`:""}<div class="sa">${esc(it.author)}</div></span>
+      <span class="sm">${cw?"—":`${it.h[1]}h`}</span>
+      <span class="stags">
+        ${e.isReread?`<span class="tag" style="color:var(--c);border-color:var(--c)">${esc(T.reread)}</span>`:""}
+        ${cw?`<span class="tag" style="color:var(--c);border-color:var(--c)">${esc(T.counterweight)}</span>`
+            :`<span class="tag">${esc(T.work)} ${it.n}</span>`}
+        ${frTag(it)}
+      </span>
+    </button>`;
+  };
+
+  const listing = g.seq
+    ? `<div class="seqhd"><span class="eyebrow" style="color:${g.accent}">${esc(T.readingOrder)}</span></div>
+       <div class="seq">${g.seq.map(seqRow).join("")}</div>`
+    : `<div class="books">${g.books.map(bookCard).join("")}</div>`;
+
+  const prev = G[i-1], next = G[i+1];
+
+  el("detailIn").innerHTML = `
+    <button class="back" id="backBtn">← ${esc(S.view==="theme"?T.back:T.backPhase)}</button>
+    <div class="shd" style="--c:${g.accent}">
+      <div class="num">${esc(S.view==="theme"?T.sectionLabel:T.phaseLabel)} ${esc(g.label)}</div>
+      <h2>${esc(g.title)}</h2>
+      ${g.anchor?`<div class="anchor">${esc(g.anchor)}</div>`:""}
+      <div class="meter">
+        <span class="lbl">${g.books.length} ${esc(T.works)}</span>
+        <span class="tick"><i style="--w:${pct}%"></i></span>
+        <span class="lbl">${mx} ${esc(T.hours)}</span>
+      </div>
+    </div>
+    <p class="prose">${esc(g.intro)}</p>
+    ${listing}
+    ${g.cws.length?`<div class="cw-hd"><span class="eyebrow">${esc(T.counterweights)}</span>
+      <p>${esc(T.counterweightNote)}</p></div><div class="cws">${g.cws.map(cwCard).join("")}</div>`:""}
+    ${g.against?`<div class="against" style="--c:${g.accent}"><span class="eyebrow">${esc(T.readAgainst)}</span><p>${esc(g.against)}</p></div>`:""}
+    <div class="pager">
+      ${prev?`<button data-k="${prev.key}"><span class="eyebrow">←</span><span class="t">${esc(prev.title)}</span></button>`:"<span></span>"}
+      ${next?`<button data-k="${next.key}"><span class="eyebrow">→</span><span class="t">${esc(next.title)}</span></button>`:"<span></span>"}
+    </div>`;
+
+  el("home").style.display="none";
+  el("detail").style.display="block";
+  S.sel = key;
+  window.scrollTo({top:0,behavior:"auto"});
+}
+
+/* ===================================================================
+   VIEW: CALENDAR
+   =================================================================== */
+function renderCalendar(){ S.sched ? renderCalView() : renderSetup(); }
+
+function renderSetup(){
+  const T=t(), d=S.draft;
+  if(!d.start) d.start=todayIso();
+  const preview=buildSchedule({start:d.start,cadence:d.cadence,hours:d.hours});
+  const end=preview[preview.length-1].date;
+  const span=spanLabel(d.start,end);
+  const years=(fromIso(end)-fromIso(d.start))/(365.25*864e5);
+  el("calRoot").innerHTML=`
+    <section class="calhead">
+      <div class="eyebrow">${esc(T.tabCalendar)}</div>
+      <h1>${esc(T.calTitle)}</h1>
+      <p>${esc(T.calLede)}</p>
+    </section>
+    <div class="setup">
+      <div class="fld"><span class="eyebrow">${esc(T.startDate)}</span>
+        <input type="date" id="fStart" value="${d.start}"></div>
+      <div class="fld"><span class="eyebrow">${esc(T.cadence)}</span><div class="opts">
+        ${[["daily",T.cadDaily],["weekdays",T.cadWeekdays],["weekly",T.cadWeekly]].map(([k,l])=>
+          `<button class="opt" data-cad="${k}" aria-pressed="${d.cadence===k}">${esc(l)}</button>`).join("")}
+      </div></div>
+      <div class="fld"><span class="eyebrow">${esc(T.perSession)}</span><div class="opts">
+        ${[1,2,3,5,8].map(h=>`<button class="opt" data-hrs="${h}" aria-pressed="${d.hours===h}">${h} h</button>`).join("")}
+      </div></div>
+      <div class="calsum">
+        <div><div class="k">${esc(T.sessions)}</div><div class="v">${preview.length}</div></div>
+        <div><div class="k">${esc(T.finishes)}</div><div class="v">${esc(fmtDate(end))}</div></div>
+        <div><div class="k">${esc(T.span)}</div><div class="v">${esc(span)}</div></div>
+      </div>
+      ${years>=5?`<p class="warn">${esc(T.longWarn)}</p>`:""}
+      <button class="cta" id="genBtn">${esc(T.generate)}</button>
+    </div>`;
+}
+
+function renderCalView(){
+  const T=t(), sc=S.sched, st=schedStats(sc);
+  if(S.calY===null){
+    const nxt=sc.find(x=>!S.done.has(x.date)&&x.date>=todayIso()) || sc.find(x=>x.date>=todayIso()) || sc[0];
+    const d=fromIso(nxt.date); S.calY=d.getFullYear(); S.calM=d.getMonth();
+  }
+  const first=new Date(S.calY,S.calM,1);
+  const offset=(first.getDay()+6)%7;                 /* Monday-first */
+  const daysIn=new Date(S.calY,S.calM+1,0).getDate();
+  const rows=Math.ceil((offset+daysIn)/7);
+  const dow=[...Array(7)].map((_,i)=>
+    new Date(2024,0,1+i).toLocaleDateString(S.lang==="fr"?"fr-FR":"en-GB",{weekday:"short"}).slice(0,3));
+  const monthLabel=first.toLocaleDateString(S.lang==="fr"?"fr-FR":"en-GB",{month:"long",year:"numeric"});
+
+  let cells="";
+  for(let i=0;i<rows*7;i++){
+    const dayNum=i-offset+1;
+    const inMonth=dayNum>=1&&dayNum<=daysIn;
+    if(!inMonth){ cells+=`<div class="day out"></div>`; continue; }
+    const key=iso(new Date(S.calY,S.calM,dayNum));
+    const ses=S.byDate.get(key);
+    const isToday=key===todayIso();
+    if(!ses){ cells+=`<div class="day${isToday?" today":""}"><span class="dn">${dayNum}</span></div>`; continue; }
+    const lead=ses.parts.find(pt=>!pt.marker)||ses.parts[0];
+    const extra=ses.parts.filter(pt=>!pt.marker).length-1;
+    cells+=`<button class="day has${isToday?" today":""}" data-day="${key}" data-done="${S.done.has(key)}"
+        style="--c:${accentOf(lead.s)}">
+      <span class="dn">${dayNum}</span>
+      <span class="dot"></span>
+      <span class="chip">${esc(titleOf(lead))}${extra>0?` +${extra}`:""}</span>
+      <span class="dh">${ses.hours}h</span></button>`;
+  }
+
+  const monthSes=sc.filter(x=>{const d=fromIso(x.date);return d.getFullYear()===S.calY&&d.getMonth()===S.calM;});
+  const agenda=monthSes.length
+    ? monthSes.map(x=>{
+        const lead=x.parts.find(pt=>!pt.marker)||x.parts[0];
+        const extra=x.parts.filter(pt=>!pt.marker).length-1;
+        return `<button class="arow" data-day="${x.date}" data-done="${S.done.has(x.date)}" style="--c:${accentOf(lead.s)}">
+          <span class="ad">${esc(fmtDate(x.date,{day:"2-digit",month:"short"}))}</span>
+          <span class="at">${esc(titleOf(lead))}${extra>0?` <span style="color:var(--faint)">+${extra}</span>`:""}</span>
+          <span class="ah">${x.hours}h</span></button>`;}).join("")
+    : `<p class="empty">${esc(T.emptyMonth)}</p>`;
+
+  const pct=st.total?Math.round(st.doneN/st.total*100):0;
+  const pill=st.delta<0
+    ? `<span class="pill bad">${Math.abs(st.delta)} ${esc(T.behindBy)}</span>`
+    : `<span class="pill ok">${st.delta>0?`${st.delta} ${esc(T.aheadBy)}`:esc(T.onTrack)}</span>`;
+
+  el("calRoot").innerHTML=`
+    <section class="calhead" style="padding-bottom:.4rem">
+      <div class="eyebrow">${esc(T.calProgress)}</div>
+      <h1 style="font-size:clamp(1.5rem,3.6vw,2.1rem)">${st.doneN} / ${st.total} ${esc(T.sessionsDone)}</h1>
+    </section>
+    <div class="calsum">
+      <div><div class="k">${esc(T.hours)}</div><div class="v">${st.doneH}<small> / ${st.hours}</small></div></div>
+      <div><div class="k">${esc(T.finishes)}</div><div class="v">${esc(fmtDate(st.end))}</div></div>
+      <div><div class="k">${esc(T.span)}</div><div class="v">${esc(spanLabel(st.start,st.end))}</div></div>
+      <div><div class="k">${esc(T.today)}</div><div class="v" style="font-size:1rem;padding-top:.25rem">${pill}</div></div>
+    </div>
+    <div class="obar" style="margin-bottom:.4rem"><span class="oseg" style="--c:var(--brass);flex:0 0 100%"><i style="--f:${pct}%"></i></span></div>
+    <div class="calnav">
+      <button class="nav-b" data-mo="-1" aria-label="prev">‹</button>
+      <button class="nav-b" data-mo="1" aria-label="next">›</button>
+      <span class="mo">${esc(monthLabel)}</span>
+      <button class="linkbtn" id="todayBtn">${esc(T.jumpToday)}</button>
+      <span style="flex:1"></span>
+      <button class="linkbtn" id="regenBtn">${esc(T.regenerate)}</button>
+    </div>
+    <div class="calgrid">
+      ${dow.map(d=>`<div class="dow">${esc(d)}</div>`).join("")}
+      ${cells}
+    </div>
+    <div class="agenda"><h3>${esc(T.thisMonth)}</h3>${agenda}</div>`;
+}
+
+function openDay(key){
+  const T=t(), ses=S.byDate.get(key); if(!ses) return;
+  const done=S.done.has(key);
+  const parts=ses.parts.map(pt=>{
+    const src=srcOf(pt), acc=accentOf(pt.s);
+    if(pt.marker) return `<div class="dpart" style="--c:${acc}">
+        <div class="eyebrow" style="color:${acc}">${esc(T.alongside)}</div>
+        <div class="dt" style="margin-top:.35rem">${esc(titleOf(pt))}</div>
+        <div class="da">${esc(src.author)} · ${esc(T.untimed)}</div></div>`;
+    const total=src.h[1];
+    return `<div class="dpart" style="--c:${acc}">
+      <div class="dt">${esc(titleOf(pt))}${pt.kind==="reread"?` <span class="tag" style="color:${acc};border-color:${acc}">${esc(T.reread)}</span>`:""}</div>
+      <div class="da">${esc(src.author)}</div>
+      <div class="dr">${esc(T.hoursOf)} ${pt.from+1}–${pt.to} ${esc(T.ofWork)} ${total}</div>
+      <div class="prg"><i style="--o:${pt.from/total*100}%;--w:${pt.take/total*100}%"></i></div></div>`;
+  }).join("");
+
+  el("sheet").innerHTML=`
+    <button class="x" id="xBtn" aria-label="${esc(T.close)}">×</button>
+    <div class="body" style="padding:1.5rem">
+      <div class="crumb">
+        <span class="tag">${esc(T.session)} ${ses.i+1}</span>
+        <span class="tag">${ses.hours} ${esc(T.hours)}</span>
+        ${done?`<span class="tag" style="color:var(--a2);border-color:var(--a2)">${esc(T.markedDone)}</span>`:""}
+      </div>
+      <h2>${esc(fmtDate(key,{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</h2>
+      <div style="margin-top:1.2rem">${parts}</div>
+      <div class="acts">
+        <button class="btn pri" id="dayMark" data-day="${key}" data-on="${done}" style="--c:var(--a2)">
+          ${esc(done?T.markedDone:T.markDone)}</button>
+      </div>
+    </div>`;
+  el("ov").dataset.open="true";
+  document.body.style.overflow="hidden";
+  S.open={day:key};
+  el("xBtn").focus();
+}
+
+/* ================= MODAL ================= */
+function q(b){ return encodeURIComponent(`${b.title} ${b.author}`); }
+function openBook(item, isCw){
+  const T=t(), acc=accentOf(item.s), n = isCw ? "†" : String(item.n).padStart(2,"0");
+  const title = S.lang==="fr" && item.titleFr && item.fr!=="none" ? item.titleFr : item.title;
+  const isRead = !isCw && S.read.has(item.n);
+
+  el("sheet").innerHTML = `
+    <button class="x" id="xBtn" aria-label="${esc(T.close)}">×</button>
+    <div class="sheet-in">
+      <div class="tile" style="--c:${acc}">
+        <span class="ghost">${esc(n)}</span>
+        <span class="rule"></span>
+        <span class="tt">${esc(item.title)}</span>
+        <span class="ta">${esc(item.author)}</span>
+        <span class="ty">${item.year<0?`${Math.abs(item.year)} BCE`:item.year}</span>
+      </div>
+      <div class="body">
+        <div class="crumb">
+          ${isCw?`<span class="tag" style="color:${acc};border-color:${acc}">${esc(T.counterweight)}</span>`:`<span class="tag ph">${esc(T.phaseLabel)} ${item.ph}</span>`}
+          ${!isCw?`<span class="tag">${item.h[1]} ${esc(T.hours)}</span>`:""}
+          ${frTag(item)}
+        </div>
+        <h2>${esc(title)}</h2>
+        <div class="meta">${esc(item.author)}${item.sub?` · <i>${esc(item.sub)}</i>`:""}</div>
+        <div class="frline">${esc(frLine(item))}</div>
+        <div class="blk"><span class="eyebrow">${esc(T.quickNote)}</span><p>${esc(L(item.note))}</p></div>
+        ${item.against?`<div class="blk ag" style="--c:${acc}"><span class="eyebrow">${esc(T.readAgainst)}</span><p>${esc(L(item.against))}</p></div>`:""}
+        <div class="acts">
+          ${!isCw?`<button class="btn pri" id="mark" data-on="${isRead}" style="--c:${acc}">${esc(isRead?T.markedRead:T.markRead)}</button>`:""}
+          <a class="btn" target="_blank" rel="noopener" href="https://openlibrary.org/search?q=${q(item)}">${esc(T.openLibrary)}</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=bks&q=${q(item)}">${esc(T.googleBooks)}</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://www.amazon.com/s?k=${q(item)}">${esc(T.amazon)}</a>
+        </div>
+      </div>
+    </div>`;
+
+  el("ov").dataset.open="true";
+  document.body.style.overflow="hidden";
+  S.open = {item, isCw};
+  el("xBtn").focus();
+}
+function closeBook(){
+  el("ov").dataset.open="false";
+  document.body.style.overflow="";
+  S.open=null;
+}
+
+/* ================= NAV ================= */
+function showTab(name){
+  S.tab=name;
+  el("tab-browse").style.display   = name==="browse"   ? "block":"none";
+  el("tab-calendar").style.display = name==="calendar" ? "block":"none";
+  [...el("tabs").children].forEach(b=>b.setAttribute("aria-pressed", b.dataset.tab===name));
+  if(name==="calendar") renderCalendar();
+  window.scrollTo({top:0,behavior:"auto"});
+}
+function home(){
+  el("detail").style.display="none";
+  el("home").style.display="block";
+  S.sel=null; renderHome();
+}
+
+/* ================= EVENTS ================= */
+document.addEventListener("click", e=>{
+  /* ----- calendar ----- */
+  const tb = e.target.closest("#tabs button");
+  if(tb){ showTab(tb.dataset.tab); return; }
+
+  const cad = e.target.closest("[data-cad]");
+  if(cad){ S.draft.cadence=cad.dataset.cad; renderSetup(); return; }
+
+  const hrsBtn = e.target.closest("[data-hrs]");
+  if(hrsBtn){ S.draft.hours=+hrsBtn.dataset.hrs; renderSetup(); return; }
+
+  if(e.target.closest("#genBtn")){
+    S.cfg={...S.draft};
+    applySchedule(buildSchedule(S.cfg));
+    S.calY=null; syncBooks(); saveState(); renderCalendar(); renderHome(); return;
+  }
+  if(e.target.closest("#regenBtn")){
+    S.draft={...S.cfg}; S.sched=null; S.byDate=null; renderCalendar(); return;
+  }
+  const mo = e.target.closest("[data-mo]");
+  if(mo){
+    let m=S.calM + (+mo.dataset.mo);
+    if(m<0){ m=11; S.calY--; } else if(m>11){ m=0; S.calY++; }
+    S.calM=m; renderCalView(); return;
+  }
+  if(e.target.closest("#todayBtn")){
+    const d=new Date(); S.calY=d.getFullYear(); S.calM=d.getMonth(); renderCalView(); return;
+  }
+  const dm = e.target.closest("#dayMark");
+  if(dm){
+    const key=dm.dataset.day, on=!S.done.has(key);
+    setSessionDone(key,on);
+    openDay(key); renderCalView(); renderHome(); return;
+  }
+  const dayEl = e.target.closest("[data-day]");
+  if(dayEl){ openDay(dayEl.dataset.day); return; }
+
+  /* ----- curriculum ----- */
+  const band = e.target.closest(".card");
+  if(band){ renderDetail(band.dataset.k); return; }
+
+  const bk = e.target.closest(".bk, .srow[data-b]");
+  if(bk){ openBook(BOOKS.find(b=>b.n===+bk.dataset.b), false); return; }
+
+  const cw = e.target.closest(".cw, .srow[data-c]");
+  if(cw){ openBook(COUNTERWEIGHTS.find(c=>c.id===cw.dataset.c), true); return; }
+
+  if(e.target.closest("#backBtn")){ home(); return; }
+
+  const pg = e.target.closest(".pager button");
+  if(pg){ renderDetail(pg.dataset.k); return; }
+
+  if(e.target.closest("#xBtn") || e.target.id==="ov"){ closeBook(); return; }
+
+  const mk = e.target.closest("#mark");
+  if(mk && S.open && S.open.item){
+    const n=S.open.item.n;
+    setBookRead(n, !S.read.has(n));
+    const on=S.read.has(n);
+    mk.dataset.on=on; mk.textContent = on ? t().markedRead : t().markRead;
+    if(S.sel) { const k=S.sel; renderDetail(k); } else renderHome();
+    return;
+  }
+
+  const th = e.target.closest("#themes button");
+  if(th){
+    S.theme=th.dataset.t;
+    document.documentElement.dataset.theme=S.theme;
+    [...el("themes").children].forEach(b=>b.setAttribute("aria-pressed", b===th));
+    saveState(); return;
+  }
+
+  if(e.target.closest("#lang")){
+    S.lang = S.lang==="en" ? "fr" : "en";
+    renderStatic();
+    if(S.sel) renderDetail(S.sel); else renderHome();
+    if(S.tab==="calendar") renderCalendar();
+    if(S.open && S.open.item) openBook(S.open.item, S.open.isCw);
+    else if(S.open && S.open.day) openDay(S.open.day);
+    saveState(); return;
+  }
+
+  if(e.target.closest("#vTheme") && S.view!=="theme"){ S.view="theme"; renderStatic(); renderHome(); saveState(); return; }
+  if(e.target.closest("#vPhase") && S.view!=="phase"){ S.view="phase"; renderStatic(); renderHome(); saveState(); return; }
+
+  if(e.target.closest("#reset")){
+    S.read.clear(); S.done.clear(); saveState();
+    if(S.sel) renderDetail(S.sel); else renderHome();
+    if(S.tab==="calendar") renderCalendar();
+    return; }
+});
+
+document.addEventListener("change", e=>{
+  if(e.target.id==="fStart"){ S.draft.start=e.target.value||todayIso(); renderSetup(); }
+});
+
+document.addEventListener("keydown", e=>{
+  if(e.key==="Escape"){ if(S.open) closeBook(); else if(S.sel) home(); }
+});
+
+/* ================= INIT ================= */
+(async ()=>{
+  try{ await loadState(); }catch(e){}
+  renderStatic(); renderHome(); showTab(S.tab);
+})();
+</script>
+</body>
+</html>
