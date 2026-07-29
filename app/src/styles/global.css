@@ -1537,8 +1537,8 @@ input[type="date"] {
   color: var(--ink);
 }
 .btn.pri {
-  background: var(--c);
-  border-color: var(--c);
+  background: var(--c, var(--brass));
+  border-color: var(--c, var(--brass));
   color: var(--ground);
   font-weight: 600;
 }

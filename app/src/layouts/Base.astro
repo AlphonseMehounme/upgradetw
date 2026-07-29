@@ -10,6 +10,7 @@ import "@fontsource/ibm-plex-mono/500.css";
 import "../styles/global.css";
 import { ui, LANGS } from "../lib/content.js";
 import AuthWidget from "../components/AuthWidget.astro";
+import AuthOverlay from "../components/AuthOverlay.astro";
 
 interface Props {
   lang: "en" | "fr";
@@ -100,6 +101,8 @@ const ogImage = new URL(
         </div>
       </nav>
     </header>
+
+    <AuthOverlay lang={lang} />
 
     <main>
       <slot />

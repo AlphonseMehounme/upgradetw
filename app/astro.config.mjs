@@ -2,8 +2,7 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
-// TODO: replace with the real domain once §10.2 (domain decision) is made.
-const SITE = "https://curriculum.example.com";
+const SITE = "https://civilizational-curriculum.pages.dev";
 
 // https://astro.build/config
 export default defineConfig({

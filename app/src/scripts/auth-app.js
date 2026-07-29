@@ -58,22 +58,19 @@ export function initAuth() {
       options: { emailRedirectTo: `${window.location.origin}/${lang}` },
     });
     statusEl.hidden = false;
-    statusEl.textContent = error ? T.authError : T.authCheckEmail;
+    statusEl.textContent = error
+      ? error.code === "over_email_send_rate_limit"
+        ? T.authRateLimit
+        : T.authError
+      : T.authCheckEmail;
     sendBtn.disabled = false;
   });
 
-  // Guards against onAuthStateChange firing SIGNED_IN again for a user
-  // already handled this page load (supabase-js replays the initial
-  // session through the same event in some versions).
-  const handled = new Set();
-
-  async function onSignedIn(user) {
+  async function onSignedIn(user, isNewLogin) {
     setSignedIn(true);
     signInBtn.hidden = true;
     signOutBtn.hidden = false;
     profileLink.hidden = false;
-    if (handled.has(user.id)) return;
-    handled.add(user.id);
 
     const { data: profile } = await sb
       .from("profiles")
@@ -82,10 +79,10 @@ export function initAuth() {
       .maybeSingle();
 
     if (!profile) {
-      showOnboard(user);
+      showOnboard(user, isNewLogin);
       return;
     }
-    maybeOfferImport();
+    maybeOfferImport(isNewLogin);
   }
 
   function onSignedOut() {
@@ -93,10 +90,9 @@ export function initAuth() {
     signInBtn.hidden = false;
     signOutBtn.hidden = true;
     profileLink.hidden = true;
-    handled.clear();
   }
 
-  function showOnboard(user) {
+  function showOnboard(user, isNewLogin) {
     const nameInput = panels.onboard.querySelector("[data-onboard-name]");
     const localeSelect = panels.onboard.querySelector("[data-onboard-locale]");
     nameInput.value = (user.email || "reader").split("@")[0].slice(0, 32);
@@ -111,12 +107,20 @@ export function initAuth() {
         display_name: name,
         locale: localeSelect.value,
       });
-      maybeOfferImport();
+      maybeOfferImport(isNewLogin);
     };
   }
 
-  function maybeOfferImport() {
-    if (!hasLocalProgress()) {
+  // Offered only right after a real sign-in (never on a page-load session
+  // restore) and only on the calendar page, so it doesn't interrupt
+  // browsing elsewhere on every refresh. hasLocalProgress() already goes
+  // false forever once import succeeds (clearLocalStateAfterImport), so a
+  // user who has imported never sees it again.
+  function maybeOfferImport(isNewLogin) {
+    const onCalendarPage = /^\/(en|fr)\/calendar$/.test(
+      window.location.pathname,
+    );
+    if (!isNewLogin || !onCalendarPage || !hasLocalProgress()) {
       hideOverlay();
       return;
     }
@@ -135,12 +139,14 @@ export function initAuth() {
     window.dispatchEvent(new CustomEvent("curriculum:sync"));
   }
 
+  // INITIAL_SESSION (page-load session restore) and SIGNED_IN (an actual
+  // new sign-in) are distinct events — that's what lets onSignedIn tell
+  // a fresh login apart from a refresh, so the import prompt only offers
+  // itself once per real login instead of on every page load.
   sb.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_IN" && session?.user) onSignedIn(session.user);
+    if (event === "SIGNED_IN" && session?.user) onSignedIn(session.user, true);
+    if (event === "INITIAL_SESSION" && session?.user)
+      onSignedIn(session.user, false);
     if (event === "SIGNED_OUT") onSignedOut();
-  });
-
-  sb.auth.getSession().then(({ data }) => {
-    if (data.session?.user) onSignedIn(data.session.user);
   });
 }

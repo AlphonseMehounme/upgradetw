@@ -1,0 +1,71 @@
+---
+import { ui } from "../lib/content.js";
+
+interface Props {
+  lang: "en" | "fr";
+}
+const { lang } = Astro.props;
+const T = ui(lang);
+---
+
+<div class="auth-ov" data-auth-overlay>
+  <div class="auth-sheet" role="dialog" aria-modal="true">
+    <button type="button" class="x" data-auth-close aria-label={T.close}
+      >&times;</button
+    >
+
+    <div data-auth-panel-signin>
+      <h2>{T.authSignIn}</h2>
+      <label for="auth-email">{T.authEmailPlaceholder}</label>
+      <input
+        id="auth-email"
+        type="email"
+        data-auth-email
+        placeholder={T.authEmailPlaceholder}
+        autocomplete="email"
+      />
+      <div class="acts">
+        <button type="button" class="btn pri" data-auth-send
+          >{T.authSendLink}</button
+        >
+      </div>
+      <p class="auth-status" data-auth-status hidden></p>
+    </div>
+
+    <div data-auth-panel-onboard hidden>
+      <h2>{T.onboardTitle}</h2>
+      <label for="onboard-name">{T.onboardNameLabel}</label>
+      <input
+        id="onboard-name"
+        type="text"
+        data-onboard-name
+        minlength="2"
+        maxlength="32"
+      />
+      <p class="hint">{T.onboardNameHint}</p>
+      <label for="onboard-locale">{T.onboardLocaleLabel}</label>
+      <select id="onboard-locale" data-onboard-locale>
+        <option value="en">EN</option>
+        <option value="fr">FR</option>
+      </select>
+      <div class="acts">
+        <button type="button" class="btn pri" data-onboard-save
+          >{T.onboardSave}</button
+        >
+      </div>
+    </div>
+
+    <div data-auth-panel-import hidden>
+      <h2>{T.importTitle}</h2>
+      <p>{T.importBody}</p>
+      <div class="acts">
+        <button type="button" class="btn pri" data-import-accept
+          >{T.importAccept}</button
+        >
+        <button type="button" class="btn" data-import-skip
+          >{T.importSkip}</button
+        >
+      </div>
+    </div>
+  </div>
+</div>

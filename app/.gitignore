@@ -19,6 +19,10 @@ pnpm-debug.log*
 .env.local
 .env.*.local
 
+# Supabase CLI local/ephemeral state
+supabase/.temp/
+supabase/.branches/
+
 # macOS-specific files
 .DS_Store
 
