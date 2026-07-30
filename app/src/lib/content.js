@@ -27,7 +27,7 @@ export function L(o, lang) {
 const ACC = ["--a1", "--a2", "--a3", "--a4", "--a5", "--a6", "--a7", "--a8"];
 const secIndex = (id) => SECTIONS.findIndex((s) => s.id === id);
 export const accentVar = (sid) => `var(${ACC[secIndex(sid)] ?? "--a1"})`;
-export const accentHex = (sid) => SECTIONS[secIndex(sid)]?.accent ?? "#8B6F47";
+export const accentHex = (sid) => SECTIONS[secIndex(sid)]?.accent ?? "#6E5438";
 
 export const TOTAL_MIN = BOOKS.reduce((a, b) => a + b.h[0], 0);
 export const TOTAL_MAX = BOOKS.reduce((a, b) => a + b.h[1], 0);
@@ -90,7 +90,7 @@ export function groups(view, lang) {
     const bks = BOOKS.filter((b) => b.ph === p.n);
     const allCw = COUNTERWEIGHTS.filter((c) => c.ph === p.n);
     const acc = bks.length ? accentVar(bks[0].s) : "var(--a1)";
-    const accHex = bks.length ? accentHex(bks[0].s) : "#8B6F47";
+    const accHex = bks.length ? accentHex(bks[0].s) : "#6E5438";
     const seq = [
       ...bks.map((b) => ({
         item: b,

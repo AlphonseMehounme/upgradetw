@@ -1,32 +1,31 @@
 /* ========== TOKENS ========== */
 :root {
   --f-display: "Fraunces", Georgia, "Times New Roman", serif;
-  --f-body:
-    "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --f-body: "Source Serif 4", Georgia, "Times New Roman", serif;
   --f-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --sp: clamp(1rem, 3.5vw, 2rem);
   --maxw: 1180px;
   --r: 3px;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
-  /* Codex theme — the only brand shipped */
-  --ground: #12171c;
-  --surface: #1a2027;
-  --surface2: #232b33;
-  --ink: #ede8dd;
-  --dim: #98a0a8;
-  --faint: #5d666e;
-  --rule: #2b343d;
-  --brass: #c9a227;
-  --glow: rgba(201, 162, 39, 0.14);
-  --a1: #8b6f47;
-  --a2: #6b8e5a;
-  --a3: #a33b32;
-  --a4: #5b7c99;
-  --a5: #b8863b;
-  --a6: #7a6b9a;
-  --a7: #c4703a;
-  --a8: #d4a017;
+  /* Ledger theme — warm parchment, iron-gall ink, antique brass */
+  --ground: #f3ead3;
+  --surface: #fbf7ec;
+  --surface2: #e9e0c6;
+  --ink: #2b2013;
+  --dim: #5c4f3a;
+  --faint: #86795f;
+  --rule: #dccfa9;
+  --brass: #9c7a22;
+  --glow: rgba(156, 122, 34, 0.16);
+  --a1: #6e5438;
+  --a2: #3d6b4a;
+  --a3: #8b2f27;
+  --a4: #3e5a73;
+  --a5: #423e6b;
+  --a6: #5b4562;
+  --a7: #a15726;
+  --a8: #8a6d1f;
 }
 *,
 *::before,
@@ -38,7 +37,8 @@ html {
 }
 body {
   margin: 0;
-  background: var(--ground);
+  background-color: var(--ground);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
   color: var(--ink);
   font-family: var(--f-body);
   font-size: 16px;
@@ -108,11 +108,24 @@ a {
 }
 .mark b {
   display: inline-block;
-  width: 9px;
-  height: 9px;
+  width: 11px;
+  height: 11px;
   background: var(--brass);
-  border-radius: 1px;
-  transform: translateY(-1px);
+  clip-path: polygon(
+    50% 0%,
+    61% 39%,
+    100% 50%,
+    61% 61%,
+    50% 100%,
+    39% 61%,
+    0% 50%,
+    39% 39%
+  );
+  transform: translateY(-1px) rotate(0deg);
+  transition: transform 0.5s var(--ease);
+}
+.mark:hover b {
+  transform: translateY(-1px) rotate(45deg);
 }
 .hdr-sp {
   flex: 1;
@@ -243,7 +256,7 @@ a {
 .opt[aria-pressed="true"] {
   background: var(--brass);
   border-color: var(--brass);
-  color: var(--ground);
+  color: var(--surface);
   font-weight: 600;
 }
 input[type="date"] {
@@ -254,14 +267,14 @@ input[type="date"] {
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: var(--r);
-  color-scheme: dark;
+  color-scheme: light;
 }
 .cta {
   align-self: flex-start;
   padding: 0.75rem 1.5rem;
   border-radius: var(--r);
   background: var(--brass);
-  color: var(--ground);
+  color: var(--surface);
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -289,6 +302,15 @@ input[type="date"] {
 .calsum > div {
   background: var(--ground);
   padding: 0.95rem 1rem;
+  transition:
+    transform 0.4s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+.calsum > div:hover {
+  position: relative;
+  z-index: 1;
+  transform: perspective(700px) rotateX(2deg) translateY(-2px);
+  box-shadow: 0 12px 22px -14px color-mix(in srgb, var(--ink) 35%, transparent);
 }
 .calsum .k {
   font-family: var(--f-mono);
@@ -430,6 +452,7 @@ input[type="date"] {
   right: 0.42rem;
   font-size: 0.62rem;
   color: var(--a2);
+  animation: stamp 0.5s var(--ease) both;
 }
 .day .dot {
   display: none;
@@ -505,6 +528,8 @@ input[type="date"] {
 .arow[data-done="true"] .ad::after {
   content: " ✓";
   color: var(--a2);
+  display: inline-block;
+  animation: stamp 0.5s var(--ease) both;
 }
 @media (max-width: 560px) {
   .arow {
@@ -572,6 +597,9 @@ input[type="date"] {
   margin: 0.7rem 0 0;
   max-width: 16ch;
   font-variation-settings: "opsz" 144;
+  /* Deliberately not animated: this is the page's LCP element, and
+     fading in primary content risks both Core Web Vitals and a crawler
+     capturing it mid-transition. The stagger starts at .sub instead. */
 }
 .hero .sub {
   font-family: var(--f-display);
@@ -582,6 +610,7 @@ input[type="date"] {
   margin: 0.9rem 0 0;
   max-width: 44ch;
   line-height: 1.34;
+  animation: ink-rise 0.8s var(--ease) 0.1s both;
 }
 .hero .lede {
   margin: 1.7rem 0 0;
@@ -589,6 +618,19 @@ input[type="date"] {
   color: var(--dim);
   font-size: 0.97rem;
   line-height: 1.68;
+  animation: ink-rise 0.8s var(--ease) 0.2s both;
+}
+@keyframes ink-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
 }
 .hero .lede em {
   color: var(--ink);
@@ -601,6 +643,7 @@ input[type="date"] {
   gap: 0;
   margin: 2.4rem 0 0;
   border-top: 1px solid var(--rule);
+  animation: ink-rise 0.8s var(--ease) 0.3s both;
 }
 .stat {
   flex: 1 1 120px;
@@ -657,7 +700,7 @@ input[type="date"] {
 .seg a[aria-current="true"],
 .seg button[aria-pressed="true"] {
   background: var(--brass);
-  color: var(--ground);
+  color: var(--surface);
   font-weight: 600;
 }
 .seg a:not([aria-current="true"]):hover,
@@ -703,6 +746,11 @@ input[type="date"] {
   border-radius: 99px;
   overflow: hidden;
   background: var(--surface);
+  background-image: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--ink) 10%, transparent) 0 1px,
+    transparent 1px 8px
+  );
   border: 1px solid var(--rule);
 }
 .oseg {
@@ -771,14 +819,20 @@ input[type="date"] {
   border-bottom: 1px solid var(--rule);
   transition:
     background 0.22s,
-    padding-left 0.22s;
+    padding-left 0.22s,
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
   text-decoration: none;
   color: inherit;
 }
 .card:hover,
 .card:focus-visible {
+  position: relative;
+  z-index: 1;
   background: var(--surface);
   padding-left: 0.7rem;
+  transform: perspective(900px) rotateX(1deg) translateY(-2px);
+  box-shadow: 0 14px 26px -18px color-mix(in srgb, var(--ink) 40%, transparent);
 }
 .card .cn {
   font-family: var(--f-mono);
@@ -945,6 +999,11 @@ input[type="date"] {
   flex: 1;
   min-width: 120px;
   background: var(--surface2);
+  background-image: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--ink) 12%, transparent) 0 1px,
+    transparent 1px 10px
+  );
   border-radius: 99px;
   overflow: hidden;
 }
@@ -986,14 +1045,21 @@ input[type="date"] {
   background: var(--ground);
   padding: 1.05rem 1rem 1.1rem;
   min-height: 186px;
-  transition: background 0.22s;
+  transition:
+    background 0.22s,
+    transform 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
   position: relative;
   text-decoration: none;
   color: inherit;
 }
 .bk:hover,
 .bk:focus-visible {
+  position: relative;
+  z-index: 1;
   background: var(--surface);
+  transform: perspective(700px) rotateX(6deg) rotateY(-4deg) translateY(-6px);
+  box-shadow: 0 22px 34px -16px color-mix(in srgb, var(--ink) 45%, transparent);
 }
 .bk .top {
   display: flex;
@@ -1073,6 +1139,7 @@ input[type="date"] {
 }
 .bk[data-read="true"] .done {
   display: flex;
+  animation: stamp 0.5s var(--ease) both;
 }
 .bk[data-read="true"] h3 {
   opacity: 0.55;
@@ -1083,7 +1150,7 @@ input[type="date"] {
 .bk .done svg {
   width: 9px;
   height: 9px;
-  stroke: var(--ground);
+  stroke: var(--surface);
   stroke-width: 2.6;
   fill: none;
 }
@@ -1114,7 +1181,8 @@ input[type="date"] {
   border-bottom: 1px solid var(--rule);
   transition:
     background 0.2s,
-    padding-left 0.2s;
+    padding-left 0.2s,
+    transform 0.5s var(--ease);
   position: relative;
   text-decoration: none;
   color: inherit;
@@ -1175,6 +1243,8 @@ input[type="date"] {
 .srow[data-read="true"] .sn::after {
   content: " ✓";
   color: var(--c);
+  display: inline-block;
+  animation: stamp 0.5s var(--ease) both;
 }
 /* counterweights inline */
 .srow.iscw {
@@ -1224,15 +1294,21 @@ input[type="date"] {
   background: transparent;
   transition:
     border-color 0.22s,
-    background 0.22s;
+    background 0.22s,
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
   text-decoration: none;
   color: inherit;
   display: block;
 }
 .cw:hover,
 .cw:focus-visible {
+  position: relative;
+  z-index: 1;
   border-color: var(--c);
   background: var(--surface);
+  transform: perspective(800px) rotateX(2deg) translateY(-2px);
+  box-shadow: 0 12px 22px -16px color-mix(in srgb, var(--ink) 35%, transparent);
 }
 .cw h4 {
   font-family: var(--f-display);
@@ -1539,7 +1615,7 @@ input[type="date"] {
 .btn.pri {
   background: var(--c, var(--brass));
   border-color: var(--c, var(--brass));
-  color: var(--ground);
+  color: var(--surface);
   font-weight: 600;
 }
 .btn.pri[data-on="true"] {
@@ -1565,6 +1641,15 @@ input[type="date"] {
 .pace-cell {
   background: var(--ground);
   padding: 1.05rem 1.1rem;
+  transition:
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+.pace-cell:hover {
+  position: relative;
+  z-index: 1;
+  transform: perspective(700px) rotateX(2deg) translateY(-2px);
+  box-shadow: 0 12px 22px -14px color-mix(in srgb, var(--ink) 35%, transparent);
 }
 .pace-cell .k {
   font-family: var(--f-mono);
@@ -1614,6 +1699,42 @@ input[type="date"] {
   color: var(--faint);
   font-size: 0.9rem;
 }
+
+/* ========== MOTION: stamp + scroll reveal ========== */
+/* Wax-seal/rubber-stamp settle, used on every "marked complete" checkmark.
+   These elements are freshly created by their owning script's re-render on
+   each toggle (calendar-app.js, progress-ui.js rebuild via innerHTML), so
+   the animation replays automatically every time — no JS trigger needed. */
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: perspective(200px) rotateZ(-18deg) rotateX(35deg) scale(2.4);
+  }
+  55% {
+    opacity: 1;
+    transform: perspective(200px) rotateZ(4deg) rotateX(0deg) scale(0.9);
+  }
+  75% {
+    transform: perspective(200px) rotateZ(-2deg) scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(200px) rotateZ(0deg) scale(1);
+  }
+}
+
+/* Applied by src/scripts/reveal.js via IntersectionObserver; the class is
+   only ever added client-side, so content stays exactly where it belongs
+   if JS never runs. Position-only — never opacity — so this can never
+   leave real content invisible for a crawler, a slow connection, or a
+   static render that doesn't fire a real scroll/intersection event. */
+.reveal {
+  transform: translateY(16px);
+}
+.reveal.is-revealed {
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

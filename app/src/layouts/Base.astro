@@ -2,9 +2,9 @@
 import "@fontsource/fraunces/400.css";
 import "@fontsource/fraunces/600.css";
 import "@fontsource/fraunces/700.css";
-import "@fontsource/archivo/400.css";
-import "@fontsource/archivo/500.css";
-import "@fontsource/archivo/600.css";
+import "@fontsource/source-serif-4/400.css";
+import "@fontsource/source-serif-4/400-italic.css";
+import "@fontsource/source-serif-4/600.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "../styles/global.css";
@@ -74,7 +74,7 @@ const ogImage = new URL(
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#12171C" />
+    <meta name="theme-color" content="#F3EAD3" />
   </head>
   <body>
     <header class="hdr">
@@ -132,5 +132,10 @@ const ogImage = new URL(
         </p>
       </div>
     </footer>
+
+    <script>
+      import { initReveal } from "../scripts/reveal.js";
+      initReveal();
+    </script>
   </body>
 </html>

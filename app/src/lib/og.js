@@ -25,10 +25,10 @@ const fonts = [
     pkg: "@fontsource/fraunces/files/fraunces-latin-400-italic.woff",
   },
   {
-    name: "Archivo",
+    name: "Source Serif 4",
     weight: 400,
     style: "normal",
-    pkg: "@fontsource/archivo/files/archivo-latin-400-normal.woff",
+    pkg: "@fontsource/source-serif-4/files/source-serif-4-latin-400-normal.woff",
   },
   {
     name: "IBM Plex Mono",
@@ -38,11 +38,11 @@ const fonts = [
   },
 ].map((f) => ({ ...f, data: readFileSync(require.resolve(f.pkg)) }));
 
-const GROUND = "#12171C";
-const INK = "#EDE8DD";
-const DIM = "#98A0A8";
-const RULE = "#2B343D";
-const BRASS = "#C9A227";
+const GROUND = "#F3EAD3";
+const INK = "#2B2013";
+const DIM = "#5C4F3A";
+const RULE = "#DCCFA9";
+const BRASS = "#9C7A22";
 
 export async function renderOgImage({
   eyebrow,
@@ -61,7 +61,7 @@ export async function renderOgImage({
         justifyContent: "space-between",
         backgroundColor: GROUND,
         padding: "72px",
-        fontFamily: "Archivo",
+        fontFamily: "Source Serif 4",
       },
       children: [
         {
@@ -77,6 +77,7 @@ export async function renderOgImage({
                     height: "14px",
                     background: BRASS,
                     borderRadius: "2px",
+                    transform: "rotate(45deg)",
                   },
                 },
               },
