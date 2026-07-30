@@ -7,6 +7,8 @@ import {
   schedStats,
   fromIso,
   todayIso,
+  iso,
+  addDays,
 } from "../lib/schedule.js";
 import {
   BOOKS,
@@ -62,6 +64,40 @@ export function initCalendar() {
       lang === "fr" ? "fr-FR" : "en-GB",
       opt || { day: "numeric", month: "short", year: "numeric" },
     );
+
+  /** Collapses consecutive same-book sessions into a single date-range row
+      (e.g. "01 Aug - 03 Aug"), so a book split across several days shows
+      once instead of repeating the same title on every day it's read. */
+  function groupAgendaRows(sessions) {
+    const groups = [];
+    for (const x of sessions) {
+      const lead = x.parts.find((pt) => !pt.marker) || x.parts[0];
+      const key = lead.kind === "cw" ? `cw:${lead.id}` : `bk:${lead.n}`;
+      const last = groups[groups.length - 1];
+      const consecutive =
+        last &&
+        last.key === key &&
+        iso(addDays(fromIso(last.end), 1)) === x.date;
+      if (consecutive) {
+        last.end = x.date;
+        last.hours += x.hours;
+        last.sessions.push(x);
+      } else {
+        groups.push({
+          key,
+          lead,
+          start: x.date,
+          end: x.date,
+          hours: x.hours,
+          sessions: [x],
+        });
+      }
+    }
+    return groups.map((g) => ({
+      ...g,
+      allDone: g.sessions.every((s) => done.has(s.date)),
+    }));
+  }
 
   function render() {
     if (sched && !showSetup) renderCalView();
@@ -169,14 +205,16 @@ export function initCalendar() {
       return d.getFullYear() === calY && d.getMonth() === calM;
     });
     const agenda = monthSes.length
-      ? monthSes
-          .map((x) => {
-            const lead = x.parts.find((pt) => !pt.marker) || x.parts[0];
-            const extra = x.parts.filter((pt) => !pt.marker).length - 1;
-            return `<button class="arow" data-day="${x.date}" data-done="${done.has(x.date)}" style="--c:${accentVar(lead.s)}">
-            <span class="ad">${esc(fmtDate(x.date, { day: "2-digit", month: "short" }))}</span>
-            <span class="at">${esc(titleOf(lead))}${extra > 0 ? ` <span style="color:var(--faint)">+${extra}</span>` : ""}</span>
-            <span class="ah">${x.hours}h</span></button>`;
+      ? groupAgendaRows(monthSes)
+          .map((g) => {
+            const dateLabel =
+              g.start === g.end
+                ? esc(fmtDate(g.start, { day: "2-digit", month: "short" }))
+                : `${esc(fmtDate(g.start, { day: "2-digit", month: "short" }))} – ${esc(fmtDate(g.end, { day: "2-digit", month: "short" }))}`;
+            return `<button class="arow" data-day="${g.start}" data-done="${g.allDone}" style="--c:${accentVar(g.lead.s)}">
+            <span class="ad">${dateLabel}</span>
+            <span class="at">${esc(titleOf(g.lead))}</span>
+            <span class="ah">${g.hours}h</span></button>`;
           })
           .join("")
       : `<p class="empty">${esc(T.emptyMonth)}</p>`;

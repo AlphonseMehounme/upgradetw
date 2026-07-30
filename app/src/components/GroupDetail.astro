@@ -18,7 +18,11 @@ const mx = g.books.reduce((a: number, b: any) => a + b.h[1], 0);
 ---
 
 <div class="view">
-  <a class="back" href={view === "theme" ? `/${lang}` : `/${lang}/order`}
+  <a
+    class="back"
+    href={view === "theme"
+      ? `/${lang}/curriculum`
+      : `/${lang}/curriculum/order`}
     >← {view === "theme" ? T.back : T.backPhase}</a
   >
   <div class="shd" style={`--c:${g.accent}`} data-max-hours={mx}>

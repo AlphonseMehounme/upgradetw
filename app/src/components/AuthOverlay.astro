@@ -16,18 +16,21 @@ const T = ui(lang);
 
     <div data-auth-panel-signin>
       <h2>{T.authSignIn}</h2>
-      <label for="auth-email">{T.authEmailPlaceholder}</label>
-      <input
-        id="auth-email"
-        type="email"
-        data-auth-email
-        placeholder={T.authEmailPlaceholder}
-        autocomplete="email"
-      />
-      <div class="acts">
-        <button type="button" class="btn pri" data-auth-send
-          >{T.authSendLink}</button
-        >
+      <div data-auth-form>
+        <label for="auth-email">{T.authEmailPlaceholder}</label>
+        <input
+          id="auth-email"
+          type="email"
+          data-auth-email
+          placeholder={T.authEmailPlaceholder}
+          autocomplete="email"
+        />
+        <div class="acts">
+          <button type="button" class="btn pri" data-auth-send>
+            <span class="spinner" aria-hidden="true"></span>
+            <span data-auth-send-label>{T.authSendLink}</span>
+          </button>
+        </div>
       </div>
       <p class="auth-status" data-auth-status hidden></p>
     </div>

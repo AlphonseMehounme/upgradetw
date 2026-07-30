@@ -15,12 +15,16 @@ const T = ui(lang);
   path="profile"
   title={`${T.profileTitle} — ${T.title}`}
   description={T.profileTitle}
+  activeTab="home"
 >
   <div class="wrap" id="profileRoot" data-lang={lang}>
     <h1>{T.profileTitle}</h1>
 
     <div data-profile-guest>
-      <p class="empty">{T.authSignIn}</p>
+      <p class="hint">{T.profileGuestHint}</p>
+      <button type="button" class="cta" data-profile-signin
+        >{T.authSignIn}</button
+      >
     </div>
 
     <div data-profile-signed-in hidden>

@@ -20,8 +20,28 @@ export function initAuth() {
   const T = ui(lang);
 
   const signInBtn = root.querySelector("[data-auth-signin]");
+  const accountMenu = root.querySelector("[data-account-menu]");
+  const accountTrigger = root.querySelector("[data-account-trigger]");
+  const accountDropdown = root.querySelector("[data-account-dropdown]");
   const signOutBtn = root.querySelector("[data-auth-signout]");
-  const profileLink = root.querySelector("[data-auth-profile-link]");
+
+  function closeAccountDropdown() {
+    accountDropdown.hidden = true;
+    accountTrigger.setAttribute("aria-expanded", "false");
+  }
+  accountTrigger.addEventListener("click", () => {
+    const open = accountDropdown.hidden;
+    accountDropdown.hidden = !open;
+    accountTrigger.setAttribute("aria-expanded", String(open));
+  });
+  document.addEventListener("click", (e) => {
+    if (!accountMenu.hidden && !accountMenu.contains(e.target)) {
+      closeAccountDropdown();
+    }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAccountDropdown();
+  });
 
   const overlay = document.querySelector("[data-auth-overlay]");
   const closeBtn = overlay.querySelector("[data-auth-close]");
@@ -43,19 +63,29 @@ export function initAuth() {
     if (e.target === overlay) hideOverlay();
   });
 
-  signInBtn.addEventListener("click", () => showOverlay("signin"));
-  signOutBtn.addEventListener("click", () => sb.auth.signOut());
-
+  const formEl = panels.signin.querySelector("[data-auth-form]");
   const emailInput = panels.signin.querySelector("[data-auth-email]");
   const sendBtn = panels.signin.querySelector("[data-auth-send]");
+  const sendLabel = sendBtn.querySelector("[data-auth-send-label]");
   const statusEl = panels.signin.querySelector("[data-auth-status]");
+
+  signInBtn.addEventListener("click", () => {
+    formEl.hidden = false;
+    statusEl.hidden = true;
+    showOverlay("signin");
+  });
+  signOutBtn.addEventListener("click", () => sb.auth.signOut());
+
   sendBtn.addEventListener("click", async () => {
     const email = emailInput.value.trim();
     if (!email) return;
     sendBtn.disabled = true;
+    sendLabel.textContent = T.authSending;
     const { error } = await sb.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/${lang}` },
+      options: {
+        emailRedirectTo: `${window.location.origin}/${lang}/curriculum`,
+      },
     });
     statusEl.hidden = false;
     statusEl.textContent = error
@@ -64,13 +94,16 @@ export function initAuth() {
         : T.authError
       : T.authCheckEmail;
     sendBtn.disabled = false;
+    sendLabel.textContent = T.authSendLink;
+    // Only hide the form on success — an error (rate limit, etc.) should
+    // leave the email input and button available so the user can retry.
+    if (!error) formEl.hidden = true;
   });
 
   async function onSignedIn(user, isNewLogin) {
     setSignedIn(true);
     signInBtn.hidden = true;
-    signOutBtn.hidden = false;
-    profileLink.hidden = false;
+    accountMenu.hidden = false;
 
     const { data: profile } = await sb
       .from("profiles")
@@ -88,8 +121,8 @@ export function initAuth() {
   function onSignedOut() {
     setSignedIn(false);
     signInBtn.hidden = false;
-    signOutBtn.hidden = true;
-    profileLink.hidden = true;
+    accountMenu.hidden = true;
+    closeAccountDropdown();
   }
 
   function showOnboard(user, isNewLogin) {

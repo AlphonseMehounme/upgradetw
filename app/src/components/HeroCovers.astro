@@ -1,0 +1,35 @@
+---
+import { SECTIONS, BOOKS, accentVar, localizedTitle } from "../lib/content.js";
+
+interface Props {
+  lang: "en" | "fr";
+}
+const { lang } = Astro.props;
+
+/* One representative volume per theme — not an arbitrary sample, so the
+   rotation itself previews the curriculum's 8 sections. */
+const picks = SECTIONS.map((s) => BOOKS.find((b) => b.s === s.id)).filter(
+  Boolean,
+) as any[];
+---
+
+<div class="hero-covers" data-hero-covers aria-hidden="true">
+  {
+    picks.map((b) => (
+      <div class="tile" style={`--c:${accentVar(b.s)}`}>
+        <span class="ghost">{String(b.n).padStart(2, "0")}</span>
+        <span class="rule" />
+        <span class="tt">{localizedTitle(b, lang)}</span>
+        <span class="ta">{b.author}</span>
+        <span class="ty">
+          {b.year < 0 ? `${Math.abs(b.year)} BCE` : b.year}
+        </span>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  import { initHeroCovers } from "../scripts/hero-covers.js";
+  initHeroCovers();
+</script>

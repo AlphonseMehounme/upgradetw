@@ -10,8 +10,30 @@ const T = ui(lang);
 
 <div class="auth-widget" data-auth-root data-lang={lang}>
   <button type="button" data-auth-signin>{T.authSignIn}</button>
-  <a href={`/${lang}/profile`} data-auth-profile-link hidden>{T.authProfile}</a>
-  <button type="button" data-auth-signout hidden>{T.authSignOut}</button>
+
+  <div class="account-menu" data-account-menu hidden>
+    <button
+      type="button"
+      class="account-trigger"
+      data-account-trigger
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-label={T.authAccountMenu}
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8.5" r="3.6"></circle>
+        <path d="M4.5 20c0-4.14 3.36-7.5 7.5-7.5s7.5 3.36 7.5 7.5"></path>
+      </svg>
+    </button>
+    <div class="account-dropdown" data-account-dropdown hidden role="menu">
+      <a href={`/${lang}/profile`} data-auth-profile-link role="menuitem"
+        >{T.authProfile}</a
+      >
+      <button type="button" data-auth-signout role="menuitem"
+        >{T.authSignOut}</button
+      >
+    </div>
+  </div>
 </div>
 
 <script>

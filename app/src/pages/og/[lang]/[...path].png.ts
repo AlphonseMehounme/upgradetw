@@ -33,7 +33,13 @@ function entries(lang: "en" | "fr") {
     subtitle: T.subtitle,
   });
   list.push({
-    path: "order",
+    path: "curriculum",
+    eyebrow: T.kicker,
+    title: T.title,
+    subtitle: T.subtitle,
+  });
+  list.push({
+    path: "curriculum/order",
     eyebrow: T.kicker,
     title: T.inOrder,
     subtitle: T.calLede,

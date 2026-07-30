@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
-import CurriculumOverview from "../../components/CurriculumOverview.astro";
+import StatsRow from "../../components/StatsRow.astro";
+import HeroCovers from "../../components/HeroCovers.astro";
 import { LANGS, ui } from "../../lib/content.js";
 
 export function getStaticPaths() {
@@ -11,12 +12,20 @@ const { lang } = Astro.params as { lang: "en" | "fr" };
 const T = ui(lang);
 ---
 
-<Base
-  lang={lang}
-  path=""
-  title={T.title}
-  description={T.lede}
-  activeTab="browse"
->
-  <CurriculumOverview lang={lang} view="theme" />
+<Base lang={lang} path="" title={T.title} description={T.lede} activeTab="home">
+  <section class="hero">
+    <div class="wrap hero-in">
+      <div class="hero-text">
+        <div class="eyebrow">{T.kicker}</div>
+        <h1>{T.title}</h1>
+        <p class="sub">{T.subtitle}</p>
+        <p class="lede">{T.lede}</p>
+        <StatsRow lang={lang} view="theme" />
+        <a class="cta hero-cta" href={`/${lang}/curriculum`}
+          >{T.discoverCurriculum}</a
+        >
+      </div>
+      <HeroCovers lang={lang} />
+    </div>
+  </section>
 </Base>

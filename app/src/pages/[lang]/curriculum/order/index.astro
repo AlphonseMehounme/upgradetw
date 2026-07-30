@@ -1,7 +1,7 @@
 ---
-import Base from "../../../layouts/Base.astro";
-import CurriculumOverview from "../../../components/CurriculumOverview.astro";
-import { LANGS, ui } from "../../../lib/content.js";
+import Base from "../../../../layouts/Base.astro";
+import CurriculumOverview from "../../../../components/CurriculumOverview.astro";
+import { LANGS, ui } from "../../../../lib/content.js";
 
 export function getStaticPaths() {
   return LANGS.map((lang) => ({ params: { lang } }));
@@ -13,7 +13,7 @@ const T = ui(lang);
 
 <Base
   lang={lang}
-  path="order"
+  path="curriculum/order"
   title={`${T.inOrder} — ${T.title}`}
   description={T.calLede}
   activeTab="browse"

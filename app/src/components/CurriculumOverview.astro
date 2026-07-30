@@ -1,6 +1,5 @@
 ---
 import { groups, ui } from "../lib/content.js";
-import StatsRow from "./StatsRow.astro";
 import OverallProgress from "./OverallProgress.astro";
 import GroupCard from "./GroupCard.astro";
 import PaceGrid from "./PaceGrid.astro";
@@ -18,24 +17,21 @@ const maxH = Math.max(
 const hrefBase = view === "theme" ? `/${lang}/theme/` : `/${lang}/order/`;
 ---
 
-<section class="hero">
-  <div class="wrap">
+<div class="wrap">
+  <div class="calhead">
     <div class="eyebrow">{T.kicker}</div>
     <h1>{T.title}</h1>
-    <p class="sub">{T.subtitle}</p>
-    <p class="lede">{T.lede}</p>
-    <StatsRow lang={lang} view={view} />
+    <p>{T.subtitle}</p>
   </div>
-</section>
 
-<div class="wrap">
   <div class="switch">
     <div class="seg" role="group">
-      <a href={`/${lang}`} aria-current={view === "theme" ? "true" : "false"}
-        >{T.byTheme}</a
+      <a
+        href={`/${lang}/curriculum`}
+        aria-current={view === "theme" ? "true" : "false"}>{T.byTheme}</a
       >
       <a
-        href={`/${lang}/order`}
+        href={`/${lang}/curriculum/order`}
         aria-current={view === "phase" ? "true" : "false"}>{T.inOrder}</a
       >
     </div>

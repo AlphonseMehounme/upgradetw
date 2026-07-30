@@ -18,7 +18,8 @@ interface Props {
   path: string;
   title: string;
   description: string;
-  activeTab?: "browse" | "calendar";
+  /** "home" never matches a nav link, so neither is highlighted on the landing page. */
+  activeTab?: "browse" | "calendar" | "home";
 }
 
 const { lang, path, title, description, activeTab = "browse" } = Astro.props;
@@ -80,16 +81,9 @@ const ogImage = new URL(
     <header class="hdr">
       <div class="hdr-in">
         <a class="mark" href={`/${lang}`}><b></b><span>Curriculum</span></a>
-        <div class="hdr-sp"></div>
-        <div class="ctrl">
-          <a href={localePath(otherLang)} aria-current="false">{T.lang}</a>
-        </div>
-        <AuthWidget lang={lang} />
-      </div>
-      <nav class="tabbar">
-        <div class="tabbar-in">
+        <nav class="hdr-nav">
           <a
-            href={`/${lang}`}
+            href={`/${lang}/curriculum`}
             aria-current={activeTab === "browse" ? "true" : "false"}
             >{T.tabBrowse}</a
           >
@@ -98,8 +92,14 @@ const ogImage = new URL(
             aria-current={activeTab === "calendar" ? "true" : "false"}
             >{T.tabCalendar}</a
           >
+        </nav>
+        <div class="hdr-right">
+          <div class="ctrl">
+            <a href={localePath(otherLang)} aria-current="false">{T.lang}</a>
+          </div>
+          <AuthWidget lang={lang} />
         </div>
-      </nav>
+      </div>
     </header>
 
     <AuthOverlay lang={lang} />
@@ -129,6 +129,11 @@ const ogImage = new URL(
           <a href={`/${lang}/privacy`}>{T.footerPrivacy}</a>
           {" · "}
           <a href={`/${lang}/terms`}>{T.footerTerms}</a>
+        </p>
+        <p>
+          <a href="https://x.com/mehounme" target="_blank" rel="noopener"
+            >{T.footerCredit}</a
+          >
         </p>
       </div>
     </footer>

@@ -20,6 +20,12 @@ export function initProfile() {
   const guestView = root.querySelector("[data-profile-guest]");
   const signedInView = root.querySelector("[data-profile-signed-in]");
 
+  // Reuses the header's own sign-in overlay rather than duplicating it.
+  const guestSigninBtn = root.querySelector("[data-profile-signin]");
+  guestSigninBtn.addEventListener("click", () => {
+    document.querySelector("[data-auth-signin]")?.click();
+  });
+
   if (!isSupabaseConfigured()) return; // no accounts configured — stays on the guest view
 
   const sb = supabase();
